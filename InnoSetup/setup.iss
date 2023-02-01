@@ -1,5 +1,5 @@
 #define MyAppName "Genshin Impact Mod"
-#define MyAppVersion "4.1.1.0"
+#define MyAppVersion "4.2.0.0"
 #define MyAppPublisher "Sefinek Inc."
 #define MyAppURL "https://sefinek.net/genshin-impact-reshade"
 #define MyAppExeName "Genshin Impact Mod Launcher.exe"
@@ -68,7 +68,7 @@ Name: "RunSfcSCANNOW"; Description: "Scan and repair system files"; GroupDescrip
 [Files]
 Source: "C:\Genshin-Impact-ReShade\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Genshin-Impact-ReShade\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "Genshin Impact ReShade Installer\Dependencies\Microsoft.VCLibs.x64.14.00.Desktop.appx"; DestDir: {tmp}; Flags: deleteafterinstall
+Source: "..\Genshin Impact ReShade Installer\Dependencies\Microsoft.VCLibs.x64.14.00.Desktop.appx"; DestDir: {tmp}; Flags: deleteafterinstall
 ;Source: "Genshin Impact ReShade Installer\Dependencies\WindowsTerminal_Win10.msixbundle"; DestDir: {tmp}; Flags: deleteafterinstall
 
 [Icons]
@@ -76,16 +76,8 @@ Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDi
 Name: "{autoprograms}\Genshin Impact Mod Pack\Uninstall mod"; Filename: "{app}\unins000.exe"
 
 [Run]
-Filename: "powershell.exe"; \ 
-  Parameters: "-ExecutionPolicy Bypass -Command Add-AppxPackage -Path {tmp}\Microsoft.VCLibs.x64.14.00.Desktop.appx"; \ 
-  Flags: runhidden; \ 
-  StatusMsg: "Installing Microsoft VCLibs..."
-
-Filename: "cmd.exe"; 
-  Parameters: "sfc /SCANNOW"; 
-  Flags: runhidden; 
-  StatusMsg: "Scanning and reparing system files..."; 
-  Tasks: RunSfcSCANNOW 
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -Command Add-AppxPackage -Path {tmp}\Microsoft.VCLibs.x64.14.00.Desktop.appx"; StatusMsg: "Installing Microsoft VCLibs..."; Flags: runhidden
+Filename: "cmd.exe"; Parameters: "sfc /SCANNOW"; Flags: runhidden; StatusMsg: "Scanning and reparing system files..."; Tasks: RunSfcSCANNOW 
 
 WorkingDir: "{app}"; Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}} Launcher"; Flags: nowait postinstall skipifsilent runascurrentuser 
 

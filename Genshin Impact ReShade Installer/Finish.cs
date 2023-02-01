@@ -92,7 +92,7 @@ namespace Genshin_Impact_MP_Installer
 				else
 				{
 					Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine("Ohh noooo!! Something went wrong. Failed to send webhook. Sorry ):");
+					Console.WriteLine("Ohh noooo!! Something went wrong. Failed to send Webhook. Sorry ):");
 				}
 			}
 
@@ -130,7 +130,7 @@ namespace Genshin_Impact_MP_Installer
 				if (Regex.Match(answer ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
 					try
 					{
-						Process.Start(new ProcessStartInfo { FileName = "Genshin Impact Mod Pack.exe", WorkingDirectory = Installation.Folder });
+						Process.Start(new ProcessStartInfo { FileName = "Genshin Impact Mod Launcher.exe", WorkingDirectory = Installation.Folder });
 						Log.Output("Application has been opened.");
 					}
 					catch (Exception e)

@@ -23,13 +23,10 @@ namespace Genshin_Impact_MP_Installer
 		// Dependencies
 		private const string Dependencies = @"Dependencies";
 		public static readonly string IsInstalled = $@"{Program.AppData}\is-installed.sfn";
-		public static readonly string VcLibsSetup = $@"{Dependencies}\Microsoft.VCLibs.x64.14.00.Desktop.appx";
-		private static readonly string Ndp48Setup = $@"{Dependencies}\Ndp48-web.exe";
-		private static readonly string MainSetup = $@"{Dependencies}\Genshin Impact Mod Pack Setup.exe";
-		private static readonly string Redist64Setup = $@"{Dependencies}\VC_redist.x64.exe";
-		private static readonly string Redist86Setup = $@"{Dependencies}\VC_redist.x86.exe";
+		private static readonly string MainSetup = $@"{Dependencies}\Genshin Impact Mod Setup.exe";
 		private static readonly string WtWin10Setup = $@"{Dependencies}\WindowsTerminal_Win10.msixbundle";
 		private static readonly string WtWin11Setup = $@"{Dependencies}\WindowsTerminal_Win11.msixbundle";
+		public static readonly string VcLibsSetup = $@"{Dependencies}\Microsoft.VCLibs.x64.14.00.Desktop.appx";
 
 		// Program files
 		public static readonly string ProgramFiles64 = Environment.GetEnvironmentVariable("ProgramW6432");
@@ -101,18 +98,17 @@ namespace Genshin_Impact_MP_Installer
 
 			using (StreamWriter sw = File.AppendText(Log.OutputFile))
 			{
-				await sw.WriteLineAsync("⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀\n" + "⠀  ⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿\n" + "⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                          Genshin Impact Mod Pack 2023 by Sefinek\n" + "   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                   Installation started!\n" +
-				                        "⠀   ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿\n" + "    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟\n " + "⠀   ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀\n" + " ⠀   ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀\n" + "  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆     » Estimated time: ~1 minute\n" +
-				                        $"    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆    » Start time: {date}\n" + "   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇\n" + "  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟\n" + "   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟\n" +
-				                        "=========================================================================================\n" + $"• Installation folder: {Folder}\n" + $"• Program files x64: {ProgramFiles64}\n" + $"• Windows apps: {WindowsApps}\n" +
-				                        $"• Packages: {Packages}\n\n" +
-				                        //
-				                        $"• Main setup file: {MainSetup}\n" + $"• VC_redist.x64 setup: {Redist64Setup}\n" + $"• VC_redist.x86 setup: {Redist86Setup}\n" + $"• .NET Framework 4.8 setup: {Ndp48Setup}\n" + $"• VCLibs setup: {VcLibsSetup}\n" +
-				                        $"• Windows Terminal [Win 10] setup: {WtWin10Setup}\n" + $"• Windows Terminal [Win 11] setup: {WtWin11Setup}\n\n" +
-				                        //
-				                        $"• Game path: {Program.GamePath}\n" + $"• Game folder: {Program.GameDir}\n" + $"• ReShade config: {Program.ReShadeConfig}\n" + $"• ReShade log file: {Program.ReShadeLogFile}\n\n" +
-				                        $"• Attempt number: {Program.AttemptNumber}\n" + $"• VcLibs attempt: {VcLibsAttemptNumber}\n" + $"• Shortcut: {Program.ShortcutQuestion}\n" + $"• Menu shortcuts: {Program.MShortcutQuestion}\n" +
-				                        "=========================================================================================\n\n");
+				await sw.WriteLineAsync(
+					$"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀\n⠀  ⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿\n⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                          Genshin Impact Mod Pack 2023 by Sefinek\n   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                   Installation started!\n⠀   ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿\n    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟\n ⠀   ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀\n ⠀   ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀\n  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆     » Estimated time: ~1 minute\n    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆    » Start time: {date}\n   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇\n  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟\n   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟\n=========================================================================================\n" +
+					//
+					$"• Installation folder: {Folder}\n• Program files x64: {ProgramFiles64}\n• Windows apps: {WindowsApps}\n• Packages: {Packages}\n\n" +
+					//
+					$"• Main setup file: {MainSetup}\n• VCLibs setup: {VcLibsSetup}\n• Windows Terminal [Win 10] setup: {WtWin10Setup}\n• Windows Terminal [Win 11] setup: {WtWin11Setup}\n\n" +
+					//
+					$"• Game path: {Program.GamePath}\n• Game folder: {Program.GameDir}\n• ReShade config: {Program.ReShadeConfig}\n• ReShade log file: {Program.ReShadeLogFile}\n\n" +
+					//
+					$"• Attempt number: {Program.AttemptNumber}\n• VcLibs attempt: {VcLibsAttemptNumber}\n• Shortcut: {Program.ShortcutQuestion}\n• Menu shortcuts: {Program.MShortcutQuestion}\n" +
+					"=========================================================================================\n\n");
 			}
 
 			// Ping
@@ -352,7 +348,7 @@ namespace Genshin_Impact_MP_Installer
 					IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
 
 					shortcut.Description = "Run official launcher made by Sefinek.";
-					shortcut.IconLocation = $@"{Folder}\Data\Icons\52x52.ico";
+					shortcut.IconLocation = $@"{Folder}\icons\52x52.ico";
 					shortcut.WorkingDirectory = Folder;
 					shortcut.TargetPath = $@"{Folder}\Genshin Impact Mod Launcher.exe";
 					shortcut.Save();
@@ -378,7 +374,7 @@ namespace Genshin_Impact_MP_Installer
 					IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
 					shortcut.Description = "Run official mod launcher made by Sefinek.";
-					shortcut.IconLocation = $@"{Folder}\Data\Icons\52x52.ico";
+					shortcut.IconLocation = $@"{Folder}\icons\52x52.ico";
 					shortcut.WorkingDirectory = Folder;
 					shortcut.TargetPath = $@"{Folder}\Genshin Impact Mod Launcher.exe";
 					shortcut.Save();
