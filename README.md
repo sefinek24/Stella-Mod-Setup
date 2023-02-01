@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>🌌 Installation wizard for Genshin Impact Mod</h1>
+    <h1>📥 Installation wizard for Genshin Impact Mod</h1>
     <i>Open source project made by <a href="https://sefinek.net" title="sefinek.net">Sefinek</a>.</i>
     <br>
     <a href="https://github.com/sefinek24/Genshin-Impact-ReShade" target="Main repository">github.com/sefinek24/Genshin-Impact-ReShade</a>
