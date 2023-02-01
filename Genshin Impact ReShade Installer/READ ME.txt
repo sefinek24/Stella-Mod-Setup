@@ -1,0 +1,37 @@
+﻿
+⠀   ⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀
+⠀   ⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿                                 Genshin Impact ReShade - Made by Sefinek
+⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                                            for all players...
+   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                     
+    ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿                           • First release    : 2 Nov 2022
+    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟                            • Used languages   : C#, C++, JS, HTML, CSS
+    ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀              • Created by       : Sefinek [Poland]
+     ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀        
+  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆          • My website       : https://sefinek.net
+    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆         • Project website  : https://sefinek.net/genshin-impact-reshade
+   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇      
+  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟          • Discord server   : https://discord.gg/SVcbaRc7gH
+   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟           • My username      : Sefinek#0001
+================================================================================================================
+
+💙 If you need help, please join to my Discord server. 💙
+
+// How to install? 📦
+Unzip downloaded archive and open "Genshin Impact Mod Pack Setup.exe".
+
+// GitHub 🐈
+Tested game versions          : https://github.com/sefinek24/Genshin-Impact-ReShade#%EF%B8%8F--tested-game-versions
+Supported operating systems   : https://github.com/sefinek24/Genshin-Impact-ReShade#--supported-operating-systems
+Recommended settings for game : https://github.com/sefinek24/Genshin-Impact-ReShade#--recommended-settings-for-game
+
+// Gallery 📷
+https://sefinek.net/genshin-impact-reshade/gallery?page=1
+
+// Support 📞
+https://sefinek.net/genshin-impact-reshade/support
+
+// Leave feedback 📝
+https://sefinek.net/genshin-impact-reshade/feedback
+
+// Support my work 💸
+https://sefinek.net/support-me
