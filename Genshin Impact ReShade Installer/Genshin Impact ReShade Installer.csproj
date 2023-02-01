@@ -58,8 +58,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
     <Compile Include="ConfigDefault.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Finish.cs" />
     <Compile Include="Forms\Help.cs">
       <SubType>Form</SubType>
