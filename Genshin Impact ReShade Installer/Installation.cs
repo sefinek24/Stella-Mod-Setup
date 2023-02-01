@@ -126,40 +126,40 @@ namespace Genshin_Impact_MP_Installer
 
 
 			// ----------------------- 3 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x64)...");
+			Console.WriteLine($"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x64)... Skipped");
 
-			if (!File.Exists(Redist64Setup))
-				Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist64Setup}"), false, false);
+			// if (!File.Exists(Redist64Setup))
+			// 	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist64Setup}"), false, false);
 
-			await Cmd.Execute(Redist64Setup, $"/install /quiet /norestart /log \"{Log.Folder}\\VC_redist.x64_installation.log\"", null);
+			// await Cmd.Execute(Redist64Setup, $"/install /quiet /norestart /log \"{Log.Folder}\\VC_redist.x64_installation.log\"", null);
 
-			Log.Output("Installed Microsoft Visual C++ 2015-2022 Redistributable (x64).");
+			// Log.Output("Installed Microsoft Visual C++ 2015-2022 Redistributable (x64).");
 
 			TaskbarManager.Instance.SetProgressValue(30, PbLimit);
 
 
 			// ----------------------- 4 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x86)...");
+			Console.WriteLine($"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x86)... Skipped");
 
-			if (!File.Exists(Redist86Setup))
-				Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist86Setup}"), false, false);
+			// if (!File.Exists(Redist86Setup))
+			//	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist86Setup}"), false, false);
 
-			await Cmd.Execute(Redist86Setup, $"/install /quiet /norestart /log \"{Log.Folder}\\VC_redist.x86_installation.log\"", null);
+			// await Cmd.Execute(Redist86Setup, $"/install /quiet /norestart /log \"{Log.Folder}\\VC_redist.x86_installation.log\"", null);
 
-			Log.Output("Installed Microsoft Visual C++ 2015-2022 Redistributable (x86).");
+			// Log.Output("Installed Microsoft Visual C++ 2015-2022 Redistributable (x86).");
 
 			TaskbarManager.Instance.SetProgressValue(40, PbLimit);
 
 
 			// ----------------------- 5 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Installing .NET Framework 4.8...");
+			Console.WriteLine($"{ProcessInt++}/12 - Installing .NET Framework 4.8... Skipped");
 
-			if (!File.Exists(Ndp48Setup))
-				Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Ndp48Setup}"), false, false);
+			// if (!File.Exists(Ndp48Setup))
+			// 	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Ndp48Setup}"), false, false);
 
-			await Cmd.Execute(Ndp48Setup, $"/q /norestart /log \"{Log.Folder}\\NET-Framework48_installation\"", null);
+			// await Cmd.Execute(Ndp48Setup, $"/q /norestart /log \"{Log.Folder}\\NET-Framework48_installation\"", null);
 
-			Log.Output("Installed Microsoft .NET Framework 4.8.");
+			// Log.Output("Installed Microsoft .NET Framework 4.8.");
 
 			TaskbarManager.Instance.SetProgressValue(50, PbLimit);
 
@@ -377,7 +377,7 @@ namespace Genshin_Impact_MP_Installer
 					WshShell shell = new WshShell();
 					IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
-					shortcut.Description = "Run official launcher made by Sefinek.";
+					shortcut.Description = "Run official mod launcher made by Sefinek.";
 					shortcut.IconLocation = $@"{Folder}\Data\Icons\52x52.ico";
 					shortcut.WorkingDirectory = Folder;
 					shortcut.TargetPath = $@"{Folder}\Genshin Impact Mod Launcher.exe";
