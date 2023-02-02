@@ -17,10 +17,7 @@ namespace Genshin_Impact_MP_Installer
 {
 	internal abstract class Start
 	{
-		private static readonly string[] Dirs =
-		{
-			"Data", "Dependencies", @"Data\Images", @"Data\Lib"
-		};
+		private static readonly string[] Dirs = { "Data", "Dependencies", @"Data\Images", @"Data\Lib" };
 
 		private static bool AppReady()
 		{
@@ -62,14 +59,14 @@ namespace Genshin_Impact_MP_Installer
 
 			// 1
 			Console.ForegroundColor = ConsoleColor.Blue;
-			Console.Write("Checking for new updates... ");
+			Console.Write("Searching for new updates... ");
 			Console.ResetColor();
 
 			try
 			{
 				WebClient client = new WebClient();
 				client.Headers.Add("user-agent", Program.UserAgent);
-				string json = client.DownloadString("https://api.sefinek.net/api/v1/genshin-impact-reshade/installer/version");
+				string json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v1/genshin-impact-reshade/installer/version");
 				InstallerVersion res = JsonConvert.DeserializeObject<InstallerVersion>(json);
 
 				if (res.Version != Program.AppVersion)
@@ -125,7 +122,7 @@ namespace Genshin_Impact_MP_Installer
 						Log.ErrorString($"Oh, sorry. We can't search for new updates. Report this issue on our Discord server.\n\n• Error: {ex.Message}\n", true);
 					else if ((int)response.StatusCode == 403)
 						Log.ErrorString(
-							$"Oh, sorry. We can't search for new updates. Probably your address IP is banned.\nAccess to the requested resource is forbidden. The server understood the request, but will not fulfill it.\n\n• Error:\n{ex.Message}\n", true);
+							$"Oh, sorry. We can't search for new updates. Probably your IP address is banned.\nAccess to the requested resource is forbidden. The server understood the request, but will not fulfill it.\n\n• Error:\n{ex.Message}\n", true);
 					else
 						Log.ErrorString($"Oh, sorry. We can't search for new updates.\nPlease check your Internet connection or report this issue on our Discord server.\n\n• Error:\n{ex.Message}\n", true);
 				}
@@ -140,7 +137,7 @@ namespace Genshin_Impact_MP_Installer
 					Console.ForegroundColor = ConsoleColor.Yellow;
 					Console.WriteLine("                    Too many attempts... Close this window and try again.\n");
 					Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine($"» Full error log:\n {ex}");
+					Console.WriteLine($"» Full error log:\n{ex}");
 
 					while (true) Console.ReadLine();
 				}
@@ -168,11 +165,10 @@ namespace Genshin_Impact_MP_Installer
 					Process.Start(@"Data\clown.mp4");
 
 					File.WriteAllText($@"{desktop}\Russian rat.txt", FileContent.Two);
-
 					break;
 				case "PL":
 					Console.ForegroundColor = ConsoleColor.Green;
-					Console.WriteLine("O kurwa polak lub jakiś ukrainiec mieszkający w polsce nwn, siema to ja informejtik");
+					Console.WriteLine("OK - O kurwa polak lub jakiś ukrainiec mieszkający w polsce nwn, siema to ja informejtik");
 					break;
 				default:
 					Console.ForegroundColor = ConsoleColor.Green;
@@ -183,28 +179,60 @@ namespace Genshin_Impact_MP_Installer
 
 			// 3
 			Console.ForegroundColor = ConsoleColor.Blue;
-			Console.Write("Preparing... ");
+			Console.Write("Checking requirements... ");
 			Console.ResetColor();
 
-			// Check requirements etc...
-			if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location)).Count() > 1)
+			if (Environment.OSVersion.Version.Build <= 19041)
 			{
-				MessageBox.Show(@"One instance is currently open.", Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-				Environment.Exit(0);
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("ERROR\n");
+
+				Log.ErrorAndExit(
+					new Exception(
+						"Sorry, your operating system version is deprecated and not supported.\nGo to Windows Update and check for updates.\n\nSupported OS list: https://github.com/sefinek24/Genshin-Impact-ReShade#--supported-operating-systems\n\nIf you need help, contact to the developers. We can help you!"),
+					false, false);
 			}
 
+			if (Os.Bits != "64-bit")
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("ERROR\n");
+
+				Log.ErrorAndExit(new Exception($"Sorry, your operating system architecture is not supported.\n\n» Your: {Os.Bits}\n» Required: 64-bit"), false, false);
+			}
 
 			if (Os.Version.ToUpper() != "22H2")
 			{
-				Console.ForegroundColor = ConsoleColor.Blue;
+				Console.ForegroundColor = ConsoleColor.Yellow;
+				Console.WriteLine("Warning\n");
+
+				Console.ForegroundColor = ConsoleColor.Magenta;
 				Console.WriteLine(
-					$"Your operating system version is old and the mod has not been tested on it. Errors may occur during installation.\nGo to Windows Update and check for updates.\nYou can still manually install this mod. Contact to the developer how to do this.\n\n• Your OS build: {Os.Version}\n• Optional: 22H2\n\n");
-				Log.ErrorAuditLog(new Exception("Old operating system build."), false);
+					$"Your operating system version is old and this mod was not tested on it. Errors may occur during installation.\n\nGo to Windows Update and check for updates.\nYou can still manually install this mod. Contact to the developer how to do this.\n\n» Your version: {Os.Version}\n» Optional: 22H2\n");
+				Log.ErrorAuditLog(new Exception("Old operating system version."), false);
 				Console.ResetColor();
+			}
+			else
+			{
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.WriteLine("OK");
+			}
+
+
+			// 4
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write("Starting... ");
+			Console.ResetColor();
+
+			if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location)).Count() > 1)
+			{
+				MessageBox.Show("One instance is currently open.", Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				Environment.Exit(0);
 			}
 
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.WriteLine("OK\n");
+
 
 			bool start = AppReady();
 			if (start)

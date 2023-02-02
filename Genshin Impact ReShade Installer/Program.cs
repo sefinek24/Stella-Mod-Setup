@@ -99,7 +99,7 @@ namespace Genshin_Impact_MP_Installer
 			ShortcutQuestion = Console.ReadLine();
 
 			Console.ForegroundColor = ConsoleColor.Green;
-			Console.Write("» Create new start menu shortcuts [Yes/no]: ");
+			Console.Write("» Create new shortcuts in start menu [Yes/no]: ");
 			Console.ResetColor();
 			MShortcutQuestion = Console.ReadLine();
 

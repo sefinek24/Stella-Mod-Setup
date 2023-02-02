@@ -8,10 +8,10 @@ namespace Genshin_Impact_MP_Installer.Scripts
 {
 	internal abstract class Log
 	{
-		public static readonly string Folder = $@"{Program.AppData}\logs";
-		public static readonly string ErrorFile = $@"{Folder}\installer.error.log";
-		public static readonly string OutputFile = $@"{Folder}\installer.output.log";
-		public static readonly string ModInstFile = $@"{Folder}\mod_installation.log";
+		public static readonly string Folder = Program.AppData + @"\logs";
+		public static readonly string ErrorFile = Folder + @"\installer.error.log";
+		public static readonly string OutputFile = Folder + @"\installer.output.log";
+		public static readonly string ModInstFile = Folder + @"\mod_installation.log";
 		private static int _reportTry = 1;
 
 		public static void Output(string log)
@@ -21,7 +21,7 @@ namespace Genshin_Impact_MP_Installer.Scripts
 
 			using (StreamWriter sw = File.AppendText(OutputFile))
 			{
-				sw.WriteLine($"[{DateTime.Now}]: {Console.Title}\n{log.Trim()}\n\n");
+				sw.WriteLine($"[{DateTime.Now}]: {Console.Title}\n{log.Trim()}\n");
 			}
 		}
 

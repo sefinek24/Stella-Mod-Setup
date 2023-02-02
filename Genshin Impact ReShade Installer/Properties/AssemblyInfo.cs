@@ -8,10 +8,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Genshin Impact Mod Pack Installer")]
 [assembly: AssemblyDescription("Setup for Genshin Impact Mod Pack made by Sefinek.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Installer for Genshin Impact ReShade and FPS Unlocker mod pack.")]
-[assembly: AssemblyCopyright("Copyright 2022 © by Sefinek. All Rights Reserved.")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("Sefinek Inc.")]
+[assembly: AssemblyProduct("Setup for Genshin Impact ReShade and FPS Unlocker mod pack.")]
+[assembly: AssemblyCopyright("Copyright 2023 © by Sefinek. All Rights Reserved.")]
+[assembly: AssemblyTrademark("© Sefinek Inc.")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -32,6 +32,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.8.4.2")]
-[assembly: AssemblyFileVersion("1.8.4.2")]
+[assembly: AssemblyVersion("1.8.5.0")]
+[assembly: AssemblyFileVersion("1.8.5.0")]
 [assembly: NeutralResourcesLanguage("en")]

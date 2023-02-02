@@ -1,20 +1,21 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Genshin_Impact_MP_Installer.Scripts
 {
 	internal abstract class ReShade
 	{
-		public static void DownloadFiles(string reShadeConfig, string reShadeLogFile)
+		public static async Task DownloadFiles(string reShadeConfig, string reShadeLogFile)
 		{
 			WebClient wbClient1 = new WebClient();
 			wbClient1.Headers.Add("user-agent", Program.UserAgent);
-			wbClient1.DownloadFile("https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/config", reShadeConfig);
+			await wbClient1.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/config", reShadeConfig);
 
 			WebClient wbClient2 = new WebClient();
 			wbClient2.Headers.Add("user-agent", Program.UserAgent);
-			wbClient2.DownloadFile("https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/log", reShadeLogFile);
+			await wbClient2.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/log", reShadeLogFile);
 
 			if (File.Exists(reShadeConfig) && File.Exists(reShadeLogFile))
 			{

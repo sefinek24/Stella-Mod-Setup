@@ -18,7 +18,7 @@ namespace Genshin_Impact_MP_Installer.Scripts
 		{
 			try
 			{
-				Log.Output($"» Executed command: {app} {args}\n» Working directory: {workingDir}");
+				Log.Output($"Execute command: {app} {args} {workingDir}");
 
 				Command action = Cli.Wrap(app).WithArguments(args).WithWorkingDirectory(workingDir).WithValidation(CommandResultValidation.None);
 				BufferedCommandResult result = await action.ExecuteBufferedAsync();
@@ -28,7 +28,9 @@ namespace Genshin_Impact_MP_Installer.Scripts
 				string stderr = result.StandardError;
 
 				// StandardOutput
-				Log.Output($"» Application: {app}\n» Exit code: {result.ExitCode}\n» Start time: {result.StartTime}\n» Exit time: {result.ExitTime}\n\n✅ STDOUT: {stdout}\n❌ STDERR: {stderr}");
+				string stdoutLine = !string.IsNullOrEmpty(stdout) ? $"\n✅ STDOUT: {stdout}" : "";
+				string stderrLine = !string.IsNullOrEmpty(stderr) ? $"\n❌ STDERR: {stderr}" : "";
+				Log.Output($"Successfully executed {app} command. Exit code: {result.ExitCode}, start time: {result.StartTime}, exit time: {result.ExitTime}{stdoutLine}{stderrLine}");
 
 				// StandardError
 				if (result.ExitCode != 0)
@@ -86,7 +88,7 @@ namespace Genshin_Impact_MP_Installer.Scripts
 						}
 
 						// Preparing...
-						Console.WriteLine($"{Installation.ProcessInt++}/20 - Preparing to install Microsoft Visual C++ 2015 UWP Desktop Package (attempt {Installation.VcLibsAttemptNumber}/3)...");
+						Console.WriteLine($"{Installation.ProcessInt++}/11 - Preparing to install Microsoft Visual C++ 2015 UWP Desktop Package (attempt {Installation.VcLibsAttemptNumber}/3)...");
 
 						TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
 						Console.ForegroundColor = ConsoleColor.Yellow;
@@ -102,7 +104,7 @@ namespace Genshin_Impact_MP_Installer.Scripts
 						if (wtName.Length != 0) await Execute("taskkill", "/F /IM WindowsTerminal.exe", null);
 
 						// Installing...
-						Console.WriteLine($"{Installation.ProcessInt++}/20 - Installing Microsoft Visual C++ 2015 UWP Desktop Package...");
+						Console.WriteLine($"{Installation.ProcessInt++}/11 - Installing Microsoft Visual C++ 2015 UWP Desktop Package...");
 
 						if (!File.Exists(Installation.VcLibsSetup))
 							Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Installation.VcLibsSetup}"), false, false);

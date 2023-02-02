@@ -15,30 +15,25 @@ namespace Genshin_Impact_MP_Installer
 {
 	internal abstract class Installation
 	{
-		public const string Folder = @"C:\Genshin-Impact-ReShade";
-
-		// Progressbar
-		public const int PbLimit = 100;
-
 		// Dependencies
 		private const string Dependencies = @"Dependencies";
 		public static readonly string InstalledViaSetup = Program.AppData + @"\installed-via-setup.sfn";
-		private static readonly string MainSetup = $@"{Dependencies}\Genshin Impact Mod Setup.exe";
-		private static readonly string WtWin10Setup = $@"{Dependencies}\WindowsTerminal_Win10.msixbundle";
-		private static readonly string WtWin11Setup = $@"{Dependencies}\WindowsTerminal_Win11.msixbundle";
-		public static readonly string VcLibsSetup = $@"{Dependencies}\Microsoft.VCLibs.x64.14.00.Desktop.appx";
-
-		// Program files
-		public static readonly string ProgramFiles64 = Environment.GetEnvironmentVariable("ProgramW6432");
+		private const string MainSetup = Dependencies + @"\Genshin Impact Mod Setup.exe";
+		private const string WtWin10Setup = Dependencies + @"\WindowsTerminal_Win10.msixbundle";
+		private const string WtWin11Setup = Dependencies + @"\WindowsTerminal_Win11.msixbundle";
+		public static readonly string VcLibsSetup = Dependencies + @"\Microsoft.VCLibs.x64.14.00.Desktop.appx";
 
 		// Other
+		public const string Folder = @"C:\Genshin-Impact-ReShade";
+		public static readonly string ProgramFiles64 = Environment.GetEnvironmentVariable("ProgramW6432");
 		public static readonly string WindowsApps = $@"{ProgramFiles64}\WindowsApps";
 		public static readonly string Packages = $@"{Environment.GetEnvironmentVariable("LocalAppData")}\Packages";
 
+		// Variables
+		public const int PbLimit = 100;
 		private static bool _wtBackupSkipped;
 		private static string _wtSettings;
 		private static string _wtLocalState;
-
 		public static int ProcessInt = 1;
 		public static int VcLibsAttemptNumber = 0;
 
@@ -73,28 +68,7 @@ namespace Genshin_Impact_MP_Installer
 
 
 			// ----------------------- 1 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Checking requirements...");
-
-			if (Environment.OSVersion.Version.Build <= 19041)
-			{
-				Log.ErrorAndExit(
-					new Exception(
-						"Sorry, your operating system version is deprecated and not supported.\nGo to Windows Update and check for updates.\n\nSupported OS list: https://github.com/sefinek24/Genshin-Impact-ReShade#--supported-operating-systems\n\nIf you need help, contact to the developers. We can help you!"),
-					false, false);
-				Console.ResetColor();
-			}
-
-			if (Os.Bits != "64-bit")
-			{
-				Log.ErrorAndExit(new Exception($"Sorry, your operating system architecture is not supported.\n\n» Your: {Os.Bits}\n» Required: 64-bit"), false, false);
-				Console.ResetColor();
-			}
-
-			TaskbarManager.Instance.SetProgressValue(10, PbLimit);
-
-
-			// ----------------------- 2 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Preparing...");
+			Console.WriteLine($"{ProcessInt++}/11 - Preparing...");
 
 			using (StreamWriter sw = File.AppendText(Log.OutputFile))
 			{
@@ -121,8 +95,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(20, PbLimit);
 
 
-			// ----------------------- 3 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x64)... Skipped");
+			// ----------------------- 2 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x64)... Skipped");
 
 			// if (!File.Exists(Redist64Setup))
 			// 	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist64Setup}"), false, false);
@@ -134,8 +108,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(30, PbLimit);
 
 
-			// ----------------------- 4 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x86)... Skipped");
+			// ----------------------- 3 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x86)... Skipped");
 
 			// if (!File.Exists(Redist86Setup))
 			//	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist86Setup}"), false, false);
@@ -147,8 +121,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(40, PbLimit);
 
 
-			// ----------------------- 5 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Installing .NET Framework 4.8... Skipped");
+			// ----------------------- 4 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Installing .NET Framework 4.8... Skipped");
 
 			// if (!File.Exists(Ndp48Setup))
 			// 	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Ndp48Setup}"), false, false);
@@ -160,8 +134,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(50, PbLimit);
 
 
-			// ----------------------- 6 -----------------------
-			Console.Write($"{ProcessInt++}/12 - Backing up the Windows Terminal configuration file in app data... ");
+			// ----------------------- 5 -----------------------
+			Console.Write($"{ProcessInt++}/11 - Backing up the Windows Terminal configuration file in app data... ");
 
 			string wtAppData1 = Wt.GetAppData();
 			if (string.IsNullOrEmpty(wtAppData1))
@@ -183,10 +157,8 @@ namespace Genshin_Impact_MP_Installer
 				{
 					using (StreamWriter sw = File.CreateText(readmeFile))
 					{
-						await sw.WriteAsync("⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀\n" + "⠀  ⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿\n" + "⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                          Genshin Impact ReShade 2023 Mod Pack\n" + "   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                     Made by Sefinek\n" +
-						                    "⠀   ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿\n" + "    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟\n" + "⠀   ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀\n" + " ⠀   ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀\n" + "  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆\n" + "    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆\n" +
-						                    "   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇\n" + "  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟\n" + "   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟\n" + "=========================================================================================\n" +
-						                    $"» Windows Terminal application configuration backup files from {date}.");
+						await sw.WriteAsync(
+							$"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀\n⠀  ⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿\n⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                          Genshin Impact ReShade Mod Pack 2023\n   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                     Made by Sefinek\n⠀   ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿\n    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟\n⠀   ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀\n ⠀   ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀\n  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆\n    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆\n   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇\n  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟\n   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟\n=========================================================================================\n» Windows Terminal application configuration backup files from {date}.");
 					}
 
 					string zipFile = $@"{Program.AppData}\Windows Terminal\wt-config.backup-{DateTime.Now:HHmm_dd.MM.yyyy}.zip";
@@ -223,8 +195,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(60, PbLimit);
 
 
-			// ----------------------- 7 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Installing latest Windows Terminal...");
+			// ----------------------- 6 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Installing latest Windows Terminal...");
 
 			if (!File.Exists(WtWin10Setup) || !File.Exists(WtWin11Setup))
 				Log.ErrorAndExit(new Exception($"I can't find a required file.\n\n{WtWin10Setup} or {WtWin11Setup}"), false, false);
@@ -248,8 +220,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(70, PbLimit);
 
 
-			// ----------------------- 8 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Checking installed software...");
+			// ----------------------- 7 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Checking installed software...");
 
 			string wtProgramFiles = Wt.GetProgramFiles();
 			if (string.IsNullOrEmpty(wtProgramFiles))
@@ -258,19 +230,18 @@ namespace Genshin_Impact_MP_Installer
 			}
 			else
 			{
-				Log.Output($"Windows Terminal has been successfully installed.\n» Path: {wtProgramFiles}");
+				Log.Output($"Windows Terminal has been successfully installed in {wtProgramFiles}");
 
 				string wtAppData2 = Wt.GetAppData();
-				if (string.IsNullOrEmpty(wtAppData2))
-					Log.ErrorAndExit(new Exception("Fatal error. Code: 3781780149"), false, true);
+				if (string.IsNullOrEmpty(wtAppData2)) Log.ErrorAndExit(new Exception("Fatal error. Code: 3781780149"), false, true);
 				else _wtSettings = $@"{wtAppData2}\LocalState\settings.json";
 			}
 
 			TaskbarManager.Instance.SetProgressValue(75, PbLimit);
 
 
-			// ----------------------- 9 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Installing mod and our launcher in {Folder}...");
+			// ----------------------- 8 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Installing mod and our launcher in {Folder}...");
 
 			if (!File.Exists(MainSetup))
 				Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
@@ -283,8 +254,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(80, PbLimit);
 
 
-			// ----------------------- 10 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Downloading config file for FPS Unlocker from cdn.sefinek.net... [~500 bytes]");
+			// ----------------------- 9 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Downloading config file for FPS Unlocker from cdn.sefinek.net... [~500 bytes]");
 
 			try
 			{
@@ -295,7 +266,7 @@ namespace Genshin_Impact_MP_Installer
 
 				WebClient client = new WebClient();
 				client.Headers.Add("user-agent", Program.UserAgent);
-				client.DownloadFile("https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config", fpsUnlockCfgPath);
+				await client.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config", fpsUnlockCfgPath);
 
 				string fpsUnlockerCfg = File.ReadAllText(fpsUnlockCfgPath);
 				File.WriteAllText(fpsUnlockCfgPath, fpsUnlockerCfg.Replace("{GamePath}", Program.GamePath.Replace(@"\", @"\\")));
@@ -308,8 +279,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(90, PbLimit);
 
 
-			// ----------------------- 11 -----------------------
-			Console.Write($"{ProcessInt++}/12 - Downloading files from cdn.sefinek.net and configuring ReShade... ");
+			// ----------------------- 10 -----------------------
+			Console.Write($"{ProcessInt++}/11 - Downloading files from cdn.sefinek.net and configuring ReShade... ");
 
 			if (Directory.Exists(Program.GameDir))
 			{
@@ -325,7 +296,7 @@ namespace Genshin_Impact_MP_Installer
 					Log.Output($"Removed old ReShade.log file.\n» Path: {Program.ReShadeLogFile}");
 				}
 
-				ReShade.DownloadFiles(Program.ReShadeConfig, Program.ReShadeLogFile);
+				await ReShade.DownloadFiles(Program.ReShadeConfig, Program.ReShadeLogFile);
 			}
 			else
 			{
@@ -336,8 +307,8 @@ namespace Genshin_Impact_MP_Installer
 			TaskbarManager.Instance.SetProgressValue(95, PbLimit);
 
 
-			// ----------------------- 12 -----------------------
-			Console.WriteLine($"{ProcessInt++}/12 - Excellent! Finishing... ");
+			// ----------------------- 11 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Excellent! Finishing... ");
 
 			if (Regex.Match(Program.ShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
 				try
