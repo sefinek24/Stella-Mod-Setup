@@ -9,11 +9,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Genshin_Impact_MP_Installer.Models;
-using Genshin_Impact_MP_Installer.Scripts;
+using Genshin_Impact_Mod_Setup.Models;
+using Genshin_Impact_Mod_Setup.Scripts;
 using Newtonsoft.Json;
 
-namespace Genshin_Impact_MP_Installer
+namespace Genshin_Impact_Mod_Setup
 {
 	internal abstract class Start
 	{

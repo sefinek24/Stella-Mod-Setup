@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Genshin_Impact_MP_Installer.Scripts
+namespace Genshin_Impact_Mod_Setup.Scripts
 {
 	internal abstract class ReShade
 	{

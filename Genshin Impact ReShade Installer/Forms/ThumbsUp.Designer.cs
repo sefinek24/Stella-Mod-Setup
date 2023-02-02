@@ -1,4 +1,4 @@
-﻿namespace Genshin_Impact_MP_Installer.Forms
+﻿namespace Genshin_Impact_Mod_Setup.Forms
 {
     partial class ThumbsUp
     {

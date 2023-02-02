@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Genshin_Impact_MP_Installer.Forms
+namespace Genshin_Impact_Mod_Setup.Forms
 {
 	public partial class Donate : Form
 	{

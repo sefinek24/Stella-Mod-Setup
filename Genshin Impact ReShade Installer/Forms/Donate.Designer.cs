@@ -1,4 +1,4 @@
-﻿namespace Genshin_Impact_MP_Installer.Forms
+﻿namespace Genshin_Impact_Mod_Setup.Forms
 {
     partial class Donate
     {
@@ -205,7 +205,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Genshin_Impact_MP_Installer.Properties.Resources.anime_uwu_girl;
+            this.BackgroundImage = global::Genshin_Impact_Mod_Setup.Properties.Resources.anime_uwu_girl;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(953, 543);
             this.Controls.Add(this.panel1);

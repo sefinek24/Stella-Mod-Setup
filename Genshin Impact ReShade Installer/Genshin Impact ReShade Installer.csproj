@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{19B50EE8-F9E3-452A-AD88-989967196A6F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Genshin_Impact_MP_Installer</RootNamespace>
-    <AssemblyName>Genshin Impact Mod Pack Setup</AssemblyName>
+    <RootNamespace>Genshin_Impact_Mod_Setup</RootNamespace>
+    <AssemblyName>Genshin Impact Mod Setup</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -39,7 +39,7 @@
     <ApplicationIcon>52x52_installer.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Genshin_Impact_MP_Installer.Start</StartupObject>
+    <StartupObject>Genshin_Impact_Mod_Setup.Start</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>

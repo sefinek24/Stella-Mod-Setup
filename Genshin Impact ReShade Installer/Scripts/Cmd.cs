@@ -8,7 +8,7 @@ using CliWrap.Buffered;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
-namespace Genshin_Impact_MP_Installer.Scripts
+namespace Genshin_Impact_Mod_Setup.Scripts
 {
 	internal abstract class Cmd
 	{

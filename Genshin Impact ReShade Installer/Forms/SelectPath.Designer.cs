@@ -1,4 +1,4 @@
-﻿namespace Genshin_Impact_MP_Installer.Forms
+﻿namespace Genshin_Impact_Mod_Setup.Forms
 {
     partial class SelectPath
     {
@@ -123,7 +123,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::Genshin_Impact_MP_Installer.Properties.Resources.selectPath_bg;
+            this.BackgroundImage = global::Genshin_Impact_Mod_Setup.Properties.Resources.selectPath_bg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(666, 359);
             this.Controls.Add(this.button3);

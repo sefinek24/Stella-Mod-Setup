@@ -6,10 +6,10 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Genshin_Impact_MP_Installer.Forms;
-using Genshin_Impact_MP_Installer.Scripts;
+using Genshin_Impact_Mod_Setup.Forms;
+using Genshin_Impact_Mod_Setup.Scripts;
 
-namespace Genshin_Impact_MP_Installer
+namespace Genshin_Impact_Mod_Setup
 {
 	internal abstract class Program
 	{
@@ -85,8 +85,7 @@ namespace Genshin_Impact_MP_Installer
 				Console.ResetColor();
 
 				string deleteData = Console.ReadLine() ?? string.Empty;
-				if (Regex.Match(deleteData, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Multiline).Success)
-					Directory.Delete(AppData, true);
+				if (Regex.Match(deleteData, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Multiline).Success) Directory.Delete(AppData, true);
 			}
 
 			if (!Directory.Exists(AppData)) Directory.CreateDirectory(AppData);

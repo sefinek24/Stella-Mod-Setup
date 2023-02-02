@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.NetworkInformation;
 
-namespace Genshin_Impact_MP_Installer.Scripts
+namespace Genshin_Impact_Mod_Setup.Scripts
 {
 	internal abstract class Internet
 	{

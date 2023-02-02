@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Genshin_Impact_MP_Installer
+namespace Genshin_Impact_Mod_Setup
 {
 	internal abstract class ConfigDefault // Change to Config
 	{

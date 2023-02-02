@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JNogueira.Discord.Webhook.Client;
 
-namespace Genshin_Impact_MP_Installer.Scripts
+namespace Genshin_Impact_Mod_Setup.Scripts
 {
 	internal abstract class WebHook
 	{

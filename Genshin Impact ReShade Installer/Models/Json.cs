@@ -1,4 +1,4 @@
-﻿namespace Genshin_Impact_MP_Installer.Models
+﻿namespace Genshin_Impact_Mod_Setup.Models
 {
 	internal class InstallerVersion
 	{

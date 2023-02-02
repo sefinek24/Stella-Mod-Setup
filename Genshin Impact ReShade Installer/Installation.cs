@@ -6,12 +6,12 @@ using System.Media;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Genshin_Impact_MP_Installer.Scripts;
+using Genshin_Impact_Mod_Setup.Scripts;
 using IWshRuntimeLibrary;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using File = System.IO.File;
 
-namespace Genshin_Impact_MP_Installer
+namespace Genshin_Impact_Mod_Setup
 {
 	internal abstract class Installation
 	{

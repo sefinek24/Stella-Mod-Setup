@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using Genshin_Impact_MP_Installer.Scripts;
+using Genshin_Impact_Mod_Setup.Scripts;
 
-namespace Genshin_Impact_MP_Installer.Forms
+namespace Genshin_Impact_Mod_Setup.Forms
 {
 	public partial class Help : Form
 	{
