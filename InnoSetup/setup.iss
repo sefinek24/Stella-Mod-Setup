@@ -76,7 +76,7 @@ Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDi
 Name: "{autoprograms}\Genshin Impact Mod Pack\Uninstall mod"; Filename: "{app}\unins000.exe"
 
 [Run]
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -Command Add-AppxPackage -Path {tmp}\Microsoft.VCLibs.x64.14.00.Desktop.appx"; StatusMsg: "Installing Microsoft VCLibs..."; Flags: runhidden
+Filename: "powershell.exe"; Parameters: "Add-AppxPackage -Path {tmp}\Microsoft.VCLibs.x64.14.00.Desktop.appx"; StatusMsg: "Installing Microsoft VCLibs..."; Flags: runhidden
 Filename: "cmd.exe"; Parameters: "sfc /SCANNOW"; Flags: runhidden; StatusMsg: "Scanning and reparing system files..."; Tasks: RunSfcSCANNOW 
 
 WorkingDir: "{app}"; Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}} Launcher"; Flags: nowait postinstall skipifsilent runascurrentuser 
