@@ -3,7 +3,7 @@
 	internal class InstallerVersion
 	{
 		public string Version { get; set; }
-		public string LastUpdate { get; set; }
+		public string Date { get; set; }
 	}
 
 	public class SefinekApi

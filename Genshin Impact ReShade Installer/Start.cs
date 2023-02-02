@@ -78,8 +78,7 @@ namespace Genshin_Impact_MP_Installer
 					Console.WriteLine("Warning\n");
 					Console.ResetColor();
 
-					Console.WriteLine($"This setup is outdated. Please download the latest version from official website.\n{Program.AppWebsite}\n\n" + $"• Your version: v{Program.AppVersion}\n" +
-					                  $"• Latest version: v{res.Version} from {res.LastUpdate}\n");
+					Console.WriteLine($"This setup is outdated. Please download the latest version from official website.\n{Program.AppWebsite}\n\n• Your version: v{Program.AppVersion}\n" + $"• Latest version: v{res.Version} from {res.Date}\n");
 
 					Console.ForegroundColor = ConsoleColor.Green;
 					Console.Write("» Open official website now? [Yes/no]: ");

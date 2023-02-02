@@ -13,18 +13,15 @@ namespace Genshin_Impact_MP_Installer
 {
 	internal abstract class Program
 	{
+		public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
+		public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+		public static readonly string AppData = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\Genshin Impact MP by Sefinek";
 		public const string AppWebsite = "https://sefinek.net/genshin-impact-reshade";
 		public const string DiscordUrl = "https://discord.gg/SVcbaRc7gH";
 
+		// Other
 		public const string Line = "===============================================================================================";
-
-		// Program
-		public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
-
-		public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-		public static readonly string UserAgent = $"Mozilla/5.0 (compatible; {AppName}/{AppVersion}; +{AppWebsite})";
-
-		public static readonly string AppData = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\Genshin Impact MP by Sefinek";
+		public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})";
 
 		// Questions
 		public static string ShortcutQuestion;
@@ -81,7 +78,7 @@ namespace Genshin_Impact_MP_Installer
 
 		public static async Task Main()
 		{
-			if (File.Exists(Installation.IsInstalled))
+			if (File.Exists(Installation.InstalledViaSetup))
 			{
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.Write("» Delete old program data [Yes/no]: ");

@@ -1,5 +1,5 @@
 #define MyAppName "Genshin Impact Mod"
-#define MyAppVersion "4.2.0.0"
+#define MyAppVersion "5.0.0.0"
 #define MyAppPublisher "Sefinek Inc."
 #define MyAppURL "https://sefinek.net/genshin-impact-reshade"
 #define MyAppExeName "Genshin Impact Mod Launcher.exe"

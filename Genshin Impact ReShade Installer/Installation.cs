@@ -22,7 +22,7 @@ namespace Genshin_Impact_MP_Installer
 
 		// Dependencies
 		private const string Dependencies = @"Dependencies";
-		public static readonly string IsInstalled = $@"{Program.AppData}\is-installed.sfn";
+		public static readonly string InstalledViaSetup = Program.AppData + @"\installed-via-setup.sfn";
 		private static readonly string MainSetup = $@"{Dependencies}\Genshin Impact Mod Setup.exe";
 		private static readonly string WtWin10Setup = $@"{Dependencies}\WindowsTerminal_Win10.msixbundle";
 		private static readonly string WtWin11Setup = $@"{Dependencies}\WindowsTerminal_Win11.msixbundle";
@@ -416,12 +416,7 @@ namespace Genshin_Impact_MP_Installer
 			}
 
 			if (!Directory.Exists(Program.AppData)) Directory.CreateDirectory(Program.AppData);
-			if (File.Exists(IsInstalled)) File.Delete(IsInstalled);
-
-			using (StreamWriter sw = File.CreateText(IsInstalled))
-			{
-				await sw.WriteAsync("true");
-			}
+			if (!File.Exists(InstalledViaSetup)) File.Create(InstalledViaSetup);
 
 			// Done!
 			await Finish.End();
