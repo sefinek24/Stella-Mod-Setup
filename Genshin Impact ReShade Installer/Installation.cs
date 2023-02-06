@@ -140,7 +140,7 @@ namespace Genshin_Impact_Mod_Setup
 			if (!File.Exists(MainSetup))
 				Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
 
-			await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\mod_installation.log\"", @"C:\");
+			await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\mod_installation.log\"", null);
 
 			if (!Directory.Exists(Folder))
 				Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);
