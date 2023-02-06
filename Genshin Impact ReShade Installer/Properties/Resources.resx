@@ -127,7 +127,4 @@
   <data name="launcher_gif" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\launcher_n164rh2IKHOF.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="anime_uwu_girl" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Noir.(Hoshizora).full.3630547.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>

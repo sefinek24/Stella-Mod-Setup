@@ -63,16 +63,6 @@ namespace Genshin_Impact_Mod_Setup.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap anime_uwu_girl {
-            get {
-                object obj = ResourceManager.GetObject("anime_uwu_girl", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap help_bg {
             get {
                 object obj = ResourceManager.GetObject("help_bg", resourceCulture);

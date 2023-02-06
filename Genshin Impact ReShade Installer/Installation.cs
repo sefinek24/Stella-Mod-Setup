@@ -135,6 +135,20 @@ namespace Genshin_Impact_Mod_Setup
 
 
 			// ----------------------- 5 -----------------------
+			Console.WriteLine($"{ProcessInt++}/11 - Installing mod and our launcher in {Folder}...");
+
+			if (!File.Exists(MainSetup))
+				Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
+
+			await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\mod_installation.log\"", @"C:\");
+
+			if (!Directory.Exists(Folder))
+				Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);
+
+			TaskbarManager.Instance.SetProgressValue(80, PbLimit);
+
+
+			// ----------------------- 6 -----------------------
 			Console.Write($"{ProcessInt++}/11 - Backing up the Windows Terminal configuration file in app data... ");
 
 			string wtAppData1 = Wt.GetAppData();
@@ -195,7 +209,7 @@ namespace Genshin_Impact_Mod_Setup
 			TaskbarManager.Instance.SetProgressValue(60, PbLimit);
 
 
-			// ----------------------- 6 -----------------------
+			// ----------------------- 7 -----------------------
 			Console.WriteLine($"{ProcessInt++}/11 - Installing latest Windows Terminal...");
 
 			if (!File.Exists(WtWin10Setup) || !File.Exists(WtWin11Setup))
@@ -220,7 +234,7 @@ namespace Genshin_Impact_Mod_Setup
 			TaskbarManager.Instance.SetProgressValue(70, PbLimit);
 
 
-			// ----------------------- 7 -----------------------
+			// ----------------------- 8 -----------------------
 			Console.WriteLine($"{ProcessInt++}/11 - Checking installed software...");
 
 			string wtProgramFiles = Wt.GetProgramFiles();
@@ -238,20 +252,6 @@ namespace Genshin_Impact_Mod_Setup
 			}
 
 			TaskbarManager.Instance.SetProgressValue(75, PbLimit);
-
-
-			// ----------------------- 8 -----------------------
-			Console.WriteLine($"{ProcessInt++}/11 - Installing mod and our launcher in {Folder}...");
-
-			if (!File.Exists(MainSetup))
-				Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
-
-			await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\mod_installation.log\"", @"C:\");
-
-			if (!Directory.Exists(Folder))
-				Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);
-
-			TaskbarManager.Instance.SetProgressValue(80, PbLimit);
 
 
 			// ----------------------- 9 -----------------------

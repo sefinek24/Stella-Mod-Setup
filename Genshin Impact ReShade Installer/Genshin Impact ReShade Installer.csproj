@@ -73,12 +73,6 @@
     <Compile Include="Forms\SelectPath.Designer.cs">
       <DependentUpon>SelectPath.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Donate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Donate.Designer.cs">
-      <DependentUpon>Donate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ThumbsUp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,7 +144,7 @@
     <Content Include="Data\Images\52x52.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Images\kyaru-anime.gif">
+    <Content Include="Data\Images\kyaru.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Data\clown.mp4">
@@ -183,12 +177,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\Help.resx">
       <DependentUpon>Help.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SelectPath.resx">
       <DependentUpon>SelectPath.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Donate.resx">
-      <DependentUpon>Donate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ThumbsUp.resx">
       <DependentUpon>ThumbsUp.cs</DependentUpon>

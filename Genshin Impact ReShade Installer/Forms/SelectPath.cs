@@ -69,7 +69,7 @@ namespace Genshin_Impact_Mod_Setup.Forms
 			string selectedFile = comboBox1.GetItemText(comboBox1.SelectedItem);
 			if (!selectedFile.Contains("GenshinImpact.exe") && !selectedFile.Contains("YuanShen.exe"))
 			{
-				MessageBox.Show("I can't save your settings. Please select the game exe.\n\nGenshinImpact.exe for OS version.\nYuanShen.exe for CN version.", Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("We can't save your settings. Please select the game exe.\n\nGenshinImpact.exe for OS version.\nYuanShen.exe for CN version.", Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
@@ -86,8 +86,7 @@ namespace Genshin_Impact_Mod_Setup.Forms
 
 		private void Help_Click(object sender, EventArgs e)
 		{
-			Help help = new Help { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") };
-			help.Show();
+			new Help { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") }.Show();
 		}
 	}
 }
