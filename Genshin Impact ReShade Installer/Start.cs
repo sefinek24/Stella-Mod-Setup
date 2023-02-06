@@ -94,7 +94,7 @@ namespace Genshin_Impact_Mod_Setup
 							Console.WriteLine("Canceled. You can close this window.");
 							break;
 						default:
-							await Program.WrongAnswer();
+							await Program.WrongAnswer("Start");
 							break;
 					}
 

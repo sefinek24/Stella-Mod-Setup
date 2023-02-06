@@ -26,8 +26,8 @@ namespace Genshin_Impact_Mod_Setup
 		// Other
 		public const string Folder = @"C:\Genshin-Impact-ReShade";
 		public static readonly string ProgramFiles64 = Environment.GetEnvironmentVariable("ProgramW6432");
-		public static readonly string WindowsApps = $@"{ProgramFiles64}\WindowsApps";
-		public static readonly string Packages = $@"{Environment.GetEnvironmentVariable("LocalAppData")}\Packages";
+		public static readonly string WindowsApps = ProgramFiles64 + @"\WindowsApps";
+		public static readonly string Packages = Environment.GetEnvironmentVariable("LocalAppData") + @"\Packages";
 
 		// Variables
 		public const int PbLimit = 100;

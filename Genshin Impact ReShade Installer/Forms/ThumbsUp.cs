@@ -21,7 +21,7 @@ namespace Genshin_Impact_Mod_Setup.Forms
 
 		private void ThumbsUp_Load(object sender, EventArgs e)
 		{
-			Image gif = Image.FromFile("Data/Images/kyaru-anime.gif");
+			Image gif = Image.FromFile("Data/Images/kyaru.gif");
 			pictureBox1.Image = gif;
 		}
 
@@ -29,7 +29,6 @@ namespace Genshin_Impact_Mod_Setup.Forms
 		{
 			Font font = new Font("Comic Sans MS", 36);
 			SolidBrush solidBrush = new SolidBrush(Color.FromArgb(156, 149, 204));
-
 			StringFormat format = new StringFormat { LineAlignment = StringAlignment.Far, Alignment = StringAlignment.Center };
 
 			e.Graphics.DrawString("Thank you <3", font, solidBrush, ClientRectangle, format);

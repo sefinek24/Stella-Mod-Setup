@@ -10,7 +10,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 	{
 		public static async void Installing()
 		{
-			DiscordWebhookClient client = new DiscordWebhookClient(Config.MainWebHookUrl);
+			DiscordWebhookClient client = new DiscordWebhookClient(WhConfig.MainChannel);
 			DiscordMessage message = new DiscordMessage(embeds: new[]
 			{
 				new DiscordMessageEmbed(color: 5744610, author: new DiscordMessageEmbedAuthor($"📥 {Os.Region}: Installing mod on new machine..."), fields: new[]
@@ -33,7 +33,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 
 		public static async void Installed()
 		{
-			DiscordWebhookClient client = new DiscordWebhookClient(Config.MainWebHookUrl);
+			DiscordWebhookClient client = new DiscordWebhookClient(WhConfig.MainChannel);
 			DiscordMessage message = new DiscordMessage(embeds: new[]
 			{
 				new DiscordMessageEmbed(color: 1492492, author: new DiscordMessageEmbedAuthor($"✅ {Os.Region}: Successfully installed on new PC"), fields: new[]
@@ -57,7 +57,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 		// -------------------- VCLibs --------------------
 		public static async void InstalledVcLibs()
 		{
-			DiscordWebhookClient client = new DiscordWebhookClient(Config.MainWebHookUrl);
+			DiscordWebhookClient client = new DiscordWebhookClient(WhConfig.MainChannel);
 			DiscordMessage message = new DiscordMessage(embeds: new[]
 			{
 				new DiscordMessageEmbed(color: 2263772, author: new DiscordMessageEmbedAuthor($"🌠 Installed VcLibs on {Os.Name} {Os.Build}"), footer: new DiscordMessageEmbedFooter($"📅 {DateTime.Now:HH:mm:ss, dd.MM.yyyy} • {Os.TimeZone} 🏠 {Os.Region}"))
@@ -76,7 +76,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 		// -------------------- Reboot --------------------
 		public static async void RebootIsRequired()
 		{
-			DiscordWebhookClient client = new DiscordWebhookClient(Config.MainWebHookUrl);
+			DiscordWebhookClient client = new DiscordWebhookClient(WhConfig.MainChannel);
 			DiscordMessage message = new DiscordMessage(embeds: new[]
 			{
 				new DiscordMessageEmbed(color: 4868682, author: new DiscordMessageEmbedAuthor($"💻 Reboot is required on {Os.Name} {Os.Build}"), footer: new DiscordMessageEmbedFooter($"📅 {DateTime.Now:HH:mm:ss, dd.MM.yyyy} • {Os.TimeZone} • {Os.Region}"))
@@ -94,7 +94,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 
 		public static async void RebootIsScheduled()
 		{
-			DiscordWebhookClient client = new DiscordWebhookClient(Config.MainWebHookUrl);
+			DiscordWebhookClient client = new DiscordWebhookClient(WhConfig.MainChannel);
 			DiscordMessage message = new DiscordMessage(embeds: new[]
 			{
 				new DiscordMessageEmbed(color: 3065320, author: new DiscordMessageEmbedAuthor($"✨ Reboot was scheduled on {Os.Name} {Os.Build}"),
@@ -114,7 +114,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 		// -------------------- Error --------------------
 		public static async void Error(Exception ex1)
 		{
-			DiscordWebhookClient client = new DiscordWebhookClient(Config.MainWebHookUrl);
+			DiscordWebhookClient client = new DiscordWebhookClient(WhConfig.MainChannel);
 			DiscordMessage message = new DiscordMessage(embeds: new[]
 			{
 				new DiscordMessageEmbed(color: 15743511, author: new DiscordMessageEmbedAuthor($"❌ {Os.Region}: An error occurred during installation"), description: $"```js\n{ex1.ToString().Replace("System.Exception: ", "")}```", fields: new[]
@@ -143,7 +143,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 
 			try
 			{
-				DiscordWebhookClient client = new DiscordWebhookClient(Config.LogsWebHookUrl);
+				DiscordWebhookClient client = new DiscordWebhookClient(WhConfig.LogFiles);
 
 				// Content
 				DiscordMessage message = new DiscordMessage($"\\💻 {Os.AllInfos}\n\\🏠 {Os.Region}\n\\📆 {DateTime.Now:HH:mm:ss, dd.MM.yyyy} • {Os.TimeZone}");

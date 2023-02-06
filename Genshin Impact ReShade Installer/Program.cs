@@ -21,7 +21,7 @@ namespace Genshin_Impact_Mod_Setup
 
 		// Other
 		public const string Line = "===============================================================================================";
-		public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})";
+		public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +https://genshin.sefinek.net)";
 
 		// Questions
 		public static string ShortcutQuestion;
@@ -54,7 +54,7 @@ namespace Genshin_Impact_Mod_Setup
 			while (true) Console.ReadLine();
 		}
 
-		public static async Task WrongAnswer()
+		public static async Task WrongAnswer(string fileName)
 		{
 			Console.ResetColor();
 			Console.WriteLine($"\n{Line}");
@@ -73,7 +73,19 @@ namespace Genshin_Impact_Mod_Setup
 			Console.ResetColor();
 			Console.ReadLine();
 
-			await Main();
+			switch (fileName)
+			{
+				case "Start":
+					Console.Clear();
+					await Start.Main();
+					break;
+				case "Program":
+					await Main();
+					break;
+				default:
+					Log.ErrorAndExit(new Exception("Failed."), false, true);
+					break;
+			}
 		}
 
 		public static async Task Main()
@@ -157,7 +169,7 @@ namespace Genshin_Impact_Mod_Setup
 					break;
 
 				default:
-					await WrongAnswer();
+					await WrongAnswer("Program");
 					break;
 			}
 
