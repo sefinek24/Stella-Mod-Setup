@@ -30,7 +30,6 @@ namespace Genshin_Impact_Mod_Setup
 		public static readonly string Packages = Environment.GetEnvironmentVariable("LocalAppData") + @"\Packages";
 
 		// Variables
-		public const int PbLimit = 100;
 		private static bool _wtBackupSkipped;
 		private static string _wtSettings;
 		private static string _wtLocalState;
@@ -40,7 +39,7 @@ namespace Genshin_Impact_Mod_Setup
 		public static async Task Start()
 		{
 			TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
-			TaskbarManager.Instance.SetProgressValue(5, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(5, 100);
 
 			Console.WriteLine($"\n{Program.Line}");
 
@@ -92,7 +91,7 @@ namespace Genshin_Impact_Mod_Setup
 			// Send Discord WebHook
 			WebHook.Installing();
 
-			TaskbarManager.Instance.SetProgressValue(20, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(20, 100);
 
 
 			// ----------------------- 2 -----------------------
@@ -105,7 +104,7 @@ namespace Genshin_Impact_Mod_Setup
 
 			// Log.Output("Installed Microsoft Visual C++ 2015-2022 Redistributable (x64).");
 
-			TaskbarManager.Instance.SetProgressValue(30, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(30, 100);
 
 
 			// ----------------------- 3 -----------------------
@@ -118,7 +117,7 @@ namespace Genshin_Impact_Mod_Setup
 
 			// Log.Output("Installed Microsoft Visual C++ 2015-2022 Redistributable (x86).");
 
-			TaskbarManager.Instance.SetProgressValue(40, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(40, 100);
 
 
 			// ----------------------- 4 -----------------------
@@ -131,7 +130,7 @@ namespace Genshin_Impact_Mod_Setup
 
 			// Log.Output("Installed Microsoft .NET Framework 4.8.");
 
-			TaskbarManager.Instance.SetProgressValue(50, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(50, 100);
 
 
 			// ----------------------- 5 -----------------------
@@ -145,7 +144,7 @@ namespace Genshin_Impact_Mod_Setup
 			if (!Directory.Exists(Folder))
 				Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);
 
-			TaskbarManager.Instance.SetProgressValue(80, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(80, 100);
 
 
 			// ----------------------- 6 -----------------------
@@ -206,7 +205,7 @@ namespace Genshin_Impact_Mod_Setup
 				Log.Output("Backup was skipped.");
 			}
 
-			TaskbarManager.Instance.SetProgressValue(60, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(60, 100);
 
 
 			// ----------------------- 7 -----------------------
@@ -231,7 +230,7 @@ namespace Genshin_Impact_Mod_Setup
 				Log.Output($"Installed WT for Win 10: {WtWin10Setup}");
 			}
 
-			TaskbarManager.Instance.SetProgressValue(70, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(70, 100);
 
 
 			// ----------------------- 8 -----------------------
@@ -251,7 +250,7 @@ namespace Genshin_Impact_Mod_Setup
 				else _wtSettings = $@"{wtAppData2}\LocalState\settings.json";
 			}
 
-			TaskbarManager.Instance.SetProgressValue(75, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(75, 100);
 
 
 			// ----------------------- 9 -----------------------
@@ -276,7 +275,7 @@ namespace Genshin_Impact_Mod_Setup
 				Log.Error(e, false);
 			}
 
-			TaskbarManager.Instance.SetProgressValue(90, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(90, 100);
 
 
 			// ----------------------- 10 -----------------------
@@ -304,7 +303,7 @@ namespace Genshin_Impact_Mod_Setup
 				Log.Output("Configure ReShade manually.");
 			}
 
-			TaskbarManager.Instance.SetProgressValue(95, PbLimit);
+			TaskbarManager.Instance.SetProgressValue(95, 100);
 
 
 			// ----------------------- 11 -----------------------

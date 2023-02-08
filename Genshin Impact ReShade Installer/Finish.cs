@@ -23,7 +23,7 @@ namespace Genshin_Impact_Mod_Setup
 		{
 			WebHook.Installed();
 
-			TaskbarManager.Instance.SetProgressValue(100, Installation.PbLimit);
+			TaskbarManager.Instance.SetProgressValue(100, 100);
 
 			Log.Output("Installation completed!");
 			Console.WriteLine($"\n{Program.Line}\n");
