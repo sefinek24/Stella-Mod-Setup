@@ -140,7 +140,7 @@ namespace Genshin_Impact_Mod_Setup
 
 			if (Directory.Exists(GameDir) && File.Exists(GamePath))
 			{
-				File.WriteAllText($@"{AppData}\game-path.sfn", GamePath);
+				File.WriteAllText($@"{AppData}\game-path.sfn", GameDir);
 				Console.WriteLine(GameDir);
 			}
 			else
