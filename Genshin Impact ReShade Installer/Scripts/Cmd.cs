@@ -47,17 +47,21 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 					{
 						Log.ErrorAndExit(
 							new Exception(
-								$"Command execution failed because the underlying process (PowerShell) returned a non-zero exit code - {result.ExitCode}.\nI cannot install this required package. Reboot your PC or close all opened apps and try again.{info}"),
+								$"Command execution failed because the underlying process (PowerShell) returned a non-zero exit code - {result.ExitCode}.\nI can't install this required package. Reboot your PC or close all opened apps and try again.{info}"),
 							false, false);
 						return;
 					}
 
+					Process[] wtProcess1 = Process.GetProcessesByName("WindowsTerminal");
+					if (wtProcess1.Length != 0) await Execute("taskkill", "/F /IM WindowsTerminal.exe", null);
+
 					if (Regex.Match(stderr, "(?:80073D02)", RegexOptions.IgnoreCase | RegexOptions.Multiline).Success)
 					{
 						Console.ForegroundColor = ConsoleColor.Red;
-						Console.WriteLine("     » Something went wrong. I can't install this package!\n       Reboot your PC or close all opened apps from Microsoft Store.\n\n{stderr}");
+						Console.WriteLine($"     » We cannot install this package because some process is currently in use.\n       Reboot your PC or close all opened apps from Microsoft Store.\n\n{stderr}");
 
-						Log.ErrorAuditLog(new Exception($"I can't install Microsoft.VCLibs (attempt {Installation.VcLibsAttemptNumber}).\n\n{stderr}"), true);
+						Log.ErrorAuditLog(new Exception($"We cannot install this package because some process is currently in use.\n\n» Attempt: {Installation.VcLibsAttemptNumber}\n» Exit code: 80073D02\n\n{stderr}"), true);
+						Log.Output($"I can't install VCLibs because some process is currently in use. Attempt: {Installation.VcLibsAttemptNumber}");
 
 						TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
 
@@ -65,6 +69,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 						Console.WriteLine("     » Click ENTER to try again...");
 						Console.ReadLine();
 
+						Log.Output("Restarting session...");
 						Console.ResetColor();
 						await Installation.Start();
 						return;
@@ -75,16 +80,16 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 						Installation.VcLibsAttemptNumber++;
 
 						Log.Output($"Found missing dependency VCLibs. Attempt {Installation.VcLibsAttemptNumber}.");
-						Log.ErrorAuditLog(new Exception($"Found missing dependency Microsoft.VCLibs (attempt {Installation.VcLibsAttemptNumber}).\n\n{stderr}"), true);
+						Log.ErrorAuditLog(new Exception($"Found missing dependency Microsoft.VCLibs.\n\nAttempt {Installation.VcLibsAttemptNumber}\nExit code: 80073CF3\n\n{stderr}"), true);
 
 						try
 						{
-							ToastContentBuilder builder = new ToastContentBuilder().AddText("Ughh, sorry. We need more time 😥").AddText("Found missing dependency with name VCLibs.\nClose all Microsoft Store apps and go back to the installer!");
-							builder.Show();
+							new ToastContentBuilder().AddText("Ughh, sorry. We need more time 😥").AddText("Found missing dependency with name VCLibs.\nClose all Microsoft Store apps and go back to the installer!").Show();
 						}
 						catch (Exception ex)
 						{
 							Log.ErrorAuditLog(ex, true);
+							return;
 						}
 
 						// Preparing...
@@ -98,40 +103,39 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 						Console.ReadLine();
 
 						// Close apps
-						Process[] dllHostName = Process.GetProcessesByName("dllhost");
-						if (dllHostName.Length != 0) await Execute("taskkill", "/F /IM dllhost.exe", null);
-						Process[] wtName = Process.GetProcessesByName("WindowsTerminal");
-						if (wtName.Length != 0) await Execute("taskkill", "/F /IM WindowsTerminal.exe", null);
+						Process[] dllHostProcess = Process.GetProcessesByName("dllhost");
+						if (dllHostProcess.Length != 0) await Execute("taskkill", "/F /IM dllhost.exe", null);
+						Process[] wtProcess2 = Process.GetProcessesByName("WindowsTerminal");
+						if (wtProcess2.Length != 0) await Execute("taskkill", "/F /IM WindowsTerminal.exe", null);
 
 						// Installing...
 						Console.WriteLine($"{Installation.ProcessInt++}/11 - Installing Microsoft Visual C++ 2015 UWP Desktop Package...");
 
 						if (!File.Exists(Installation.VcLibsSetup))
-							Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Installation.VcLibsSetup}"), false, false);
+							Log.ErrorAndExit(new Exception($"I can't find a required file. Please unpack downloaded zip archive.\nNot found: {Installation.VcLibsSetup}"), false, false);
 
 						Log.Output("Installing missing dependency VCLibs...");
 						await Execute("powershell", $"Add-AppxPackage -Path {Installation.VcLibsSetup}", null);
 
-						// Done!
-						Log.Output("Installed Microsoft Visual C++ 2015 UWP Desktop Package.");
-
-						Console.WriteLine("      » Successfully! Please reboot your PC and open the installer again!\n");
-
-						Console.ForegroundColor = ConsoleColor.Green;
-						Console.Write("» Restart your computer now? This is required. [Yes/no]: ");
-						Console.ResetColor();
-
+						// Throw info
+						WebHook.InstalledVcLibs();
 						try
 						{
-							ToastContentBuilder builder = new ToastContentBuilder().AddText("First part was finished 🎉").AddText("VCLibs has been successfully installed, but now we need to restart your computer.");
-							builder.Show();
+							new ToastContentBuilder().AddText("First part was finished 🎉").AddText("VCLibs has been successfully installed, but now we need to restart your computer.").Show();
 						}
 						catch (Exception ex)
 						{
 							Log.ErrorAuditLog(ex, true);
 						}
 
-						WebHook.InstalledVcLibs();
+						// Completed!
+						Log.Output("Installed Microsoft Visual C++ 2015 UWP Desktop Package.");
+						Console.WriteLine("      » Successfully! Please reboot your PC and open the installer again!\n");
+
+						// Reboot PC
+						Console.ForegroundColor = ConsoleColor.Green;
+						Console.Write("» Restart your computer now? This is required. [Yes/no]: ");
+						Console.ResetColor();
 
 						string rebootPc = Console.ReadLine();
 						if (Regex.Match(rebootPc ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)

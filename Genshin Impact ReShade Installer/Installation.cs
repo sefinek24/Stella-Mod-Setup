@@ -57,8 +57,7 @@ namespace Genshin_Impact_Mod_Setup
 			if (RegionInfo.CurrentRegion.Name == "RU")
 				try
 				{
-					SoundPlayer player = new SoundPlayer { SoundLocation = @"Data\sound.wav" };
-					player.Play();
+					new SoundPlayer { SoundLocation = @"Data\sound.wav" }.Play();
 				}
 				catch (Exception ex)
 				{
@@ -212,7 +211,7 @@ namespace Genshin_Impact_Mod_Setup
 			Console.WriteLine($"{ProcessInt++}/11 - Installing latest Windows Terminal...");
 
 			if (!File.Exists(WtWin10Setup) || !File.Exists(WtWin11Setup))
-				Log.ErrorAndExit(new Exception($"I can't find a required file.\n\n{WtWin10Setup} or {WtWin11Setup}"), false, false);
+				Log.ErrorAndExit(new Exception($"I can't find a required file.\n\n{WtWin10Setup} or {WtWin11Setup}\n\nPlease unpack all files from zip archive and try again."), false, false);
 
 			Process[] dllHostName = Process.GetProcessesByName("dllhost");
 			if (dllHostName.Length != 0) await Cmd.Execute("taskkill", "/F /IM dllhost.exe", null);
