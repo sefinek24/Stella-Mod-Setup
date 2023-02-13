@@ -177,7 +177,7 @@ namespace Genshin_Impact_Mod_Setup
 				}
 				else
 				{
-					MessageBox.Show($"Whoops... Sorry, something went wrong.\n\nStatus code: {res.Status}", Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show($"Whoops... Sorry, something went wrong. Cats are currently not available.\n\nStatus code: {res.Status}", Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					Log.ErrorAndExit(new Exception($"Random cat image: error occurred.\n» Status code: {res.Status}"), false, true);
 				}
 			}
