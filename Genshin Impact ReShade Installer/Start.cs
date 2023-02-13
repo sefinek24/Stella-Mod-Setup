@@ -56,12 +56,12 @@ namespace Genshin_Impact_Mod_Setup
 			Console.ResetColor();
 			Console.WriteLine();
 
-			Console.WriteLine("Unzip downloaded ZIP archive before installation. Good luck!\n");
+			Console.WriteLine("» Unzip downloaded ZIP archive before installation. Good luck!\n");
 
 
 			// 1
 			Console.ForegroundColor = ConsoleColor.Blue;
-			Console.Write("Searching for new updates... ");
+			Console.Write("• Searching for new updates... ");
 			Console.ResetColor();
 
 			try
@@ -151,7 +151,7 @@ namespace Genshin_Impact_Mod_Setup
 
 			// 2
 			Console.ForegroundColor = ConsoleColor.Blue;
-			Console.Write("Checking your region... ");
+			Console.Write("• Checking your region... ");
 			Console.ResetColor();
 
 			switch (RegionInfo.CurrentRegion.Name)
@@ -170,7 +170,7 @@ namespace Genshin_Impact_Mod_Setup
 					break;
 				case "PL":
 					Console.ForegroundColor = ConsoleColor.Green;
-					Console.WriteLine("OK - O kurwa polak lub jakiś ukrainiec mieszkający w polsce nwn, siema to ja informejtik");
+					Console.WriteLine("OK - O kurwa polak lub ukrainiec mieszkający w polsce nwn, siema to ja informejtik");
 					break;
 				default:
 					Console.ForegroundColor = ConsoleColor.Green;
@@ -181,7 +181,7 @@ namespace Genshin_Impact_Mod_Setup
 
 			// 3
 			Console.ForegroundColor = ConsoleColor.Blue;
-			Console.Write("Checking requirements... ");
+			Console.Write("• Checking requirements... ");
 			Console.ResetColor();
 
 			if (Environment.OSVersion.Version.Build <= 19041)
@@ -223,7 +223,7 @@ namespace Genshin_Impact_Mod_Setup
 
 			// 4
 			Console.ForegroundColor = ConsoleColor.Blue;
-			Console.Write("Starting... ");
+			Console.Write("• Starting... ");
 			Console.ResetColor();
 
 			if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location)).Count() > 1)
