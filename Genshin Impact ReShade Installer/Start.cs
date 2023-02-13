@@ -189,7 +189,7 @@ namespace Genshin_Impact_Mod_Setup
 
 				Log.ErrorAndExit(
 					new Exception(
-						"Sorry, your operating system version is deprecated and not supported.\nGo to Windows Update and check for updates.\n\nSupported OS list: https://github.com/sefinek24/Genshin-Impact-ReShade#--supported-operating-systems\n\nIf you need help, contact to the developers. We can help you!"),
+						$"Sorry, your operating system version is deprecated and not supported.\nGo to Windows Update and check for updates. If you need help, contact to the developers. We can help you!\n\nSupported OS list: https://github.com/sefinek24/Genshin-Impact-ReShade#--supported-operating-systems\n\n» Your version: {Environment.OSVersion.Version.Build}\n» Version higher than: 19041"),
 					false, false);
 			}
 
@@ -208,7 +208,7 @@ namespace Genshin_Impact_Mod_Setup
 
 				Console.ForegroundColor = ConsoleColor.Magenta;
 				Console.WriteLine(
-					$"Your operating system version is old and this mod was not tested on it. Errors may occur during installation.\n\nGo to Windows Update and check for updates.\nYou can still manually install this mod. Contact to the developer how to do this.\n\n» Your version: {Os.Version}\n» Optional: 22H2\n");
+					$"Your operating system version is old and this mod was not tested on it. Errors may occur during installation.\n\nGo to Windows Update and check for updates.\nYou can still manually install this mod. Contact to the developer how to do this.\n\n» Your version: {Os.Version}\n» Recommended: 22H2\n");
 				Log.ErrorAuditLog(new Exception("Old operating system version."), false);
 				Console.ResetColor();
 			}
@@ -230,6 +230,9 @@ namespace Genshin_Impact_Mod_Setup
 				Environment.Exit(0);
 			}
 
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.WriteLine("OK\n");
 
@@ -239,9 +242,6 @@ namespace Genshin_Impact_Mod_Setup
 			{
 				try
 				{
-					Application.EnableVisualStyles();
-					Application.SetCompatibleTextRenderingDefault(false);
-
 					await Program.Main();
 				}
 				catch (Exception ex)
