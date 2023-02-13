@@ -30,9 +30,7 @@ namespace Genshin_Impact_Mod_Setup
 
 			try
 			{
-				ToastContentBuilder builder = new ToastContentBuilder().AddText("Installation completed 😻").AddText("Go back to the installation window! Thanks.");
-				// .AddAppLogoOverride(new Uri("https://cdn.sefinek.net/images/gi-reshade-mp/paimon.png"));
-				builder.Show();
+				new ToastContentBuilder().AddText("Installation completed 😻").AddText("Go back to the installation window! Thanks.").Show();
 			}
 			catch (Exception ex)
 			{
