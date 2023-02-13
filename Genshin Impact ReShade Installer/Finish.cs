@@ -21,13 +21,6 @@ namespace Genshin_Impact_Mod_Setup
 	{
 		public static async Task End()
 		{
-			WebHook.Installed();
-
-			TaskbarManager.Instance.SetProgressValue(100, 100);
-
-			Log.Output("Installation completed!");
-			Console.WriteLine($"\n{Program.Line}\n");
-
 			try
 			{
 				new ToastContentBuilder().AddText("Installation completed 😻").AddText("Go back to the installation window! Thanks.").Show();
@@ -36,6 +29,13 @@ namespace Genshin_Impact_Mod_Setup
 			{
 				Log.ErrorAuditLog(ex, true);
 			}
+
+			WebHook.Installed();
+			TaskbarManager.Instance.SetProgressValue(100, 100);
+
+			Log.Output("Installation completed!");
+			Console.WriteLine($"\n{Program.Line}\n");
+
 
 			// Done.
 			Console.ForegroundColor = ConsoleColor.Blue;
