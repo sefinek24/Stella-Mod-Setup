@@ -167,7 +167,7 @@ namespace Genshin_Impact_Mod_Setup
 
 				WebClient client = new WebClient();
 				client.Headers.Add("user-agent", Program.UserAgent);
-				string json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v1/animals/cat");
+				string json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v2/animals/cat");
 				SefinekApi res = JsonConvert.DeserializeObject<SefinekApi>(json);
 
 				if (res.Success)
@@ -183,7 +183,8 @@ namespace Genshin_Impact_Mod_Setup
 			}
 			else
 			{
-				if (RegionInfo.CurrentRegion.Name == "PL") Process.Start(@"Data\informejtik.mp4");
+				const string informejtik = @"Data\informejtik.mp4";
+				if (RegionInfo.CurrentRegion.Name == "PL" && File.Exists(informejtik)) Process.Start(informejtik);
 			}
 
 

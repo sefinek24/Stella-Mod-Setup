@@ -68,7 +68,7 @@ namespace Genshin_Impact_Mod_Setup
 			{
 				WebClient client = new WebClient();
 				client.Headers.Add("user-agent", Program.UserAgent);
-				string json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v1/genshin-impact-reshade/installer/version");
+				string json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v2/genshin-impact-reshade/installer/version");
 				InstallerVersion res = JsonConvert.DeserializeObject<InstallerVersion>(json);
 
 				if (res.Version != Program.AppVersion)
