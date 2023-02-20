@@ -56,6 +56,7 @@ namespace Genshin_Impact_Mod_Setup
 			Console.ResetColor();
 			Console.WriteLine();
 
+			Console.ForegroundColor = ConsoleColor.White;
 			Console.WriteLine("» Unzip downloaded ZIP archive before installation. Good luck!\n");
 
 
