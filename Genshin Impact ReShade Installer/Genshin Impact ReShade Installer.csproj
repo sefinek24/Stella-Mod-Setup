@@ -193,7 +193,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>ROBOCOPY "$(TargetDir) " "$(TargetDir)Data\Lib" /XF *.txt *.rar *.zip *.exe *.config *.manifest *.json /XD Data Dependencies /E /IS /MOVE
+    <PostBuildEvent>ROBOCOPY "$(TargetDir) " "$(TargetDir)Data\Libs" /XF *.txt *.rar *.zip *.exe *.config *.manifest *.json /XD Data Dependencies /E /IS /MOVE
 if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel%25</PostBuildEvent>
   </PropertyGroup>
 </Project>

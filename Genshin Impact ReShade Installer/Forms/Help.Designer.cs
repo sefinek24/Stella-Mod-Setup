@@ -56,10 +56,10 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(12, 64);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(405, 96);
+            this.label2.Size = new System.Drawing.Size(408, 96);
             this.label2.TabIndex = 4;
             this.label2.Text = "1. Open Genshin Impact launcher.\r\n2. Go to settings.\r\n3. Choose Game resources.\r\n" +
-    "4. Installation location. Here is your game path.";
+    "4. Installation Location. Here is your game path.";
             // 
             // pictureBox1
             // 
