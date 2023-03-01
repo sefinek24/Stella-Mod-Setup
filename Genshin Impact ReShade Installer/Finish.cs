@@ -176,7 +176,7 @@ namespace Genshin_Impact_Mod_Setup
 
                 var client = new WebClient();
                 client.Headers.Add("user-agent", Program.UserAgent);
-                var json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v2/animals/cat");
+                var json = await client.DownloadStringTaskAsync("https://api.sefinek.net/api/v2/random/animal/cat");
                 var res = JsonConvert.DeserializeObject<SefinekApi>(json);
 
                 if (res.Success)
