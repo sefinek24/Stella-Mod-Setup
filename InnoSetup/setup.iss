@@ -1,7 +1,7 @@
-#define MyAppName "Genshin Impact Mod"
-#define MyAppVersion "5.0.0.0"
+#define MyAppName "Genshin Stella Mod"
+#define MyAppVersion "6.0.0.0"
 #define MyAppPublisher "Sefinek Inc."
-#define MyAppURL "https://sefinek.net/genshin-impact-reshade"
+#define MyAppURL "https://genshin.sefinek.net"
 #define MyAppExeName "Genshin Impact Mod Launcher.exe"
 #define MyAppId "5D6E44F3-2141-4EA4-89E3-6C3018583FF7"
 
@@ -26,7 +26,7 @@ DisableProgramGroupPage=yes
 InfoBeforeFile=C:\Genshin-Impact-ReShade\data\README.txt
 LicenseFile=C:\Genshin-Impact-ReShade\LICENSE
 PrivilegesRequired=none
-OutputBaseFilename=Genshin Impact Mod Setup
+OutputBaseFilename=Genshin Stella Mod Setup
 Compression=lzma
 SolidCompression=yes
 WizardStyle=classic
