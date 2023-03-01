@@ -25,8 +25,11 @@ namespace Genshin_Impact_Mod_Setup
 
         // Other
         public const string Folder = @"C:\Genshin-Impact-ReShade";
-        public static readonly string ProgramFiles64 = Environment.GetEnvironmentVariable("ProgramW6432");
-        public static readonly string WindowsApps = ProgramFiles64 + @"\WindowsApps";
+
+        public static readonly string
+            ProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+
+        public static readonly string WindowsApps = ProgramFiles + @"\WindowsApps";
         public static readonly string Packages = Environment.GetEnvironmentVariable("LocalAppData") + @"\Packages";
 
         // Variables
@@ -75,11 +78,11 @@ namespace Genshin_Impact_Mod_Setup
                 await sw.WriteLineAsync(
                     $"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀\n⠀  ⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿\n⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                          Genshin Impact Mod Pack 2023 by Sefinek\n   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                   Installation started!\n⠀   ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿\n    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟\n ⠀   ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀\n ⠀   ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀\n  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆     » Estimated time: ~1 minute\n    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆    » Start time: {date}\n   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇\n  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟\n   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟\n=========================================================================================\n" +
                     //
-                    $"• Installation folder: {Folder}\n• Program files x64: {ProgramFiles64}\n• Windows apps: {WindowsApps}\n• Packages: {Packages}\n\n" +
+                    $"• Installation folder: {Folder}\n• Program files x64: {ProgramFiles}\n• Windows apps: {WindowsApps}\n• Packages: {Packages}\n\n" +
                     //
                     $"• Main setup file: {MainSetup}\n• VCLibs setup: {VcLibsSetup}\n• Windows Terminal [Win 10] setup: {WtWin10Setup}\n• Windows Terminal [Win 11] setup: {WtWin11Setup}\n\n" +
                     //
-                    $"• Game path: {Program.GamePath}\n• Game folder: {Program.GameDir}\n• ReShade config: {Program.ReShadeConfig}\n• ReShade log file: {Program.ReShadeLogFile}\n\n" +
+                    $"• Game path: {Program.GameDirGlobal}\n• Game folder: {Program.GameDirGlobal}\n• ReShade config: {Program.ReShadeConfig}\n• ReShade log file: {Program.ReShadeLogFile}\n\n" +
                     //
                     $"• Attempt number: {Program.AttemptNumber}\n• VcLibs attempt: {VcLibsAttemptNumber}\n• Shortcut: {Program.ShortcutQuestion}\n• Menu shortcuts: {Program.MShortcutQuestion}\n" +
                     "=========================================================================================\n\n");
@@ -282,7 +285,7 @@ namespace Genshin_Impact_Mod_Setup
 
                 var fpsUnlockerCfg = File.ReadAllText(fpsUnlockCfgPath);
                 File.WriteAllText(fpsUnlockCfgPath,
-                    fpsUnlockerCfg.Replace("{GamePath}", Program.GamePath.Replace(@"\", @"\\")));
+                    fpsUnlockerCfg.Replace("{GamePath}", Program.GameExeGlobal.Replace(@"\", @"\\")));
             }
             catch (Exception e)
             {
@@ -295,7 +298,7 @@ namespace Genshin_Impact_Mod_Setup
             // ----------------------- 10 -----------------------
             Console.Write($"{ProcessInt++}/11 - Downloading files from cdn.sefinek.net and configuring ReShade... ");
 
-            if (Directory.Exists(Program.GameDir))
+            if (Directory.Exists(Program.GameDirGlobal))
             {
                 if (File.Exists(Program.ReShadeConfig))
                 {

@@ -21,6 +21,19 @@ namespace Genshin_Impact_Mod_Setup.Forms
             }
         }
 
+        private void SelectPath_Load(object sender, EventArgs e)
+        {
+            if (File.Exists($@"{Program.AppData}\game-path.sfn"))
+            {
+                var path = File.ReadAllText($@"{Program.AppData}\game-path.sfn").Trim();
+                label4.Text += path;
+            }
+            else
+            {
+                label4.Text += $"{Program.GameGenshinImpact} and\n{Program.GameYuanShen}";
+            }
+        }
+
         private void Browse_Click(object sender, EventArgs e)
         {
             var filePath = string.Empty;
@@ -29,7 +42,7 @@ namespace Genshin_Impact_Mod_Setup.Forms
             {
                 using (var dialog = new OpenFileDialog())
                 {
-                    dialog.InitialDirectory = Installation.ProgramFiles64;
+                    dialog.InitialDirectory = Installation.ProgramFiles;
                     dialog.Filter = "Process (*.exe)|*.exe";
                     dialog.FilterIndex = 0;
                     dialog.RestoreDirectory = true;
@@ -46,14 +59,14 @@ namespace Genshin_Impact_Mod_Setup.Forms
                     }
 
                     var directory = Path.GetDirectoryName(selectedFile);
-                    if (!File.Exists($@"{directory}\UnityPlayer.dll"))
+                    if (!File.Exists(Path.Combine(directory, "UnityPlayer.dll")))
                     {
                         MessageBox.Show("That's not the right place.", Program.AppName, MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
                         return;
                     }
 
-                    filePath = dialog.FileName;
+                    filePath = selectedFile;
                 }
             });
 
@@ -86,7 +99,12 @@ namespace Genshin_Impact_Mod_Setup.Forms
                 return;
             }
 
-            File.WriteAllText($@"{Program.AppData}\game-path.sfn", selectedFile);
+            Program.GameExeGlobal = selectedFile;
+            Program.GameDirGlobal = Path.GetDirectoryName(Path.GetDirectoryName(selectedFile));
+            File.WriteAllText($@"{Program.AppData}\game-path.sfn", Program.GameDirGlobal);
+
+            Console.WriteLine(Program.GameDirGlobal);
+
             Close();
         }
 

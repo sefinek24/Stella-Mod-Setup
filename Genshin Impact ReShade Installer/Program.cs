@@ -19,7 +19,7 @@ namespace Genshin_Impact_Mod_Setup
         public static readonly string AppData =
             $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\Genshin Impact MP by Sefinek";
 
-        public const string AppWebsite = "https://sefinek.net/genshin-impact-reshade";
+        public const string AppWebsite = "https://genshin.sefinek.net";
         public const string DiscordUrl = "https://discord.gg/SVcbaRc7gH";
 
         // Other
@@ -27,15 +27,20 @@ namespace Genshin_Impact_Mod_Setup
             "===============================================================================================";
 
         public static readonly string UserAgent =
-            $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +https://genshin.sefinek.net)";
+            $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})";
 
         // Questions
         public static string ShortcutQuestion;
         public static string MShortcutQuestion;
 
         // Other
-        public static string GamePath;
-        public static string GameDir;
+        public static string GameGenshinImpact =
+            $@"{Installation.ProgramFiles}\Genshin Impact\Genshin Impact game\GenshinImpact.exe";
+
+        public static string GameYuanShen =
+            $@"{Installation.ProgramFiles}\Genshin Impact\Genshin Impact game\YuanShen.exe";
+
+        public static string GameDirGlobal;
         public static string ReShadeConfig;
         public static string ReShadeLogFile;
 
@@ -99,7 +104,7 @@ namespace Genshin_Impact_Mod_Setup
             if (File.Exists(Installation.InstalledViaSetup))
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("» Delete old program data [Yes/no]: ");
+                Console.Write("» Delete old program data? [Yes/no]: ");
                 Console.ResetColor();
 
                 var deleteData = Console.ReadLine() ?? string.Empty;
@@ -117,44 +122,42 @@ namespace Genshin_Impact_Mod_Setup
             ShortcutQuestion = Console.ReadLine();
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("» Create new shortcuts in start menu? [Yes/no]: ");
+            Console.Write("» Create new shortcuts in the Start menu? [Yes/no]: ");
             Console.ResetColor();
             MShortcutQuestion = Console.ReadLine();
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("» Enter game path: ");
+            Console.Write("» Enter the path to the game here: ");
             Console.ResetColor();
 
-            if (!File.Exists($@"{AppData}\game-path.sfn"))
-                File.WriteAllText($@"{AppData}\game-path.sfn",
-                    @"C:\Program Files\Genshin Impact\Genshin Impact game\GenshinImpact.exe");
 
-            GamePath = File.ReadAllText($@"{AppData}\game-path.sfn").Trim();
-            GameDir = Path.GetDirectoryName(GamePath);
-
-            ReShadeConfig = $@"{GameDir}\ReShade.ini";
-            ReShadeLogFile = $@"{GameDir}\ReShade.log";
-
-            if (!Directory.Exists(GameDir) || !File.Exists(GamePath))
+            if (File.Exists($@"{AppData}\game-path.sfn"))
             {
-                Application.Run(new SelectPath { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") });
-
-                GamePath = File.ReadAllText($@"{AppData}\game-path.sfn");
-                GameDir = Path.GetDirectoryName(GamePath);
-
-                ReShadeConfig = $@"{GameDir}\ReShade.ini";
-                ReShadeLogFile = $@"{GameDir}\ReShade.log";
-            }
-
-            if (Directory.Exists(GameDir) && File.Exists(GamePath))
-            {
-                File.WriteAllText($@"{AppData}\game-path.sfn", GameDir);
-                Console.WriteLine(GameDir);
+                var fileWithGamePath = File.ReadAllText($@"{AppData}\game-path.sfn").Trim();
+                if (Directory.Exists(fileWithGamePath)) GameDirGlobal = fileWithGamePath;
             }
             else
             {
-                Console.WriteLine("Unknown");
+                if (File.Exists(GameGenshinImpact))
+                    GameDirGlobal = Path.GetDirectoryName(Path.GetDirectoryName(GameGenshinImpact));
+
+                if (File.Exists(GameYuanShen))
+                    GameDirGlobal = Path.GetDirectoryName(Path.GetDirectoryName(GameYuanShen));
             }
+
+            if (Directory.Exists(GameDirGlobal))
+            {
+                File.WriteAllText($@"{AppData}\game-path.sfn", GameDirGlobal);
+                Console.WriteLine(GameDirGlobal);
+            }
+            else
+            {
+                Application.Run(new SelectPath { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") });
+            }
+
+
+            ReShadeConfig = $@"{GameDirGlobal}\Genshin Impact game\ReShade.ini";
+            ReShadeLogFile = $@"{GameDirGlobal}\Genshin Impact game\ReShade.log";
 
 
             // Are you ready?

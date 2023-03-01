@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Genshin Impact Mod Pack Installer")]
-[assembly: AssemblyDescription("Setup for Genshin Impact Mod Pack made by Sefinek.")]
+[assembly: AssemblyTitle("Genshin Impact Stella Mod Installer")]
+[assembly: AssemblyDescription("Setup for Genshin Impact Stella Mod made by Sefinek.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Sefinek Inc.")]
-[assembly: AssemblyProduct("Setup for Genshin Impact ReShade and FPS Unlocker mod pack.")]
+[assembly: AssemblyProduct("Setup for Genshin Impact Stella Mod with ReShade, FPS Unlocker and more!")]
 [assembly: AssemblyCopyright("Copyright 2023 © by Sefinek. All Rights Reserved.")]
 [assembly: AssemblyTrademark("© Sefinek Inc.")]
 [assembly: AssemblyCulture("")]

@@ -78,9 +78,8 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 
             try
             {
-                var builder = new ToastContentBuilder().AddText("Oh no! Error occurred 😿")
-                    .AddText("Go back to the installer.");
-                builder.Show();
+                new ToastContentBuilder().AddText("Oh no! Error occurred 😿").AddText("Go back to the installer.")
+                    .Show();
             }
             catch (Exception e)
             {
@@ -105,9 +104,8 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 
                 try
                 {
-                    var builder = new ToastContentBuilder().AddText("Failed to install 😿")
-                        .AddText("🎶 Sad song... Something went wrong...");
-                    builder.Show();
+                    new ToastContentBuilder().AddText("Failed to install 😿")
+                        .AddText("🎶 Sad song... Something went wrong...").Show();
                 }
                 catch (Exception e)
                 {

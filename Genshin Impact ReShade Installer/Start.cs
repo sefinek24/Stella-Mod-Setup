@@ -39,8 +39,8 @@ namespace Genshin_Impact_Mod_Setup
             Console.OutputEncoding = Encoding.UTF8;
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("                           Genshin Impact Mod Pack 2023 - Early access");
-            Console.WriteLine($"                                       Version: v{Program.AppVersion}\n");
+            Console.WriteLine("                           Genshin Impact Stella Mod 2023 - Early access");
+            Console.WriteLine($"                                        Version: v{Program.AppVersion}\n");
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("» Author  : Sefinek#0001 [Country: Poland]");
             Console.WriteLine("» Website : " + Program.AppWebsite);
@@ -55,9 +55,6 @@ namespace Genshin_Impact_Mod_Setup
             Console.WriteLine("                         x If you need help, join to my Discord server! x");
             Console.ResetColor();
             Console.WriteLine();
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("» Unzip downloaded ZIP archive before installation. Good luck!\n");
 
 
             // 1
@@ -126,11 +123,11 @@ namespace Genshin_Impact_Mod_Setup
                             true);
                     else if ((int)response.StatusCode >= 500)
                         Log.ErrorString(
-                            $"Oh, sorry. We can't search for new updates. Report this issue on our Discord server.\n\n• Error: {ex.Message}\n",
+                            $"Um, sorry. We can't search for new updates because our server is unavailable. Report this issue on our Discord server.\n\n• Error: {ex.Message}\n",
                             true);
                     else if ((int)response.StatusCode == 403)
                         Log.ErrorString(
-                            $"Oh, sorry. We can't search for new updates. Probably your IP address is banned.\nAccess to the requested resource is forbidden. The server understood the request, but will not fulfill it.\n\n• Error:\n{ex.Message}\n",
+                            $"Um, sorry. We can't search for new updates. Probably your IP address is banned.\nAccess to the requested resource is forbidden. The server understood the request, but will not fulfill it.\n\n• Error:\n{ex.Message}\n",
                             true);
                     else
                         Log.ErrorString(
@@ -140,7 +137,7 @@ namespace Genshin_Impact_Mod_Setup
                 else
                 {
                     Log.ErrorString(
-                        $"Sorry. We can't search for new updates. Unknown error code. Please check your Internet connection.\n\n• Error:\n{ex.Message}\n",
+                        $"Sorry. We can't search for new updates. Unknown error code. Please check your Internet connection or antivirus program.\n\n• Error:\n{ex.Message}\n",
                         true);
                 }
 
@@ -244,7 +241,8 @@ namespace Genshin_Impact_Mod_Setup
             if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location))
                     .Count() > 1)
             {
-                MessageBox.Show("One instance is currently open.", Program.AppName, MessageBoxButtons.OK,
+                MessageBox.Show("One instance of installation is currently open.", Program.AppName,
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
                 Environment.Exit(0);
             }
@@ -255,6 +253,22 @@ namespace Genshin_Impact_Mod_Setup
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("OK\n");
 
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(
+                "» Congratulations!\n" + "It looks like your computer meets the hardware requirements.\n" +
+                "Now, please answer the following questions by typing Yes or No.\n\n" +
+                "» Important\n" +
+                "Please unzip downloaded ZIP archive before installation. Good luck!\n"
+            );
+
+
+            if (Directory.Exists(Installation.Folder))
+                Console.WriteLine(
+                    "» Detected an installed instance\n" +
+                    "You currently have an installed copy of the mod on your computer.\n" +
+                    "If you want to perform a clean, fresh installation, delete the Genshin-Impact-ReShade folder from your C: drive.\n" +
+                    "Remember to save your custom presets if you had any!\n"
+                );
 
             var start = AppReady();
             if (start)
