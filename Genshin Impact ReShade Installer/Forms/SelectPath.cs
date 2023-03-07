@@ -3,9 +3,9 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Genshin_Stella_Mod_Setup.Scripts;
+using Genshin_Stella_Setup.Scripts;
 
-namespace Genshin_Stella_Mod_Setup.Forms
+namespace Genshin_Stella_Setup.Forms
 {
     public partial class SelectPath : Form
     {
@@ -30,7 +30,7 @@ namespace Genshin_Stella_Mod_Setup.Forms
             }
             else
             {
-                label4.Text += $"{Program.GameGenshinImpact} and\n{Program.GameYuanShen}";
+                label4.Text += $"{Actions.GameGenshinImpact} and\n{Actions.GameYuanShen}";
             }
         }
 
@@ -99,11 +99,11 @@ namespace Genshin_Stella_Mod_Setup.Forms
                 return;
             }
 
-            Program.GameExeGlobal = selectedFile;
-            Program.GameDirGlobal = Path.GetDirectoryName(Path.GetDirectoryName(selectedFile));
-            File.WriteAllText($@"{Program.AppData}\game-path.sfn", Program.GameDirGlobal);
+            Actions.GameExeGlobal = selectedFile;
+            Actions.GameDirGlobal = Path.GetDirectoryName(Path.GetDirectoryName(selectedFile));
+            File.WriteAllText($@"{Program.AppData}\game-path.sfn", Actions.GameDirGlobal);
 
-            Console.WriteLine(Program.GameDirGlobal);
+            Console.WriteLine(Actions.GameDirGlobal);
 
             Close();
         }

@@ -5,11 +5,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
-using Genshin_Impact_Mod_Setup;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
-namespace Genshin_Stella_Mod_Setup.Scripts
+namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class Cmd
     {

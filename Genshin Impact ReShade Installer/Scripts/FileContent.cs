@@ -1,4 +1,4 @@
-namespace Genshin_Stella_Mod_Setup.Scripts
+namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class FileContent
     {

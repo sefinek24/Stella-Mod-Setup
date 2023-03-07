@@ -1,4 +1,4 @@
-﻿namespace Genshin_Stella_Mod_Setup.Forms
+﻿namespace Genshin_Stella_Setup.Forms
 {
     partial class Help
     {
@@ -65,7 +65,7 @@
             //
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::Genshin_Stella_Mod_Setup.Properties.Resources.launcher_gif;
+            this.pictureBox1.Image = global::Genshin_Stella_Setup.Properties.Resources.launcher_gif;
             this.pictureBox1.Location = new System.Drawing.Point(170, 203);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(670, 358);
@@ -78,7 +78,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::Genshin_Stella_Mod_Setup.Properties.Resources.help_bg;
+            this.BackgroundImage = global::Genshin_Stella_Setup.Properties.Resources.help_bg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1011, 573);
             this.Controls.Add(this.pictureBox1);

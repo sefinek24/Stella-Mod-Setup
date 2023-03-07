@@ -9,14 +9,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Genshin_Impact_Mod_Setup.Models;
-using Genshin_Stella_Mod_Setup;
-using Genshin_Stella_Mod_Setup.Forms;
-using Genshin_Stella_Mod_Setup.Scripts;
+using Genshin_Stella_Setup.Forms;
+using Genshin_Stella_Setup.Scripts;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Newtonsoft.Json;
 
-namespace Genshin_Impact_Mod_Setup
+namespace Genshin_Stella_Setup
 {
     internal abstract class Finish
     {
@@ -36,7 +35,7 @@ namespace Genshin_Impact_Mod_Setup
             TaskbarManager.Instance.SetProgressValue(100, 100);
 
             Log.Output("Installation completed!");
-            Console.WriteLine($"\n{Program.Line}\n");
+            Console.WriteLine($"\n{Actions.Line}\n");
 
 
             // Done.
@@ -129,7 +128,7 @@ namespace Genshin_Impact_Mod_Setup
             if (RegionInfo.CurrentRegion.Name == "RU")
             {
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-                Start.NativeMethods.BlockInput(true);
+                Program.NativeMethods.BlockInput(true);
 
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nSorry, I really hate Russians. NOT BY WAR!");

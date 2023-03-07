@@ -1,4 +1,4 @@
-﻿namespace Genshin_Stella_Mod_Setup.Forms
+﻿namespace Genshin_Stella_Setup.Forms
 {
     partial class SelectPath
     {
@@ -122,7 +122,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::Genshin_Stella_Mod_Setup.Properties.Resources.selectPath_bg;
+            this.BackgroundImage = global::Genshin_Stella_Setup.Properties.Resources.selectPath_bg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(698, 381);
             this.Controls.Add(this.label4);

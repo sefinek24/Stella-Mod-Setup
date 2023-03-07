@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Genshin_Impact_Mod_Setup.Models;
 using Newtonsoft.Json;
 
-namespace Genshin_Stella_Mod_Setup.Scripts
+namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class Access
     {

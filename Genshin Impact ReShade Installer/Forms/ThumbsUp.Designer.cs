@@ -1,4 +1,4 @@
-﻿namespace Genshin_Stella_Mod_Setup.Forms
+﻿namespace Genshin_Stella_Setup.Forms
 {
     partial class ThumbsUp
     {

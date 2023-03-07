@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{19B50EE8-F9E3-452A-AD88-989967196A6F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Genshin_Stella_Mod_Setup</RootNamespace>
+    <RootNamespace>Genshin_Stella_Setup</RootNamespace>
     <AssemblyName>Genshin Stella Mod Setup</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -39,7 +39,7 @@
     <ApplicationIcon>52x52_installer.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Genshin_Stella_Mod_Setup.Main</StartupObject>
+    <StartupObject>Genshin_Stella_Setup.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -80,7 +80,7 @@
       <DependentUpon>ThumbsUp.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Json.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Actions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -91,7 +91,7 @@
     <Compile Include="Scripts\Telemetry.cs" />
     <Compile Include="Scripts\Internet.cs" />
     <Compile Include="Scripts\ReShade.cs" />
-    <Compile Include="Start.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Scripts\WT.cs" />
     <Compile Include="Installation.cs" />
     <Compile Include="Scripts\Log.cs" />

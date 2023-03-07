@@ -4,7 +4,7 @@ using System.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
-namespace Genshin_Stella_Mod_Setup.Scripts
+namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class Log
     {
@@ -107,7 +107,7 @@ namespace Genshin_Stella_Mod_Setup.Scripts
                     Console.WriteLine(
                         $"Sorry, something went wrong. Critical error occurred.\nPlease report this issue if you can or try again.\n• Discord server: {Program.DiscordUrl} [My username: Sefinek#0001]\n• E-mail: contact@sefinek.net\n• Use the available chat on my website.");
                     Console.ResetColor();
-                    Console.WriteLine($"\n{Program.Line}\n");
+                    Console.WriteLine($"\n{Actions.Line}\n");
                 }
                 else
                 {

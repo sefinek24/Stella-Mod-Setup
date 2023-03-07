@@ -6,13 +6,12 @@ using System.Media;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Genshin_Impact_Mod_Setup;
-using Genshin_Stella_Mod_Setup.Scripts;
+using Genshin_Stella_Setup.Scripts;
 using IWshRuntimeLibrary;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using File = System.IO.File;
 
-namespace Genshin_Stella_Mod_Setup
+namespace Genshin_Stella_Setup
 {
     internal abstract class Installation
     {
@@ -59,7 +58,7 @@ namespace Genshin_Stella_Mod_Setup
                 "Installing, please wait. This may take a while. Do not use your computer during this process.");
             Console.ResetColor();
 
-            Console.WriteLine($"{Program.Line}\n");
+            Console.WriteLine($"{Actions.Line}\n");
 
 
             if (RegionInfo.CurrentRegion.Name == "RU")
@@ -85,9 +84,9 @@ namespace Genshin_Stella_Mod_Setup
                     //
                     $"• Main setup file: {MainSetup}\n• VCLibs setup: {VcLibsSetup}\n• Windows Terminal [Win 10] setup: {WtWin10Setup}\n• Windows Terminal [Win 11] setup: {WtWin11Setup}\n\n" +
                     //
-                    $"• Game path: {Program.GameDirGlobal}\n• Game folder: {Program.GameDirGlobal}\n• ReShade config: {Program.ReShadeConfig}\n• ReShade log file: {Program.ReShadeLogFile}\n\n" +
+                    $"• Game path: {Actions.GameDirGlobal}\n• Game folder: {Actions.GameDirGlobal}\n• ReShade config: {Actions.ReShadeConfig}\n• ReShade log file: {Actions.ReShadeLogFile}\n\n" +
                     //
-                    $"• Attempt number: {Program.AttemptNumber}\n• VcLibs attempt: {VcLibsAttemptNumber}\n• Shortcut: {Program.ShortcutQuestion}\n• Menu shortcuts: {Program.MShortcutQuestion}\n" +
+                    $"• Attempt number: {Actions.AttemptNumber}\n• VcLibs attempt: {VcLibsAttemptNumber}\n• Shortcut: {Actions.ShortcutQuestion}\n• Menu shortcuts: {Actions.MShortcutQuestion}\n" +
                     "=========================================================================================\n\n");
             }
 
@@ -292,7 +291,7 @@ namespace Genshin_Stella_Mod_Setup
 
                 var fpsUnlockerCfg = File.ReadAllText(fpsUnlockCfgPath);
                 File.WriteAllText(fpsUnlockCfgPath,
-                    fpsUnlockerCfg.Replace("{GamePath}", Program.GameExeGlobal.Replace(@"\", @"\\")));
+                    fpsUnlockerCfg.Replace("{GamePath}", Actions.GameExeGlobal.Replace(@"\", @"\\")));
             }
             catch (Exception e)
             {
@@ -305,21 +304,21 @@ namespace Genshin_Stella_Mod_Setup
             // ----------------------- 10 -----------------------
             Console.Write($"{ProcessInt++}/11 - Downloading files from cdn.sefinek.net and configuring ReShade... ");
 
-            if (Directory.Exists(Program.GameDirGlobal))
+            if (Directory.Exists(Actions.GameDirGlobal))
             {
-                if (File.Exists(Program.ReShadeConfig))
+                if (File.Exists(Actions.ReShadeConfig))
                 {
-                    File.Delete(Program.ReShadeConfig);
-                    Log.Output($"Removed old ReShade.ini file.\n» Path: {Program.ReShadeConfig}");
+                    File.Delete(Actions.ReShadeConfig);
+                    Log.Output($"Removed old ReShade.ini file.\n» Path: {Actions.ReShadeConfig}");
                 }
 
-                if (File.Exists(Program.ReShadeLogFile))
+                if (File.Exists(Actions.ReShadeLogFile))
                 {
-                    File.Delete(Program.ReShadeLogFile);
-                    Log.Output($"Removed old ReShade.log file.\n» Path: {Program.ReShadeLogFile}");
+                    File.Delete(Actions.ReShadeLogFile);
+                    Log.Output($"Removed old ReShade.log file.\n» Path: {Actions.ReShadeLogFile}");
                 }
 
-                await ReShade.DownloadFiles(Program.ReShadeConfig, Program.ReShadeLogFile);
+                await ReShade.DownloadFiles(Actions.ReShadeConfig, Actions.ReShadeLogFile);
             }
             else
             {
@@ -333,7 +332,7 @@ namespace Genshin_Stella_Mod_Setup
             // ----------------------- 11 -----------------------
             Console.WriteLine($"{ProcessInt++}/11 - Excellent! Finishing... ");
 
-            if (Regex.Match(Program.ShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
+            if (Regex.Match(Actions.ShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
                 .Success)
                 try
                 {
@@ -357,7 +356,7 @@ namespace Genshin_Stella_Mod_Setup
                 }
 
 
-            if (Regex.Match(Program.MShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
+            if (Regex.Match(Actions.MShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
                 .Success)
             {
                 var commonStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu);

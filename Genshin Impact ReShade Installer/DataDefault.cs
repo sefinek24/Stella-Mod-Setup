@@ -1,4 +1,4 @@
-namespace Genshin_Impact_Mod_Setup
+namespace Genshin_Stella_Setup
 {
     internal abstract class DataDefault
     {

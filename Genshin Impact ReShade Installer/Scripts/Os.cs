@@ -4,7 +4,7 @@ using System.Linq;
 using System.Management;
 using Microsoft.Win32;
 
-namespace Genshin_Stella_Mod_Setup.Scripts
+namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class Os
     {
