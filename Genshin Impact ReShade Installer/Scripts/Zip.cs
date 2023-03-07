@@ -4,7 +4,7 @@ using System.Linq;
 using Ionic.Zip;
 using Ionic.Zlib;
 
-namespace Genshin_Impact_Mod_Setup.Scripts
+namespace Genshin_Stella_Mod_Setup.Scripts
 {
     internal abstract class Zip
     {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -9,11 +10,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Genshin_Impact_Mod_Setup;
 using Genshin_Impact_Mod_Setup.Models;
-using Genshin_Impact_Mod_Setup.Scripts;
+using Genshin_Stella_Mod_Setup.Scripts;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Genshin_Impact_Mod_Setup
+namespace Genshin_Stella_Mod_Setup
 {
     internal abstract class Start
     {
@@ -33,6 +36,25 @@ namespace Genshin_Impact_Mod_Setup
 
             return true;
         }
+
+        public static string Rot47(string input)
+        {
+            var result = new StringBuilder();
+
+            foreach (var c in input)
+                if (c >= 33 && c <= 126)
+                {
+                    var rotated = (char)((c - 33 + 47) % 94 + 33);
+                    result.Append(rotated);
+                }
+                else
+                {
+                    result.Append(c);
+                }
+
+            return result.ToString();
+        }
+
 
         public static async Task Main()
         {
@@ -56,108 +78,61 @@ namespace Genshin_Impact_Mod_Setup
             Console.ResetColor();
             Console.WriteLine();
 
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("» Important\nPlease unzip downloaded ZIP archive before installation. Good luck!\n");
 
             // 1
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("• Searching for new updates... ");
+            Console.Write("• Authorizing... ");
             Console.ResetColor();
 
             try
             {
-                var client = new WebClient();
-                client.Headers.Add("user-agent", Program.UserAgent);
-                var json = await client.DownloadStringTaskAsync(
-                    "https://api.sefinek.net/api/v2/genshin-impact-reshade/installer/version");
-                var res = JsonConvert.DeserializeObject<InstallerVersion>(json);
-
-                if (res.Version != Program.AppVersion)
+                var obj = new NameValueCollection
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("Warning\n");
-                    Console.ResetColor();
+                    { "deviceId", Os.DeviceId },
+                    { "regionCode", RegionInfo.CurrentRegion.Name },
+                    { "regionName", Os.Region },
+                    { "osName", Os.Name },
+                    { "osBuild", Os.Build },
+                    { "setupVersion", Program.AppVersion },
+                    { "secretKey", Rot47(Data.SecretKey) }
+                };
 
-                    Console.WriteLine(
-                        $"This setup is outdated. Please download the latest version from official website.\n{Program.AppWebsite}\n\n• Your version: v{Program.AppVersion}\n" +
-                        $"• Latest version: v{res.Version} from {res.Date}\n");
+                var webClient = new WebClient();
+                webClient.Headers.Add("User-Agent", Program.UserAgent);
+                var responseBytes = await webClient.UploadValuesTaskAsync($"{Telemetry.ApiUrl}/access/authorize", obj);
+                var responseJson = Encoding.UTF8.GetString(responseBytes);
 
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("» Open official website now? [Yes/no]: ");
-                    Console.ResetColor();
-                    var websiteQuestion = Console.ReadLine()?.ToLower();
-                    switch (websiteQuestion)
+                if (responseJson != null)
+                {
+                    var token = JObject.Parse(responseJson)["token"]?.Value<string>();
+                    var status = JObject.Parse(responseJson)["status"]?.Value<int>();
+
+                    if (token != null)
                     {
-                        case "y":
-                        case "yes":
-                            Console.Write("Opening... ");
-                            Process.Start(Program.AppWebsite);
-                            Console.WriteLine("Done");
-                            break;
-                        case "n":
-                        case "no":
-                            Console.WriteLine("Canceled. You can close this window.");
-                            break;
-                        default:
-                            await Program.WrongAnswer("Start");
-                            break;
+                        Log.Output("Successfully authorized!");
+                        Telemetry.BearerToken = token;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("OK");
                     }
-
-                    Program.Close();
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("OK");
-                }
-            }
-            catch (WebException ex)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Failed [attempt {Program.AttemptNumber}/8]\n");
-                Console.ResetColor();
-
-                if (ex.Status == WebExceptionStatus.ProtocolError && ex.Response is HttpWebResponse response)
-                {
-                    if ((int)response.StatusCode == 503)
-                        Log.ErrorString(
-                            "» Error 503. We can't search for new updates because the web server is unavailable.\n» Sorry for any problems.\n\n• ENG:\nThe server cannot handle the request because it is overloaded or down for maintenance.\nGenerally, this is a temporary state.\n\n• POL:\nSerwer nie może obsłużyć żądania, ponieważ jest przeciążony lub wyłączony z powodu konserwacji.\nZ reguły jest to stan tymczasowy.\n",
-                            true);
-                    else if ((int)response.StatusCode >= 500)
-                        Log.ErrorString(
-                            $"Um, sorry. We can't search for new updates because our server is unavailable. Report this issue on our Discord server.\n\n• Error: {ex.Message}\n",
-                            true);
-                    else if ((int)response.StatusCode == 403)
-                        Log.ErrorString(
-                            $"Um, sorry. We can't search for new updates. Probably your IP address is banned.\nAccess to the requested resource is forbidden. The server understood the request, but will not fulfill it.\n\n• Error:\n{ex.Message}\n",
-                            true);
                     else
-                        Log.ErrorString(
-                            $"Oh, sorry. We can't search for new updates.\nPlease check your Internet connection or report this issue on our Discord server.\n\n• Error:\n{ex.Message}\n",
-                            true);
-                }
-                else
-                {
-                    Log.ErrorString(
-                        $"Sorry. We can't search for new updates. Unknown error code. Please check your Internet connection or antivirus program.\n\n• Error:\n{ex.Message}\n",
-                        true);
-                }
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("FAILED");
 
-                Program.AttemptNumber++;
-                if (Program.AttemptNumber >= 9)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("                    Too many attempts... Close this window and try again.\n");
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"» Full error log:\n{ex}");
-
-                    while (true) Console.ReadLine();
+                        Log.ErrorAndExit(new Exception($"HTTP error {status}"), false, false);
+                        Console.ReadLine();
+                    }
                 }
-
-                Console.Clear();
-                await Main();
+            }
+            catch (Exception ex)
+            {
+                Log.ErrorAndExit(new Exception($"{ex.Message}\n\nMore information: {ex}"), false, false);
             }
 
 
-            // 2
+            // 3
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Checking your region... ");
             Console.ResetColor();
@@ -165,6 +140,8 @@ namespace Genshin_Impact_Mod_Setup
             switch (RegionInfo.CurrentRegion.Name)
             {
                 case "RU":
+                    Log.Output("Russia xD");
+
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Russia XDD do you like clowns?");
                     // Console.ForegroundColor = ConsoleColor.Red;
@@ -190,7 +167,7 @@ namespace Genshin_Impact_Mod_Setup
 
             // 3
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("• Checking requirements... ");
+            Console.Write("• Checking PC requirements... ");
             Console.ResetColor();
 
             if (Environment.OSVersion.Version.Build <= 19041)
@@ -226,6 +203,97 @@ namespace Genshin_Impact_Mod_Setup
                 Log.ErrorAuditLog(new Exception("Old operating system version."), false);
                 Console.ResetColor();
             }
+
+
+            if (Directory.Exists(Installation.Folder))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Warning");
+
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "You currently have an installed copy of the mod on your computer.\n" +
+                    "If you want to perform a clean, fresh installation, delete the Genshin-Impact-ReShade folder from your C: drive.\n" +
+                    "Remember to save your custom presets if you had any!"
+                );
+
+                Log.Output("Found installed instance of Genshin Impact Stella mod.");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("OK");
+            }
+
+            // 2
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("• Sending a consent request... ");
+            Console.ResetColor();
+
+            var getAccess = await Access.Get();
+            if (getAccess.Data.Allow)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("OK");
+
+                Log.Output("Received consent to install.");
+            }
+            else
+            {
+                Log.ErrorAndExit(new Exception(
+                    string.IsNullOrEmpty(getAccess.Data.Reason)
+                        ? "Failed to receive consent to install. Unknown reason."
+                        : $"Failed to receive consent to install. - {getAccess.Data.Reason}"
+                ), false, false);
+            }
+
+            // 2
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("• Searching for new updates... ");
+            Console.ResetColor();
+
+
+            var client = new WebClient();
+            client.Headers.Add("user-agent", Program.UserAgent);
+            var json = await client.DownloadStringTaskAsync(
+                "https://api.sefinek.net/api/v2/genshin-impact-reshade/installer/version");
+            var res = JsonConvert.DeserializeObject<InstallerVersion>(json);
+
+            if (res.Version != Program.AppVersion)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Warning\n");
+                Console.ResetColor();
+
+                Console.WriteLine(
+                    $"This setup is outdated. Please download the latest version from official website.\n{Program.AppWebsite}\n\n• Your version: v{Program.AppVersion}\n" +
+                    $"• Latest version: v{res.Version} from {res.Date}\n");
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("» Open official website now? [Yes/no]: ");
+                Console.ResetColor();
+                var websiteQuestion = Console.ReadLine()?.ToLower();
+                switch (websiteQuestion)
+                {
+                    case "y":
+                    case "yes":
+                        Console.Write("Opening... ");
+                        Process.Start(Program.AppWebsite);
+                        Console.WriteLine("Done");
+
+                        Log.Output($"Opened {Program.AppWebsite} in default browser.");
+                        break;
+                    case "n":
+                    case "no":
+                        Console.WriteLine("Canceled. You can close this window.");
+                        break;
+                    default:
+                        await Program.WrongAnswer("Start");
+                        break;
+                }
+
+                Program.Close();
+            }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -255,20 +323,11 @@ namespace Genshin_Impact_Mod_Setup
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(
-                "» Congratulations!\n" + "It looks like your computer meets the hardware requirements.\n" +
-                "Now, please answer the following questions by typing Yes or No.\n\n" +
-                "» Important\n" +
-                "Please unzip downloaded ZIP archive before installation. Good luck!\n"
+                "» Congratulations!\n" +
+                "It looks like your computer meets the hardware requirements.\n" +
+                "Now, please answer the following questions by typing Yes or No.\n"
             );
 
-
-            if (Directory.Exists(Installation.Folder))
-                Console.WriteLine(
-                    "» Detected an installed instance\n" +
-                    "You currently have an installed copy of the mod on your computer.\n" +
-                    "If you want to perform a clean, fresh installation, delete the Genshin-Impact-ReShade folder from your C: drive.\n" +
-                    "Remember to save your custom presets if you had any!\n"
-                );
 
             var start = AppReady();
             if (start)

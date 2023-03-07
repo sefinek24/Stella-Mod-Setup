@@ -4,12 +4,11 @@ using System.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
-namespace Genshin_Impact_Mod_Setup.Scripts
+namespace Genshin_Stella_Mod_Setup.Scripts
 {
     internal abstract class Log
     {
         public static readonly string Folder = Program.AppData + @"\logs";
-        public static readonly string ErrorFile = Folder + @"\installer.error.log";
         public static readonly string OutputFile = Folder + @"\installer.output.log";
         public static readonly string ModInstFile = Folder + @"\mod_installation.log";
         private static int _reportTry = 1;
@@ -30,12 +29,20 @@ namespace Genshin_Impact_Mod_Setup.Scripts
             if (!Directory.Exists(Program.AppData)) Directory.CreateDirectory(Program.AppData);
             if (!Directory.Exists(Folder)) Directory.CreateDirectory(Folder);
 
-            using (var sw = File.AppendText(ErrorFile))
+            using (var sw = File.AppendText(OutputFile))
             {
                 sw.WriteLine($"[{DateTime.Now}]: {Console.Title}\n{log}\n\n");
             }
 
-            if (sendWebHook) WebHook.Error(log);
+            if (!sendWebHook) return;
+            try
+            {
+                Telemetry.Error(log);
+            }
+            catch (Exception e)
+            {
+                Output(e.ToString());
+            }
         }
 
         private static void TryAgain(bool tryAgain)
@@ -49,27 +56,6 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 
             Console.ResetColor();
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
-        }
-
-        public static void ErrorString(string msg, bool tryAgain)
-        {
-            ErrorAuditLog(new Exception(msg), true);
-
-            try
-            {
-                new ToastContentBuilder().AddText("Oh no! Something went wrong 😿").AddText(msg).Show();
-            }
-            catch (Exception e)
-            {
-                ErrorAuditLog(e, false);
-            }
-
-            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(msg);
-
-            TryAgain(tryAgain);
         }
 
         public static void Error(Exception msg, bool tryAgain)
@@ -141,7 +127,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
             {
                 case "y":
                 case "yes":
-                    var hookSuccess = await WebHook.SendLogFiles();
+                    var hookSuccess = await Telemetry.SendLogFiles();
                     if (hookSuccess)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;

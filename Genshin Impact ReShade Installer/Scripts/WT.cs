@@ -1,6 +1,7 @@
 using System.IO;
+using Genshin_Impact_Mod_Setup;
 
-namespace Genshin_Impact_Mod_Setup.Scripts
+namespace Genshin_Stella_Mod_Setup.Scripts
 {
     internal abstract class Wt
     {

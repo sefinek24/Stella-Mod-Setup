@@ -5,10 +5,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
+using Genshin_Impact_Mod_Setup;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
-namespace Genshin_Impact_Mod_Setup.Scripts
+namespace Genshin_Stella_Mod_Setup.Scripts
 {
     internal abstract class Cmd
     {
@@ -140,7 +141,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
                         await Execute("powershell", $"Add-AppxPackage -Path {Installation.VcLibsSetup}", null);
 
                         // Throw info
-                        WebHook.InstalledVcLibs();
+                        await Telemetry.Post("Successfully installed VCLibs.");
                         try
                         {
                             new ToastContentBuilder().AddText("First part was finished 🎉")
@@ -175,7 +176,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
                                 "Your computer will restart in 25 seconds. Save your work!\nAfter restarting, run the installer again.");
                             Log.Output("PC reboot was scheduled. Installed VCLibs.");
 
-                            WebHook.RebootIsScheduled();
+                            await Telemetry.Post("Reboot was scheduled.");
                         }
                         else
                         {

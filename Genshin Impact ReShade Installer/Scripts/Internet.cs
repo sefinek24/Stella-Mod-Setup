@@ -1,7 +1,7 @@
 using System;
 using System.Net.NetworkInformation;
 
-namespace Genshin_Impact_Mod_Setup.Scripts
+namespace Genshin_Stella_Mod_Setup.Scripts
 {
     internal abstract class Internet
     {
@@ -29,7 +29,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 
         public static bool CheckConnection()
         {
-            return Ping("sefinek.net") && Ping("api.sefinek.net") && Ping("cdn.sefinek.net") && Ping("discordapp.com");
+            return Ping("sefinek.net") && Ping("api.sefinek.net") && Ping("cdn.sefinek.net");
         }
     }
 }

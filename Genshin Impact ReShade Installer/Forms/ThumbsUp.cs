@@ -1,9 +1,9 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Genshin_Impact_Mod_Setup.Scripts;
+using Genshin_Stella_Mod_Setup.Scripts;
 
-namespace Genshin_Impact_Mod_Setup.Forms
+namespace Genshin_Stella_Mod_Setup.Forms
 {
     public partial class ThumbsUp : Form
     {

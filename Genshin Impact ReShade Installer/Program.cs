@@ -6,10 +6,10 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Genshin_Impact_Mod_Setup.Forms;
-using Genshin_Impact_Mod_Setup.Scripts;
+using Genshin_Stella_Mod_Setup.Forms;
+using Genshin_Stella_Mod_Setup.Scripts;
 
-namespace Genshin_Impact_Mod_Setup
+namespace Genshin_Stella_Mod_Setup
 {
     internal abstract class Program
     {
@@ -17,7 +17,7 @@ namespace Genshin_Impact_Mod_Setup
         public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public static readonly string AppData =
-            $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\Genshin Impact MP by Sefinek";
+            $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\Genshin Stella Mod by Sefinek";
 
         public const string AppWebsite = "https://genshin.sefinek.net";
         public const string DiscordUrl = "https://discord.gg/SVcbaRc7gH";
@@ -40,6 +40,7 @@ namespace Genshin_Impact_Mod_Setup
         public static string GameYuanShen =
             $@"{Installation.ProgramFiles}\Genshin Impact\Genshin Impact game\YuanShen.exe";
 
+        public static string GameExeGlobal;
         public static string GameDirGlobal;
         public static string ReShadeConfig;
         public static string ReShadeLogFile;

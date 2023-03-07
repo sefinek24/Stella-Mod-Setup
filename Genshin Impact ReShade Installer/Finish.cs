@@ -8,9 +8,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Genshin_Impact_Mod_Setup.Forms;
 using Genshin_Impact_Mod_Setup.Models;
-using Genshin_Impact_Mod_Setup.Scripts;
+using Genshin_Stella_Mod_Setup;
+using Genshin_Stella_Mod_Setup.Forms;
+using Genshin_Stella_Mod_Setup.Scripts;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Newtonsoft.Json;
@@ -31,7 +32,7 @@ namespace Genshin_Impact_Mod_Setup
                 Log.ErrorAuditLog(ex, true);
             }
 
-            WebHook.Installed();
+            await Telemetry.Post("Installing mod on this machine...");
             TaskbarManager.Instance.SetProgressValue(100, 100);
 
             Log.Output("Installation completed!");
@@ -70,7 +71,7 @@ namespace Genshin_Impact_Mod_Setup
                 Console.Write("» Restart your computer now? This is required! [Yes/no]: ");
                 Console.ResetColor();
 
-                WebHook.RebootIsRequired();
+                await Telemetry.Post("Reboot is required.");
 
                 var rebootPc = Console.ReadLine();
                 if (Regex.Match(rebootPc ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
@@ -83,7 +84,7 @@ namespace Genshin_Impact_Mod_Setup
                     Console.WriteLine("Your computer will restart in 30 seconds. Save your work!");
                     Log.Output("PC reboot was scheduled.");
 
-                    WebHook.RebootIsScheduled();
+                    await Telemetry.Post("Reboot was scheduled.");
                 }
             }
 
@@ -97,7 +98,7 @@ namespace Genshin_Impact_Mod_Setup
             if (Regex.Match(sendLogFile ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
                 .Success)
             {
-                var deliveredFiles = await WebHook.SendLogFiles();
+                var deliveredFiles = await Telemetry.SendLogFiles();
                 if (deliveredFiles)
                 {
                     Console.WriteLine(

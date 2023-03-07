@@ -1,4 +1,4 @@
-﻿namespace Genshin_Impact_Mod_Setup.Forms
+﻿namespace Genshin_Stella_Mod_Setup.Forms
 {
     partial class Help
     {
@@ -33,9 +33,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // label1
-            // 
+            //
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Calibri", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -46,9 +46,9 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Where can I find the game path?";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // label2
-            // 
+            //
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
@@ -60,25 +60,25 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "1. Open Genshin Impact launcher.\r\n2. Go to settings.\r\n3. Choose Game resources.\r\n" +
     "4. Installation Location. Here is your game path.";
-            // 
+            //
             // pictureBox1
-            // 
+            //
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::Genshin_Impact_Mod_Setup.Properties.Resources.launcher_gif;
+            this.pictureBox1.Image = global::Genshin_Stella_Mod_Setup.Properties.Resources.launcher_gif;
             this.pictureBox1.Location = new System.Drawing.Point(170, 203);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(670, 358);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
-            // 
+            //
             // Help
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::Genshin_Impact_Mod_Setup.Properties.Resources.help_bg;
+            this.BackgroundImage = global::Genshin_Stella_Mod_Setup.Properties.Resources.help_bg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1011, 573);
             this.Controls.Add(this.pictureBox1);

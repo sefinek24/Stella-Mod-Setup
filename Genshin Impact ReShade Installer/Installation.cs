@@ -6,17 +6,18 @@ using System.Media;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Genshin_Impact_Mod_Setup.Scripts;
+using Genshin_Impact_Mod_Setup;
+using Genshin_Stella_Mod_Setup.Scripts;
 using IWshRuntimeLibrary;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using File = System.IO.File;
 
-namespace Genshin_Impact_Mod_Setup
+namespace Genshin_Stella_Mod_Setup
 {
     internal abstract class Installation
     {
         // Dependencies
-        private const string Dependencies = @"Dependencies";
+        private const string Dependencies = "Dependencies";
         public static readonly string InstalledViaSetup = Program.AppData + @"\installed-via-setup.sfn";
         private const string MainSetup = Dependencies + @"\Genshin Impact Mod Setup.exe";
         private const string WtWin10Setup = Dependencies + @"\WindowsTerminal_Win10.msixbundle";
@@ -41,10 +42,10 @@ namespace Genshin_Impact_Mod_Setup
 
         public static async Task Start()
         {
+            Console.Clear();
+
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
             TaskbarManager.Instance.SetProgressValue(5, 100);
-
-            Console.WriteLine($"\n{Program.Line}");
 
             var date = DateTime.Now;
 
@@ -55,8 +56,10 @@ namespace Genshin_Impact_Mod_Setup
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(
-                "Installing, please wait. This may take a while. Do not use your computer during this process.\n");
+                "Installing, please wait. This may take a while. Do not use your computer during this process.");
             Console.ResetColor();
+
+            Console.WriteLine($"{Program.Line}\n");
 
 
             if (RegionInfo.CurrentRegion.Name == "RU")
@@ -92,8 +95,12 @@ namespace Genshin_Impact_Mod_Setup
             var connection = Internet.CheckConnection();
             if (!connection) return;
 
-            // Send Discord WebHook
-            WebHook.Installing();
+            // Check access
+            var getAccess = await Access.Get();
+            if (!getAccess.Data.Allow) return;
+
+            // Post data
+            await Telemetry.Post("Successfully installed on this PC!");
 
             TaskbarManager.Instance.SetProgressValue(20, 100);
 
@@ -332,13 +339,14 @@ namespace Genshin_Impact_Mod_Setup
                 {
                     object shDesktop = "Desktop";
                     var shell = new WshShell();
-                    var shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\Genshin Impact Mod.lnk";
+                    var shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) +
+                                          @"\Genshin Stella Launcher.lnk";
                     var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
 
                     shortcut.Description = "Run official launcher made by Sefinek.";
                     shortcut.IconLocation = $@"{Folder}\icons\52x52.ico";
                     shortcut.WorkingDirectory = Folder;
-                    shortcut.TargetPath = $@"{Folder}\Genshin Impact Mod Launcher.exe";
+                    shortcut.TargetPath = $@"{Folder}\Genshin Stella Mod Launcher.exe";
                     shortcut.Save();
 
                     Log.Output("Desktop shortcut has been created.");
@@ -353,12 +361,12 @@ namespace Genshin_Impact_Mod_Setup
                 .Success)
             {
                 var commonStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu);
-                var appStartMenuPath = Path.Combine(commonStartMenuPath, "Programs", "Genshin Impact Mod Pack");
+                var appStartMenuPath = Path.Combine(commonStartMenuPath, "Programs", "Genshin Stella Mod");
                 if (!Directory.Exists(appStartMenuPath)) Directory.CreateDirectory(appStartMenuPath);
 
                 try
                 {
-                    var shortcutLocation = Path.Combine(appStartMenuPath, "Genshin Impact Mod Pack.lnk");
+                    var shortcutLocation = Path.Combine(appStartMenuPath, "Genshin Stella Mod.lnk");
                     var shell = new WshShell();
                     var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
@@ -372,31 +380,31 @@ namespace Genshin_Impact_Mod_Setup
 
 
                     using (var writer =
-                           new StreamWriter($@"{appStartMenuPath}\Official website - Genshin Impact Mod Pack.url"))
+                           new StreamWriter($@"{appStartMenuPath}\Official website - Genshin Stella Mod.url"))
                     {
                         await writer.WriteLineAsync(
                             "[InternetShortcut]\nURL=https://sefinek.net/genshin-impact-reshade");
                     }
 
-                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Donate - Genshin Impact Mod Pack.url"))
+                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Donate - Genshin Stella Mod.url"))
                     {
                         await writer.WriteLineAsync("[InternetShortcut]\nURL=https://sefinek.net/support-me");
                     }
 
-                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Gallery - Genshin Impact Mod Pack.url"))
+                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Gallery - Genshin Stella Mod.url"))
                     {
                         await writer.WriteLineAsync(
                             "[InternetShortcut]\nURL=https://sefinek.net/genshin-impact-reshade/gallery?page=1");
                     }
 
-                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Support - Genshin Impact Mod Pack.url"))
+                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Support - Genshin Stella Mod.url"))
                     {
                         await writer.WriteLineAsync(
                             "[InternetShortcut]\nURL=https://sefinek.net/genshin-impact-reshade/support");
                     }
 
                     using (var writer =
-                           new StreamWriter($@"{appStartMenuPath}\Leave feedback - Genshin Impact Mod Pack.url"))
+                           new StreamWriter($@"{appStartMenuPath}\Leave feedback - Genshin Stella Mod.url"))
                     {
                         await writer.WriteLineAsync(
                             "[InternetShortcut]\nURL=https://sefinek.net/genshin-impact-reshade/feedback");

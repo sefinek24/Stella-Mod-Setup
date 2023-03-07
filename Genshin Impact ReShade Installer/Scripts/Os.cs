@@ -1,8 +1,10 @@
 using System;
 using System.Globalization;
+using System.Linq;
+using System.Management;
 using Microsoft.Win32;
 
-namespace Genshin_Impact_Mod_Setup.Scripts
+namespace Genshin_Stella_Mod_Setup.Scripts
 {
     internal abstract class Os
     {
@@ -13,6 +15,7 @@ namespace Genshin_Impact_Mod_Setup.Scripts
         private static readonly RegistryKey RegistryKey =
             LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion");
 
+        public static readonly string DeviceId = GetDeviceId();
         public static readonly string Name = GetOs();
         public static readonly string Build = GetBuild();
         public static readonly string Version = GetVersion();
@@ -21,6 +24,21 @@ namespace Genshin_Impact_Mod_Setup.Scripts
 
         public static readonly string TimeZone = TimeZoneInfo.Local.ToString();
         public static readonly string Region = RegionInfo.CurrentRegion.EnglishName;
+
+        private static string GetDeviceId()
+        {
+            var computerSystemProduct = new ManagementClass("Win32_ComputerSystemProduct")
+                .GetInstances()
+                .Cast<ManagementObject>()
+                .FirstOrDefault();
+
+            var deviceId = computerSystemProduct?.Properties["UUID"].Value.ToString();
+            if (!string.IsNullOrEmpty(deviceId)) return deviceId;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Failed to retrieve device identifier.");
+            while (true) Console.ReadLine();
+        }
 
         private static string GetOs()
         {
