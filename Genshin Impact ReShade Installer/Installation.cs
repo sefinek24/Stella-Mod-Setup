@@ -18,7 +18,7 @@ namespace Genshin_Stella_Setup
         // Dependencies
         private const string Dependencies = "Dependencies";
         public static readonly string InstalledViaSetup = Program.AppData + @"\installed-via-setup.sfn";
-        private const string MainSetup = Dependencies + @"\Genshin Impact Mod Setup.exe";
+        private const string MainSetup = Dependencies + @"\Genshin Stella Mod Setup.exe";
         private const string WtWin10Setup = Dependencies + @"\WindowsTerminal_Win10.msixbundle";
         private const string WtWin11Setup = Dependencies + @"\WindowsTerminal_Win11.msixbundle";
         public static readonly string VcLibsSetup = Dependencies + @"\Microsoft.VCLibs.x64.14.00.Desktop.appx";
@@ -279,19 +279,24 @@ namespace Genshin_Stella_Setup
 
             try
             {
-                if (!Directory.Exists($@"{Folder}\Data\Unlocker"))
-                    Directory.CreateDirectory($@"{Folder}\Data\Unlocker");
+                if (!Directory.Exists($@"{Folder}\data\unlocker"))
+                    Directory.CreateDirectory($@"{Folder}\data\unlocker");
 
-                var fpsUnlockCfgPath = $@"{Folder}\Data\Unlocker\unlocker.config.json";
+                var fpsUnlockCfgPath = $@"{Folder}\data\unlocker\unlocker.config.json";
+                const string fpsUnlockerConfigUrl =
+                    "https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config";
+                var fpsUnlockerConfig = "";
 
-                var client = new WebClient();
-                client.Headers.Add("user-agent", Program.UserAgent);
-                await client.DownloadFileTaskAsync(
-                    "https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config", fpsUnlockCfgPath);
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add("user-agent", Program.UserAgent);
+                    fpsUnlockerConfig = await client.DownloadStringTaskAsync(fpsUnlockerConfigUrl);
+                }
 
-                var fpsUnlockerCfg = File.ReadAllText(fpsUnlockCfgPath);
                 File.WriteAllText(fpsUnlockCfgPath,
-                    fpsUnlockerCfg.Replace("{GamePath}", Actions.GameExeGlobal.Replace(@"\", @"\\")));
+                    Directory.Exists(Actions.GameExeGlobal)
+                        ? fpsUnlockerConfig.Replace("{GamePath}", Actions.GameExeGlobal.Replace("\\", "\\\\"))
+                        : fpsUnlockerConfig.Replace("{GamePath}", ""));
             }
             catch (Exception e)
             {
@@ -372,7 +377,7 @@ namespace Genshin_Stella_Setup
                     shortcut.Description = "Run official mod launcher made by Sefinek.";
                     shortcut.IconLocation = $@"{Folder}\icons\52x52.ico";
                     shortcut.WorkingDirectory = Folder;
-                    shortcut.TargetPath = $@"{Folder}\Genshin Impact Mod Launcher.exe";
+                    shortcut.TargetPath = $@"{Folder}\Genshin Stella Mod Launcher.exe";
                     shortcut.Save();
 
                     Log.Output("Start menu shortcut has been created.");
@@ -382,7 +387,7 @@ namespace Genshin_Stella_Setup
                            new StreamWriter($@"{appStartMenuPath}\Official website - Genshin Stella Mod.url"))
                     {
                         await writer.WriteLineAsync(
-                            "[InternetShortcut]\nURL=https://sefinek.net/genshin-impact-reshade");
+                            "[InternetShortcut]\nURL=https://genshin.sefinek.net");
                     }
 
                     using (var writer = new StreamWriter($@"{appStartMenuPath}\Donate - Genshin Stella Mod.url"))

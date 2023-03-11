@@ -151,7 +151,7 @@
     <None Include="Data\informejtik.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Dependencies\Genshin Impact Mod Setup.exe">
+    <Content Include="Dependencies\Genshin Stella Mod Setup.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="READ ME.txt">

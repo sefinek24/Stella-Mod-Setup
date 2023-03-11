@@ -9,6 +9,9 @@ namespace Genshin_Stella_Setup.Scripts
     {
         public static async Task DownloadFiles(string reShadeConfig, string reShadeLogFile)
         {
+            Console.WriteLine("download kurwa");
+
+
             var wbClient1 = new WebClient();
             wbClient1.Headers.Add("user-agent", Program.UserAgent);
             await wbClient1.DownloadFileTaskAsync(
