@@ -10,7 +10,7 @@ namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class Telemetry
     {
-        public const string ApiUrl = "http://127.0.0.1:4010/api/v3/genshin-impact-reshade";
+        public const string ApiUrl = "https://api.sefinek.net/api/v3/genshin-impact-reshade";
         public static string BearerToken = "";
 
         public static async Task Post(string data)

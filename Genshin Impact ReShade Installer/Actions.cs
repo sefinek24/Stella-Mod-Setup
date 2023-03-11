@@ -98,7 +98,10 @@ namespace Genshin_Stella_Setup
 
                 var deleteData = Console.ReadLine() ?? string.Empty;
                 if (Regex.Match(deleteData, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Multiline).Success)
+                {
                     Directory.Delete(Program.AppData, true);
+                    await Telemetry.Post("Deleted program data from %AppData%.");
+                }
             }
 
             if (!Directory.Exists(Program.AppData)) Directory.CreateDirectory(Program.AppData);

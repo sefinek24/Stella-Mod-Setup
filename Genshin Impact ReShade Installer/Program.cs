@@ -251,7 +251,7 @@ namespace Genshin_Stella_Setup
                 Log.ErrorAndExit(new Exception(
                     string.IsNullOrEmpty(getAccess.Data.Reason)
                         ? "Failed to receive consent to install. Unknown reason."
-                        : $"Failed to receive consent to install. - {getAccess.Data.Reason}"
+                        : $"Failed to receive consent to install.\n\n» Reason:\n{getAccess.Data.Reason}"
                 ), false, false);
             }
 

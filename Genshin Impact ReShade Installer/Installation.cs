@@ -99,7 +99,7 @@ namespace Genshin_Stella_Setup
             if (!getAccess.Data.Allow) return;
 
             // Post data
-            await Telemetry.Post("Successfully installed on this PC!");
+            await Telemetry.Post("Installation in progress. Please wait...");
 
             TaskbarManager.Instance.SetProgressValue(20, 100);
 
