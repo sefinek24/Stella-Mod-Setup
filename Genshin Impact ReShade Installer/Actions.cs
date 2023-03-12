@@ -153,6 +153,10 @@ namespace Genshin_Stella_Setup
                 ReShadeConfig = $@"{GameDirGlobal}\Genshin Impact game\ReShade.ini";
                 ReShadeLogFile = $@"{GameDirGlobal}\Genshin Impact game\ReShade.log";
             }
+            else
+            {
+                Console.WriteLine();
+            }
 
 
             // Are you ready?

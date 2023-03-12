@@ -151,7 +151,8 @@ namespace Genshin_Stella_Setup
             if (!File.Exists(MainSetup))
                 Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
 
-            await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\mod_installation.log\"", null);
+            await Cmd.Execute(MainSetup,
+                $"/SILENT /NORESTART /INSTVIASETUP /LOG=\"{Log.Folder}\\mod_installation.log\"", null);
 
             if (!Directory.Exists(Folder))
                 Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);
@@ -344,10 +345,10 @@ namespace Genshin_Stella_Setup
                     object shDesktop = "Desktop";
                     var shell = new WshShell();
                     var shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) +
-                                          @"\Genshin Stella Launcher.lnk";
+                                          @"\Genshin Stella Mod.lnk";
                     var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
 
-                    shortcut.Description = "Run official launcher made by Sefinek.";
+                    shortcut.Description = "Run official launcher for Genshin Impact Mod made by Sefinek.";
                     shortcut.IconLocation = $@"{Folder}\icons\52x52.ico";
                     shortcut.WorkingDirectory = Folder;
                     shortcut.TargetPath = $@"{Folder}\Genshin Stella Mod Launcher.exe";
