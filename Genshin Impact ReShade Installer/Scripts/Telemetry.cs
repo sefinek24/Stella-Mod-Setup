@@ -18,7 +18,7 @@ namespace Genshin_Stella_Setup.Scripts
             var obj = new NameValueCollection
             {
                 { "deviceId", Os.DeviceId },
-                { "regionName", Os.Region },
+                { "regionName", Os.RegionEngName },
                 { "regionCode", RegionInfo.CurrentRegion.Name },
                 { "osName", Os.Name },
                 { "osVersion", Os.Version },
@@ -40,7 +40,7 @@ namespace Genshin_Stella_Setup.Scripts
             var obj = new NameValueCollection
             {
                 { "deviceId", Os.DeviceId },
-                { "regionName", Os.Region },
+                { "regionName", Os.RegionEngName },
                 { "regionCode", RegionInfo.CurrentRegion.Name },
                 { "osName", Os.Name },
                 { "osVersion", Os.Version },
@@ -75,7 +75,7 @@ namespace Genshin_Stella_Setup.Scripts
                 var obj = new NameValueCollection
                 {
                     { "deviceId", Os.DeviceId },
-                    { "regionName", Os.Region },
+                    { "regionName", Os.RegionEngName },
                     { "timezone", Os.TimeZone },
                     { "osName", Os.AllInfos },
                     { "data", $"{content1}\n\n\n{content2}" }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -280,29 +281,31 @@ namespace Genshin_Stella_Setup
 
             try
             {
-                if (!Directory.Exists($@"{Folder}\data\unlocker"))
-                    Directory.CreateDirectory($@"{Folder}\data\unlocker");
+                var unlockerFolderPath = Path.Combine(Folder, "data", "unlocker");
+                if (!Directory.Exists(unlockerFolderPath))
+                    Directory.CreateDirectory(unlockerFolderPath);
 
-                var fpsUnlockCfgPath = $@"{Folder}\data\unlocker\unlocker.config.json";
-                const string fpsUnlockerConfigUrl =
-                    "https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config";
-                var fpsUnlockerConfig = "";
-
+                string fpsUnlockerConfig;
                 using (var client = new WebClient())
                 {
                     client.Headers.Add("user-agent", Program.UserAgent);
-                    fpsUnlockerConfig = await client.DownloadStringTaskAsync(fpsUnlockerConfigUrl);
+                    fpsUnlockerConfig =
+                        await client.DownloadStringTaskAsync(
+                            "https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config");
                 }
 
-                File.WriteAllText(fpsUnlockCfgPath,
-                    Directory.Exists(Actions.GameExeGlobal)
-                        ? fpsUnlockerConfig.Replace("{GamePath}", Actions.GameExeGlobal.Replace("\\", "\\\\"))
-                        : fpsUnlockerConfig.Replace("{GamePath}", ""));
+                var fpsUnlockerConfigPath = Path.Combine(unlockerFolderPath, "unlocker.config.json");
+
+                var gameExePath = Actions.GameExeGlobal?.Replace("\\", "\\\\");
+                var fpsUnlockerConfigContent = fpsUnlockerConfig.Replace("{GamePath}", gameExePath ?? string.Empty);
+
+                File.WriteAllText(fpsUnlockerConfigPath, fpsUnlockerConfigContent);
             }
             catch (Exception e)
             {
                 Log.Error(e, false);
             }
+
 
             TaskbarManager.Instance.SetProgressValue(90, 100);
 
@@ -324,7 +327,7 @@ namespace Genshin_Stella_Setup
                     Log.Output($"Removed old ReShade.log file.\n» Path: {Actions.ReShadeLogFile}");
                 }
 
-                await ReShade.DownloadFiles(Actions.ReShadeConfig, Actions.ReShadeLogFile);
+                await ReShade.DownloadFiles();
             }
             else
             {
@@ -338,22 +341,20 @@ namespace Genshin_Stella_Setup
             // ----------------------- 11 -----------------------
             Console.WriteLine($"{ProcessInt++}/11 - Excellent! Finishing... ");
 
-            if (Regex.Match(Actions.ShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
-                .Success)
+            if (Regex.IsMatch(Actions.ShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase))
                 try
                 {
-                    object shDesktop = "Desktop";
+                    var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                    var shortcutPath = Path.Combine(desktopPath, "Stella Mod Launcher.lnk");
+
                     var shell = new WshShell();
-                    var shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) +
-                                          @"\Genshin Stella Mod.lnk";
-                    var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
-
+                    var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
                     shortcut.Description = "Run official launcher for Genshin Impact Mod made by Sefinek.";
-                    shortcut.IconLocation = $@"{Folder}\icons\52x52.ico";
+                    shortcut.IconLocation = Path.Combine(Folder, "icons", "52x52.ico");
                     shortcut.WorkingDirectory = Folder;
-                    shortcut.TargetPath = $@"{Folder}\Genshin Stella Mod Launcher.exe";
-                    shortcut.Save();
+                    shortcut.TargetPath = Path.Combine(Folder, "Genshin Stella Mod Launcher.exe");
 
+                    shortcut.Save();
                     Log.Output("Desktop shortcut has been created.");
                 }
                 catch (Exception e)
@@ -362,66 +363,52 @@ namespace Genshin_Stella_Setup
                 }
 
 
-            if (Regex.Match(Actions.MShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
-                .Success)
+            if (Regex.IsMatch(Actions.MShortcutQuestion, "^y$", RegexOptions.IgnoreCase))
             {
-                var commonStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu);
-                var appStartMenuPath = Path.Combine(commonStartMenuPath, "Programs", "Genshin Stella Mod");
-                if (!Directory.Exists(appStartMenuPath)) Directory.CreateDirectory(appStartMenuPath);
+                var appStartMenuPath =
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs",
+                        "Genshin Stella Mod");
+                Directory.CreateDirectory(appStartMenuPath);
 
                 try
                 {
-                    var shortcutLocation = Path.Combine(appStartMenuPath, "Genshin Stella Mod.lnk");
                     var shell = new WshShell();
+                    var shortcutLocation = Path.Combine(appStartMenuPath, "Genshin Stella Mod.lnk");
                     var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
-
                     shortcut.Description = "Run official mod launcher made by Sefinek.";
-                    shortcut.IconLocation = $@"{Folder}\icons\52x52.ico";
+                    shortcut.IconLocation = Path.Combine(Folder, "icons", "52x52.ico");
                     shortcut.WorkingDirectory = Folder;
-                    shortcut.TargetPath = $@"{Folder}\Genshin Stella Mod Launcher.exe";
+                    shortcut.TargetPath = Path.Combine(Folder, "Genshin Stella Mod Launcher.exe");
                     shortcut.Save();
-
                     Log.Output("Start menu shortcut has been created.");
 
-
-                    using (var writer =
-                           new StreamWriter($@"{appStartMenuPath}\Official website - Genshin Stella Mod.url"))
+                    var urls = new Dictionary<string, string>()
                     {
-                        await writer.WriteLineAsync(
-                            "[InternetShortcut]\nURL=https://genshin.sefinek.net");
+                        { "Official website", "https://genshin.sefinek.net" },
+                        { "Donate", "https://sefinek.net/support-me" },
+                        { "Gallery", "https://sefinek.net/genshin-impact-reshade/gallery?page=1" },
+                        { "Support", "https://sefinek.net/genshin-impact-reshade/support" },
+                        { "Leave feedback", "https://sefinek.net/genshin-impact-reshade/feedback" }
+                    };
+
+                    foreach (var kvp in urls)
+                    {
+                        var url = Path.Combine(appStartMenuPath, $"{kvp.Key} - Genshin Stella Mod.url");
+                        using (var writer = new StreamWriter(url))
+                        {
+                            await writer.WriteLineAsync("[InternetShortcut]");
+                            await writer.WriteLineAsync($"URL={kvp.Value}");
+                        }
                     }
 
-                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Donate - Genshin Stella Mod.url"))
-                    {
-                        await writer.WriteLineAsync("[InternetShortcut]\nURL=https://sefinek.net/support-me");
-                    }
-
-                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Gallery - Genshin Stella Mod.url"))
-                    {
-                        await writer.WriteLineAsync(
-                            "[InternetShortcut]\nURL=https://sefinek.net/genshin-impact-reshade/gallery?page=1");
-                    }
-
-                    using (var writer = new StreamWriter($@"{appStartMenuPath}\Support - Genshin Stella Mod.url"))
-                    {
-                        await writer.WriteLineAsync(
-                            "[InternetShortcut]\nURL=https://sefinek.net/genshin-impact-reshade/support");
-                    }
-
-                    using (var writer =
-                           new StreamWriter($@"{appStartMenuPath}\Leave feedback - Genshin Stella Mod.url"))
-                    {
-                        await writer.WriteLineAsync(
-                            "[InternetShortcut]\nURL=https://sefinek.net/genshin-impact-reshade/feedback");
-                    }
-
-                    Log.Output("Internet shortcuts has been created.");
+                    Log.Output("Internet shortcuts have been created.");
                 }
                 catch (Exception e)
                 {
                     Log.Error(e, false);
                 }
             }
+
 
             if (!Directory.Exists(Program.AppData)) Directory.CreateDirectory(Program.AppData);
             if (!File.Exists(InstalledViaSetup)) File.Create(InstalledViaSetup);

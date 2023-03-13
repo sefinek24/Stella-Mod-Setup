@@ -1,7 +1,7 @@
 using System.Net;
 using System;
 using System.Threading.Tasks;
-using Genshin_Impact_Mod_Setup.Models;
+using Genshin_Stella_Setup.Models;
 using Newtonsoft.Json;
 
 namespace Genshin_Stella_Setup.Scripts

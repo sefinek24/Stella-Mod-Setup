@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Genshin_Impact_Mod_Setup.Models
+namespace Genshin_Stella_Setup.Models
 {
     public class SetupAccess
     {
@@ -18,8 +16,16 @@ namespace Genshin_Impact_Mod_Setup.Models
 
     internal class InstallerVersion
     {
+        public string Status { get; set; }
+        public AppData Installer { get; set; }
+    }
+
+    public class AppData
+    {
         public string Version { get; set; }
-        public string Date { get; set; }
+        public bool Beta { get; set; }
+        public string ReleaseDate { get; set; }
+        public string Size { get; set; }
     }
 
     public class SefinekApi

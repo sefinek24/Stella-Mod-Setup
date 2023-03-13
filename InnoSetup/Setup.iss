@@ -62,7 +62,7 @@ Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Tasks]
-Name: "CreateDesktopIcon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional shortcuts:"; Check: not IsUpdating and not DesktopIconExists
+Name: "CreateDesktopIcon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional shortcuts:"; Check: not InstViaSetup and not InstViaLauncher and not DesktopIconExists
 Name: "RunSfcSCANNOW"; Description: "Scan and repair system files"; GroupDescription: "Other:"; Flags: unchecked
 
 [Files]
@@ -111,9 +111,14 @@ begin
     end;
 end;
 
-function IsUpdating(): Boolean;
+function InstViaSetup(): Boolean;
 begin
-  Result := CmdLineParamExists('/UPDATE');
+  Result := CmdLineParamExists('/INSTVIASETUP');
+end;
+
+function InstViaLauncher(): Boolean;
+begin
+  Result := CmdLineParamExists('/INSTVIALAUNCHER');
 end;
 
 function DesktopIconExists(): Boolean;

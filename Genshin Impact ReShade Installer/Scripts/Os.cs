@@ -23,7 +23,8 @@ namespace Genshin_Stella_Setup.Scripts
         public static readonly string AllInfos = $"{Name} {Version} [{Build}]";
 
         public static readonly string TimeZone = TimeZoneInfo.Local.ToString();
-        public static readonly string Region = RegionInfo.CurrentRegion.EnglishName;
+        public static readonly string RegionEngName = RegionInfo.CurrentRegion.EnglishName;
+        public static readonly string RegionName = RegionInfo.CurrentRegion.Name;
 
         private static string GetDeviceId()
         {

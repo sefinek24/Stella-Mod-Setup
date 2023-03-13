@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Genshin_Impact_Mod_Setup.Models;
+using Genshin_Stella_Setup.Models;
 using Genshin_Stella_Setup.Scripts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -93,10 +93,13 @@ namespace Genshin_Stella_Setup
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("» Important\nPlease unzip downloaded ZIP archive before installation. Good luck!\n");
 
+
             // 1
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Authorizing... ");
             Console.ResetColor();
+
+            Log.Output("Authorizing...");
 
             try
             {
@@ -104,7 +107,7 @@ namespace Genshin_Stella_Setup
                 {
                     { "deviceId", Os.DeviceId },
                     { "regionCode", RegionInfo.CurrentRegion.Name },
-                    { "regionName", Os.Region },
+                    { "regionName", Os.RegionEngName },
                     { "osName", Os.Name },
                     { "osBuild", Os.Build },
                     { "setupVersion", AppVersion },
@@ -119,7 +122,8 @@ namespace Genshin_Stella_Setup
                 var token = JObject.Parse(responseJson)["token"]?.Value<string>();
                 if (token != null)
                 {
-                    Log.Output("Successfully authorized!");
+                    Log.Output(
+                        $"Successfully authorized with status code {JObject.Parse(responseJson)["status"]?.Value<string>()}!");
                     Telemetry.BearerToken = token;
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("OK");
@@ -130,7 +134,7 @@ namespace Genshin_Stella_Setup
                     Console.WriteLine("FAILED");
 
                     var status = JObject.Parse(responseJson)["status"]?.Value<int>();
-                    Log.ErrorAndExit(new Exception($"HTTP error {status}"), false, false);
+                    Log.ErrorAndExit(new Exception($"Failed. HTTP error {status}"), false, false);
                     Console.ReadLine();
                 }
             }
@@ -145,7 +149,7 @@ namespace Genshin_Stella_Setup
             Console.Write("• Checking your region... ");
             Console.ResetColor();
 
-            switch (RegionInfo.CurrentRegion.Name)
+            switch (Os.RegionName)
             {
                 case "RU":
                     Log.Output("Russia xD");
@@ -160,15 +164,20 @@ namespace Genshin_Stella_Setup
                     Process.Start(@"Data\clown.mp4");
 
                     File.WriteAllText($@"{desktop}\Russian rat.txt", FileContent.Two);
+                    Log.Output("Russian fat pig.");
                     break;
                 case "PL":
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(
                         "OK - O kurwa polak lub ukrainiec mieszkający w polsce nwn, siema to ja informejtik");
+
+                    Log.Output("Poland gigachad, slava Poland!");
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("OK");
+
+                    Log.Output($"Region: {Os.RegionName}");
                     break;
             }
 
@@ -233,6 +242,7 @@ namespace Genshin_Stella_Setup
                 Console.WriteLine("OK");
             }
 
+
             // 2
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Sending a consent request... ");
@@ -255,27 +265,32 @@ namespace Genshin_Stella_Setup
                 ), false, false);
             }
 
+
             // 2
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Searching for new updates... ");
             Console.ResetColor();
 
-
             var client = new WebClient();
             client.Headers.Add("user-agent", UserAgent);
-            var json = await client.DownloadStringTaskAsync(
-                "https://api.sefinek.net/api/v2/genshin-impact-reshade/installer/version");
+            var json = await client.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/version/apps");
             var res = JsonConvert.DeserializeObject<InstallerVersion>(json);
 
-            if (res.Version != AppVersion)
+            if (res.Installer.Version != AppVersion)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Warning\n");
                 Console.ResetColor();
 
                 Console.WriteLine(
-                    $"This setup is outdated. Please download the latest version from official website.\n{AppWebsite}\n\n• Your version: v{AppVersion}\n" +
-                    $"• Latest version: v{res.Version} from {res.Date}\n");
+                    $"This setup is outdated. Please download the latest version from my official website.\n{AppWebsite}\n\n" +
+                    $"• Your version   : v{AppVersion}\n" +
+                    $"• Latest version : v{res.Installer.Version} {(res.Installer.Beta ? "Beta" : "stable")} from {res.Installer.ReleaseDate}\n" +
+                    $"• Size           : {res.Installer.Size}\n"
+                );
+
+
+                Log.Output($"This program is outdated. Your version: {AppVersion}, latest: {res.Installer.Version}");
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("» Open official website now? [Yes/no]: ");
@@ -287,7 +302,7 @@ namespace Genshin_Stella_Setup
                     case "yes":
                         Console.Write("Opening... ");
                         Process.Start(AppWebsite);
-                        Console.WriteLine("Done");
+                        Console.WriteLine("Done\n\nYou can close this window.");
 
                         Log.Output($"Opened {AppWebsite} in default browser.");
                         break;

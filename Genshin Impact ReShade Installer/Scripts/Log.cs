@@ -13,6 +13,20 @@ namespace Genshin_Stella_Setup.Scripts
         public static readonly string ModInstFile = Folder + @"\mod_installation.log";
         private static int _reportTry = 1;
 
+        private static void TryAgain(bool tryAgain)
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine(tryAgain ? "\n» Press ENTER to try again..." : "\n» Press ENTER to continue...");
+            Console.ReadLine();
+
+            Console.WriteLine(">> Waiting 5 seconds. Please wait... <<");
+            Thread.Sleep(5000);
+
+            Console.ResetColor();
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
+        }
+
+
         public static void Output(string log)
         {
             if (!Directory.Exists(Program.AppData)) Directory.CreateDirectory(Program.AppData);
@@ -43,19 +57,6 @@ namespace Genshin_Stella_Setup.Scripts
             {
                 Output(e.ToString());
             }
-        }
-
-        private static void TryAgain(bool tryAgain)
-        {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(tryAgain ? "\n» Press ENTER to try again..." : "\n» Press ENTER to continue...");
-            Console.ReadLine();
-
-            Console.WriteLine(">> Waiting 5 seconds. Please wait... <<");
-            Thread.Sleep(5000);
-
-            Console.ResetColor();
-            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
         }
 
         public static void Error(Exception msg, bool tryAgain)
