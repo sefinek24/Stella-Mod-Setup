@@ -65,7 +65,7 @@ namespace Genshin_Stella_Setup.Scripts
                         Console.WriteLine(
                             $"     » We cannot install this package because some process is currently in use.\n       Reboot your PC or close all opened apps from Microsoft Store.\n\n{stderr}");
 
-                        Log.ErrorAuditLog(
+                        Log.SaveErrorLog(
                             new Exception(
                                 $"We cannot install this package because some process is currently in use.\n\n» Attempt: {Installation.VcLibsAttemptNumber}\n» Exit code: 80073D02\n\n{stderr}"),
                             true);
@@ -90,7 +90,7 @@ namespace Genshin_Stella_Setup.Scripts
                         Installation.VcLibsAttemptNumber++;
 
                         Log.Output($"Found missing dependency VCLibs. Attempt {Installation.VcLibsAttemptNumber}.");
-                        Log.ErrorAuditLog(
+                        Log.SaveErrorLog(
                             new Exception(
                                 $"Found missing dependency Microsoft.VCLibs.\n\nAttempt {Installation.VcLibsAttemptNumber}\nExit code: 80073CF3\n\n{stderr}"),
                             true);
@@ -104,7 +104,7 @@ namespace Genshin_Stella_Setup.Scripts
                         }
                         catch (Exception ex)
                         {
-                            Log.ErrorAuditLog(ex, true);
+                            Log.SaveErrorLog(ex, true);
                             return;
                         }
 
@@ -150,7 +150,7 @@ namespace Genshin_Stella_Setup.Scripts
                         }
                         catch (Exception ex)
                         {
-                            Log.ErrorAuditLog(ex, true);
+                            Log.SaveErrorLog(ex, true);
                         }
 
                         // Completed!
@@ -199,7 +199,7 @@ namespace Genshin_Stella_Setup.Scripts
                             }
                             catch (Exception ex)
                             {
-                                Log.ErrorAuditLog(ex, true);
+                                Log.SaveErrorLog(ex, true);
                             }
 
                             Log.Output(

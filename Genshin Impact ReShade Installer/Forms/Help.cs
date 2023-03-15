@@ -14,7 +14,7 @@ namespace Genshin_Stella_Setup.Forms
             }
             catch (Exception e)
             {
-                Log.Error(e, false);
+                Log.ThrowError(e, false);
             }
         }
     }

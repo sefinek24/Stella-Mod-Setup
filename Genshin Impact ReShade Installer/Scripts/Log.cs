@@ -38,39 +38,41 @@ namespace Genshin_Stella_Setup.Scripts
             }
         }
 
-        public static void ErrorAuditLog(Exception log, bool sendWebHook)
+        public static async void SaveErrorLog(Exception log, bool sendTelemetry)
         {
             if (!Directory.Exists(Program.AppData)) Directory.CreateDirectory(Program.AppData);
             if (!Directory.Exists(Folder)) Directory.CreateDirectory(Folder);
 
             using (var sw = File.AppendText(OutputFile))
             {
-                sw.WriteLine($"[{DateTime.Now}]: {Console.Title}\n{log}\n\n");
+                await sw.WriteLineAsync($"[{DateTime.Now}]: {Console.Title}\n{log}\n\n");
             }
 
-            if (!sendWebHook) return;
+            if (!sendTelemetry) return;
             try
             {
-                Telemetry.Error(log);
+                await Telemetry.Error(log);
             }
             catch (Exception e)
             {
-                Output(e.ToString());
+                Output($"Output() SaveErrorLog() - Telemetry error: {e}");
             }
         }
 
-        public static void Error(Exception msg, bool tryAgain)
+        public static void ThrowError(Exception msg, bool tryAgain)
         {
-            ErrorAuditLog(msg, true);
+            SaveErrorLog(msg, true);
 
             try
             {
-                new ToastContentBuilder().AddText("Oh no! Error occurred 😿").AddText("Go back to the installer.")
+                new ToastContentBuilder()
+                    .AddText("Oh no! Error occurred 😿")
+                    .AddText("Go back to the installer.")
                     .Show();
             }
             catch (Exception e)
             {
-                ErrorAuditLog(e, false);
+                SaveErrorLog(e, false);
             }
 
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
@@ -83,7 +85,7 @@ namespace Genshin_Stella_Setup.Scripts
 
         public static async void ErrorAndExit(Exception log, bool hideError, bool reportIssue)
         {
-            ErrorAuditLog(log, true);
+            SaveErrorLog(log, true);
 
             if (!hideError)
             {
@@ -92,11 +94,12 @@ namespace Genshin_Stella_Setup.Scripts
                 try
                 {
                     new ToastContentBuilder().AddText("Failed to install 😿")
-                        .AddText("🎶 Sad song... Something went wrong...").Show();
+                        .AddText("🎶 Sad song... Something went wrong...")
+                        .Show();
                 }
                 catch (Exception e)
                 {
-                    ErrorAuditLog(e, false);
+                    SaveErrorLog(e, false);
                 }
 
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -108,6 +111,7 @@ namespace Genshin_Stella_Setup.Scripts
                     Console.WriteLine(
                         $"Sorry, something went wrong. Critical error occurred.\nPlease report this issue if you can or try again.\n• Discord server: {Program.DiscordUrl} [My username: Sefinek#0001]\n• E-mail: contact@sefinek.net\n• Use the available chat on my website.");
                     Console.ResetColor();
+
                     Console.WriteLine($"\n{Actions.Line}\n");
                 }
                 else
@@ -115,6 +119,7 @@ namespace Genshin_Stella_Setup.Scripts
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(
                         $"Visit our Discord server for help or try again. Good luck!\n• Discord: {Program.DiscordUrl} [My username: Sefinek#0001]\n• E-mail: contact@sefinek.net\n• Use the available chat on my website.");
+
                     while (true) Console.ReadLine();
                 }
             }
@@ -128,8 +133,8 @@ namespace Genshin_Stella_Setup.Scripts
             {
                 case "y":
                 case "yes":
-                    var hookSuccess = await Telemetry.SendLogFiles();
-                    if (hookSuccess)
+                    var apiStatus = await Telemetry.SendLogFiles();
+                    if (apiStatus)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Success. Sorry for any problems.\nAttached files: {Folder}\n");
@@ -137,7 +142,8 @@ namespace Genshin_Stella_Setup.Scripts
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("We apologize. Fatal error with sending webhook.");
+                        Console.WriteLine(
+                            "Oh. We apologize for the fatal error that occurred while sending the debug logs.");
                     }
 
                     Console.ForegroundColor = ConsoleColor.Magenta;

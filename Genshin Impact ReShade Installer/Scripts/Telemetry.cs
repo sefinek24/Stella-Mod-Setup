@@ -105,7 +105,7 @@ namespace Genshin_Stella_Setup.Scripts
                 Console.WriteLine("Error\n");
                 Console.ResetColor();
 
-                Log.Error(ex, false);
+                Log.ThrowError(ex, false);
                 return false;
             }
         }

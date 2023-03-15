@@ -69,7 +69,7 @@ namespace Genshin_Stella_Setup
                 }
                 catch (Exception ex)
                 {
-                    Log.ErrorAuditLog(ex, true);
+                    Log.SaveErrorLog(ex, true);
                 }
 
 
@@ -79,16 +79,30 @@ namespace Genshin_Stella_Setup
             using (var sw = File.AppendText(Log.OutputFile))
             {
                 await sw.WriteLineAsync(
-                    $"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀\n⠀  ⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿\n⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                          Genshin Impact Mod Pack 2023 by Sefinek\n   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                   Installation started!\n⠀   ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿\n    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟\n ⠀   ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀\n ⠀   ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀\n  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆     » Estimated time: ~1 minute\n    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆    » Start time: {date}\n   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇\n  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟\n   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟\n=========================================================================================\n" +
+                    $"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀\n⠀  ⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿\n⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                          Genshin Impact Mod Pack 2023 by Sefinek\n   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                   Installation started!\n⠀   ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿\n    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟\n ⠀   ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀\n ⠀   ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀\n  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆     » Estimated time: ~1 minute\n    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆    » Start time: {date}\n   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇\n  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟\n   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟\n" +
+                    "=========================================================================================\n" +
                     //
-                    $"• Installation folder: {Folder}\n• Program files x64: {ProgramFiles}\n• Windows apps: {WindowsApps}\n• Packages: {Packages}\n\n" +
+                    $"• Installation folder: {Folder}\n" +
+                    $"• Program files x64: {ProgramFiles}\n" +
+                    $"• Windows apps: {WindowsApps}\n" +
+                    $"• Packages: {Packages}\n\n" +
                     //
-                    $"• Main setup file: {MainSetup}\n• VCLibs setup: {VcLibsSetup}\n• Windows Terminal [Win 10] setup: {WtWin10Setup}\n• Windows Terminal [Win 11] setup: {WtWin11Setup}\n\n" +
+                    $"• Main setup file: {MainSetup}\n" +
+                    $"• VCLibs setup: {VcLibsSetup}\n" +
+                    $"• Windows Terminal [Win 10] setup: {WtWin10Setup}\n" +
+                    $"• Windows Terminal [Win 11] setup: {WtWin11Setup}\n\n" +
                     //
-                    $"• Game path: {Actions.GameDirGlobal}\n• Game folder: {Actions.GameDirGlobal}\n• ReShade config: {Actions.ReShadeConfig}\n• ReShade log file: {Actions.ReShadeLogFile}\n\n" +
+                    $"• Game path: {Actions.GameDirGlobal}\n" +
+                    $"• Game folder: {Actions.GameDirGlobal}\n" +
+                    $"• ReShade config: {Actions.ReShadeConfig}\n" +
+                    $"• ReShade log file: {Actions.ReShadeLogFile}\n\n" +
                     //
-                    $"• Attempt number: {Actions.AttemptNumber}\n• VcLibs attempt: {VcLibsAttemptNumber}\n• Shortcut: {Actions.ShortcutQuestion}\n• Menu shortcuts: {Actions.MShortcutQuestion}\n" +
-                    "=========================================================================================\n\n");
+                    $"• Attempt number: {Actions.AttemptNumber}\n" +
+                    $"• VcLibs attempt: {VcLibsAttemptNumber}\n" +
+                    $"• Shortcut: {Actions.ShortcutQuestion}\n" +
+                    $"• Menu shortcuts: {Actions.MShortcutQuestion}\n" +
+                    "=========================================================================================\n\n"
+                );
             }
 
             // Ping
@@ -198,7 +212,7 @@ namespace Genshin_Stella_Setup
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, false);
+                    Log.ThrowError(e, false);
                 }
 
                 if (File.Exists(_wtSettings)) File.Delete(_wtSettings);
@@ -303,7 +317,7 @@ namespace Genshin_Stella_Setup
             }
             catch (Exception e)
             {
-                Log.Error(e, false);
+                Log.ThrowError(e, false);
             }
 
 
@@ -341,6 +355,7 @@ namespace Genshin_Stella_Setup
             // ----------------------- 11 -----------------------
             Console.WriteLine($"{ProcessInt++}/11 - Excellent! Finishing... ");
 
+            // Create shortcut on Desktop
             if (Regex.IsMatch(Actions.ShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase))
                 try
                 {
@@ -359,10 +374,11 @@ namespace Genshin_Stella_Setup
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, false);
+                    Log.ThrowError(e, false);
                 }
 
 
+            // Start menu
             if (Regex.IsMatch(Actions.MShortcutQuestion, "^y$", RegexOptions.IgnoreCase))
             {
                 var appStartMenuPath =
@@ -372,6 +388,7 @@ namespace Genshin_Stella_Setup
 
                 try
                 {
+                    // Create shortcut in Start Menu
                     var shell = new WshShell();
                     var shortcutLocation = Path.Combine(appStartMenuPath, "Genshin Stella Mod.lnk");
                     var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
@@ -382,6 +399,7 @@ namespace Genshin_Stella_Setup
                     shortcut.Save();
                     Log.Output("Start menu shortcut has been created.");
 
+                    // Create Internet shortcuts
                     var urls = new Dictionary<string, string>()
                     {
                         { "Official website", "https://genshin.sefinek.net" },
@@ -390,22 +408,19 @@ namespace Genshin_Stella_Setup
                         { "Support", "https://sefinek.net/genshin-impact-reshade/support" },
                         { "Leave feedback", "https://sefinek.net/genshin-impact-reshade/feedback" }
                     };
-
                     foreach (var kvp in urls)
                     {
                         var url = Path.Combine(appStartMenuPath, $"{kvp.Key} - Genshin Stella Mod.url");
                         using (var writer = new StreamWriter(url))
                         {
-                            await writer.WriteLineAsync("[InternetShortcut]");
-                            await writer.WriteLineAsync($"URL={kvp.Value}");
+                            await writer.WriteLineAsync($"[InternetShortcut]\nURL={kvp.Value}");
+                            Log.Output($"Created new Internet shortcut: {kvp.Value}");
                         }
                     }
-
-                    Log.Output("Internet shortcuts have been created.");
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, false);
+                    Log.ThrowError(e, false);
                 }
             }
 

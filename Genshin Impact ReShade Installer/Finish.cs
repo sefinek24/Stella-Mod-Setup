@@ -28,7 +28,7 @@ namespace Genshin_Stella_Setup
             }
             catch (Exception ex)
             {
-                Log.ErrorAuditLog(ex, true);
+                Log.SaveErrorLog(ex, true);
             }
 
             await Telemetry.Post("Installing mod on this machine...");
@@ -38,7 +38,7 @@ namespace Genshin_Stella_Setup
             Console.WriteLine($"\n{Actions.Line}\n");
 
 
-            // Done.
+            // Done
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Finished at: {0}", DateTime.Now);
             Console.WriteLine("You can delete all installation files.\n");
@@ -50,7 +50,7 @@ namespace Genshin_Stella_Setup
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
 
-            /* First question. */
+            /* First question */
             Console.Write("» I want to join our Discord server [Yes/no]: ");
             Console.ResetColor();
 
@@ -63,7 +63,7 @@ namespace Genshin_Stella_Setup
             }
 
 
-            // Reboot PC is required.
+            // Reboot PC is required
             if (Cmd.RebootNeeded)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -88,7 +88,7 @@ namespace Genshin_Stella_Setup
             }
 
 
-            /* Second question. */
+            /* Second question */
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("» I want to send anonymous installation log files to the developer [Yes/no]: ");
             Console.ResetColor();
@@ -124,7 +124,7 @@ namespace Genshin_Stella_Setup
             }
 
 
-            // Blue screen for Russian rats.
+            // Blue screen for russian rats
             if (RegionInfo.CurrentRegion.Name == "RU")
             {
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
@@ -139,7 +139,7 @@ namespace Genshin_Stella_Setup
             }
 
 
-            /* Thirty question. */
+            /* Thirty question */
             if (!Cmd.RebootNeeded)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -158,12 +158,12 @@ namespace Genshin_Stella_Setup
                     catch (Exception e)
                     {
                         MessageBox.Show(e.Message, Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Log.ErrorAuditLog(e, true);
+                        Log.SaveErrorLog(e, true);
                     }
             }
 
 
-            /* Last question. */
+            /* Last question */
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("» Give me a random cat image and close setup [Yes/no]: ");
             Console.ResetColor();
@@ -201,7 +201,7 @@ namespace Genshin_Stella_Setup
             }
 
 
-            // Close application.
+            // Close application
             Environment.Exit(0);
         }
     }

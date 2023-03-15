@@ -217,7 +217,7 @@ namespace Genshin_Stella_Setup
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine(
                     $"Your operating system version is old and this mod was not tested on it. Errors may occur during installation.\n\nGo to Windows Update and check for updates.\nYou can still manually install this mod. Contact to the developer how to do this.\n\n» Your version: {Os.Version}\n» Recommended: 22H2\n");
-                Log.ErrorAuditLog(new Exception("Old operating system version."), false);
+                Log.SaveErrorLog(new Exception("Old operating system version."), false);
                 Console.ResetColor();
             }
 

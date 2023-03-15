@@ -22,7 +22,7 @@ namespace Genshin_Stella_Setup.Scripts
             if (!File.Exists(Actions.ReShadeConfig) || !File.Exists(Actions.ReShadeLogFile))
             {
                 Console.WriteLine("Error");
-                Log.Error(
+                Log.ThrowError(
                     new Exception(
                         $"Something went wrong. Config or log file for ReShade was not found in: {Actions.ReShadeConfig}"),
                     true);
