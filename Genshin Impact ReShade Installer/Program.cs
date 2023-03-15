@@ -21,9 +21,7 @@ namespace Genshin_Stella_Setup
     {
         public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
         public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-        public static readonly string AppData =
-            $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\Genshin Stella Mod by Sefinek";
+        public static readonly string AppData = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Genshin Stella Mod by Sefinek");
 
         public const string AppWebsite = "https://genshin.sefinek.net";
         public const string DiscordUrl = "https://discord.gg/SVcbaRc7gH";
@@ -31,8 +29,7 @@ namespace Genshin_Stella_Setup
         public static readonly string UserAgent =
             $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})";
 
-
-        private static readonly string[] Dirs = { "Data", "Dependencies", @"Data\Images", @"Data\Libs" };
+        private static readonly string[] Dirs = { "Data", "Dependencies", "Data/Images", "Data/Libs" };
 
         private static bool AppReady()
         {
@@ -84,14 +81,8 @@ namespace Genshin_Stella_Setup
 
             Console.Title = $"{AppName} • v{AppVersion}";
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("                             x Your game files WILL BE NOT modified x");
-            Console.WriteLine("                         x If you need help, join to my Discord server! x");
-            Console.ResetColor();
-            Console.WriteLine();
-
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("» Important\nPlease unzip downloaded ZIP archive before installation. Good luck!\n");
+            Console.WriteLine("                                         » Important «\n                Please unzip downloaded ZIP archive before installation. Good luck!\n");
 
 
             // 1
@@ -99,7 +90,7 @@ namespace Genshin_Stella_Setup
             Console.Write("• Authorizing... ");
             Console.ResetColor();
 
-            Log.Output("Authorizing...");
+            Log.Output("Connecting to Sefinek API and authorizing...");
 
             try
             {
@@ -120,11 +111,13 @@ namespace Genshin_Stella_Setup
                 var responseJson = Encoding.UTF8.GetString(responseBytes);
 
                 var token = JObject.Parse(responseJson)["token"]?.Value<string>();
+                var status = JObject.Parse(responseJson)["status"]?.Value<int>();
                 if (token != null)
                 {
-                    Log.Output(
-                        $"Successfully authorized with status code {JObject.Parse(responseJson)["status"]?.Value<string>()}!");
                     Telemetry.BearerToken = token;
+
+                    Log.Output( $"Successfully authorized with status code {status}!");
+
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("OK");
                 }
@@ -133,8 +126,7 @@ namespace Genshin_Stella_Setup
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("FAILED");
 
-                    var status = JObject.Parse(responseJson)["status"]?.Value<int>();
-                    Log.ErrorAndExit(new Exception($"Failed. HTTP error {status}"), false, false);
+                    Log.ErrorAndExit(new Exception($"Authorization failed. HTTP error {status}"), false, false);
                     Console.ReadLine();
                 }
             }
@@ -152,11 +144,8 @@ namespace Genshin_Stella_Setup
             switch (Os.RegionName)
             {
                 case "RU":
-                    Log.Output("Russia xD");
-
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Russia XDD do you like clowns?");
-                    // Console.ForegroundColor = ConsoleColor.Red;
                     // Console.WriteLine("RUSSIAN BIG FAT PIG XDDDDDDDDDDDD NICE TRY\n");
 
                     var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -168,8 +157,7 @@ namespace Genshin_Stella_Setup
                     break;
                 case "PL":
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(
-                        "OK - O kurwa polak lub ukrainiec mieszkający w polsce nwn, siema to ja informejtik");
+                    Console.WriteLine("OK - O kurwa polak lub ukrainiec mieszkający w polsce nwn");
 
                     Log.Output("Poland gigachad, slava Poland!");
                     break;
@@ -220,7 +208,17 @@ namespace Genshin_Stella_Setup
                 Log.SaveErrorLog(new Exception("Old operating system version."), false);
                 Console.ResetColor();
             }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("OK");
+            }
 
+
+            // 4
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("• Checking other data... ");
+            Console.ResetColor();
 
             if (Directory.Exists(Installation.Folder))
             {
@@ -243,7 +241,7 @@ namespace Genshin_Stella_Setup
             }
 
 
-            // 2
+            // 5
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Sending a consent request... ");
             Console.ResetColor();
@@ -266,7 +264,7 @@ namespace Genshin_Stella_Setup
             }
 
 
-            // 2
+            // 6
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Searching for new updates... ");
             Console.ResetColor();
@@ -274,6 +272,8 @@ namespace Genshin_Stella_Setup
             var client = new WebClient();
             client.Headers.Add("user-agent", UserAgent);
             var json = await client.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/version/apps");
+            Log.Output($"Received: {json}");
+
             var res = JsonConvert.DeserializeObject<InstallerVersion>(json);
 
             if (res.Installer.Version != AppVersion)
@@ -283,7 +283,7 @@ namespace Genshin_Stella_Setup
                 Console.ResetColor();
 
                 Console.WriteLine(
-                    $"This setup is outdated. Please download the latest version from my official website.\n{AppWebsite}\n\n" +
+                    $"This setup is outdated. Please download the latest version from:\n{AppWebsite}\n\n" +
                     $"• Your version   : v{AppVersion}\n" +
                     $"• Latest version : v{res.Installer.Version} {(res.Installer.Beta ? "Beta" : "stable")} from {res.Installer.ReleaseDate}\n" +
                     $"• Size           : {res.Installer.Size}\n"
@@ -291,10 +291,10 @@ namespace Genshin_Stella_Setup
 
 
                 Log.Output($"This program is outdated. Your version: {AppVersion}, latest: {res.Installer.Version}");
-
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("» Open official website now? [Yes/no]: ");
+                Console.Write("» Open the official website now to download? [Yes/no]: ");
                 Console.ResetColor();
+
                 var websiteQuestion = Console.ReadLine()?.ToLower();
                 switch (websiteQuestion)
                 {
@@ -324,19 +324,23 @@ namespace Genshin_Stella_Setup
             }
 
 
-            // 4
+            // 7
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Starting... ");
             Console.ResetColor();
 
-            if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location))
-                    .Count() > 1)
+            if (Process.GetProcessesByName(AppName).Length > 1)
             {
-                MessageBox.Show("One instance of installation is currently open.", AppName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("FAILED");
+
+                string alreadyRunning = "Another instance of the application is already running.";
+                Log.Output(alreadyRunning);
+                MessageBox.Show(alreadyRunning, AppName,MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 Environment.Exit(0);
             }
+
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -346,11 +350,16 @@ namespace Genshin_Stella_Setup
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(
-                "» Congratulations!\n" +
-                "It looks like your computer meets the hardware requirements.\n" +
-                "Now, please answer the following questions by typing Yes or No.\n"
+                "Congratulations! Your computer appears to meet the hardware requirements.\n" +
+                "Please answer the following questions by typing 'Yes' or 'No'.\n"
             );
 
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("                            x Your game files will NOT be modified! x");
+            Console.WriteLine("                          x If you need help, join my Discord server. x");
+            Console.ResetColor();
+            Console.WriteLine();
 
             var start = AppReady();
             if (start)
@@ -376,7 +385,7 @@ namespace Genshin_Stella_Setup
 
         public static class NativeMethods
         {
-            [DllImport("user32.dll", EntryPoint = "BlockInput")]
+            [DllImport("user32.dll")]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool BlockInput([MarshalAs(UnmanagedType.Bool)] bool fBlockIt);
         }

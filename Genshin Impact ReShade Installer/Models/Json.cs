@@ -17,10 +17,10 @@ namespace Genshin_Stella_Setup.Models
     internal class InstallerVersion
     {
         public string Status { get; set; }
-        public AppData Installer { get; set; }
+        public ApiData Installer { get; set; }
     }
 
-    public class AppData
+    public class ApiData
     {
         public string Version { get; set; }
         public bool Beta { get; set; }

@@ -12,21 +12,19 @@ namespace Genshin_Stella_Setup.Scripts
         {
             try
             {
-                var accessWebClient = new WebClient();
-                accessWebClient.Headers.Add("User-Agent", Program.UserAgent);
-                accessWebClient.Headers.Add("Authorization", "Bearer " + Telemetry.BearerToken);
-                var responseJson = await accessWebClient.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/access/setup");
+                var webClient = new WebClient();
+                webClient.Headers.Add("User-Agent", Program.UserAgent);
+                webClient.Headers.Add("Authorization", "Bearer " + Telemetry.BearerToken);
+                var res = await webClient.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/access/setup");
+                Log.Output($"Received: {res}");
 
-                var setupResponse = JsonConvert.DeserializeObject<SetupAccess>(responseJson);
-                return setupResponse;
+                return JsonConvert.DeserializeObject<SetupAccess>(res);
             }
             catch (WebException ex)
             {
                 if (ex.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    Log.ErrorAndExit(
-                        new Exception("HTTP error 401: Your authorization token expired. Please try again."), false,
-                        false);
+                    Log.ErrorAndExit(new Exception("HTTP error 401: Your authorization token expired. Please try again."), false, false);
                 }
                 else
                 {
