@@ -6,7 +6,7 @@
 #define MyAppId "5D6E44F3-2141-4EA4-89E3-6C3018583FF7"
 
 [Setup]
-AppCopyright=Copyright 2023 © by Sefinek. All Rights Reserved.
+AppCopyright=Copyright 2023 Â© by Sefinek. All Rights Reserved.
 AppId={#MyAppId}
 AppMutex={#MyAppId}
 AppName={#MyAppName}
@@ -77,9 +77,9 @@ Name: "{autoprograms}\Genshin Impact Mod Pack\Uninstall mod"; Filename: "{app}\u
 
 [Run]
 Filename: "powershell.exe"; Parameters: "Add-AppxPackage -Path {tmp}\Microsoft.VCLibs.x64.14.00.Desktop.appx"; StatusMsg: "Installing Microsoft VCLibs..."; Flags: runhidden
-Filename: "cmd.exe"; Parameters: "sfc /SCANNOW"; Flags: runhidden; StatusMsg: "Scanning and reparing system files..."; Tasks: RunSfcSCANNOW 
+Filename: "cmd.exe"; Parameters: "sfc /SCANNOW"; Flags: runhidden; StatusMsg: "Scanning and reparing system files..."; Tasks: RunSfcSCANNOW
 
-WorkingDir: "{app}"; Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}} Launcher"; Flags: nowait postinstall skipifsilent runascurrentuser 
+WorkingDir: "{app}"; Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}} Launcher"; Flags: nowait postinstall skipifsilent runascurrentuser
 
 #define public Dependency_NoExampleSetup
 #include "CodeDependencies.iss"
@@ -100,7 +100,7 @@ end;
 
 function CmdLineParamExists(const value: string): Boolean;
 var
-  i: Integer;  
+  i: Integer;
 begin
   Result := False;
   for i := 1 to ParamCount do
