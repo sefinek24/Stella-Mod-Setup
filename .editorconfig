@@ -1,6 +1,5 @@
 # EditorConfig is awesome: https://EditorConfig.org
 
-# Top-most EditorConfig file
 root = true
 
 # Default settings
@@ -10,22 +9,27 @@ charset = utf-8
 trim_trailing_whitespace = true
 
 # Microsoft .NET properties
-csharp_new_line_before_members_in_object_initializers = false
-csharp_preferred_modifier_order = public, private, protected, internal, file, new, static, abstract, virtual, sealed, readonly, override, extern, unsafe, volatile, async, required:suggestion
-csharp_style_prefer_utf8_string_literals = true:suggestion
-csharp_style_var_elsewhere = true:suggestion
-csharp_style_var_for_built_in_types = true:suggestion
-csharp_style_var_when_type_is_apparent = true:suggestion
-dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary:none
-dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:none
-dotnet_style_parentheses_in_relational_binary_operators = never_if_unnecessary:none
-dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
-dotnet_style_predefined_type_for_member_access = true:suggestion
-dotnet_style_qualification_for_event = false:suggestion
-dotnet_style_qualification_for_field = false:suggestion
-dotnet_style_qualification_for_method = false:suggestion
-dotnet_style_qualification_for_property = false:suggestion
-dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+csharp_language_version = 7.3
+csharp_preferred_modifier_order = public, private, protected, internal, static, readonly, volatile, override, abstract, sealed, unsafe, extern
+csharp_preferred_modifier_order_for_events = protected, internal, private, public, static
+csharp_preferred_modifier_order_for_indexers = public, private, protected, internal, static, readonly, volatile, override, abstract, sealed, unsafe, extern
+csharp_preferred_modifier_order_for_methods = public, private, protected, internal, static, readonly, volatile, override, abstract, sealed, unsafe, extern
+csharp_preferred_modifier_order_for_properties = public, private, protected, internal, static, readonly, volatile, override, abstract, sealed, unsafe, extern
+csharp_prefer_static_local_function = true
+csharp_style_prefer_index_operator = true
+csharp_style_prefer_inferred_tuple_names = true
+csharp_style_prefer_simple_default_expression = true
+csharp_style_prefer_switch_expression = true
+csharp_style_var_elsewhere = true
+csharp_style_var_for_built_in_types = true
+csharp_style_var_when_type_is_apparent = true
+dotnet_style_predefined_type_for_locals_parameters_members = true
+dotnet_style_predefined_type_for_member_access = true
+dotnet_style_qualification_for_event = false
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_property = false
+dotnet_style_require_accessibility_modifiers = for_non_interface_members
 
 # ReSharper inspection severities
 resharper_arrange_redundant_parentheses_highlighting = hint
@@ -40,21 +44,19 @@ resharper_suggest_var_or_type_elsewhere_highlighting = hint
 resharper_suggest_var_or_type_simple_types_highlighting = hint
 
 # Use spaces rather than tabs and set tab size to 4
+[*]
+indent_style = space
+indent_size = 4
+tab_width = 4
+insert_final_newline = true
+max_line_length = 120
+
+# Code analysis settings
 [*.cs]
 indent_style = space
 indent_size = 4
 insert_final_newline = true
-csharp_version = 7.3
-dotnet_sort_system_directives_first = true
-
-# C# code style preferences
-csharp_preferred_modifier_order = public,private,protected,internal,static,readonly,volatile,override,abstract,sealed,unsafe,extern
-csharp_preferred_modifier_order_for_events = protected,internal,private,public,static
-csharp_preferred_modifier_order_for_indexers = public,private,protected,internal,static,readonly,volatile,override,abstract,sealed,unsafe,extern
-csharp_preferred_modifier_order_for_methods = public,private,protected,internal,static,readonly,volatile,override,abstract,sealed,unsafe,extern
-csharp_preferred_modifier_order_for_properties = public,private,protected,internal,static,readonly,volatile,override,abstract,sealed,unsafe,extern
-
-# Code analysis settings
+max_line_length = 120
 dotnet_diagnostic.ca1062.severity = error
 dotnet_diagnostic.ca1303.severity = error
 dotnet_diagnostic.ca1822.severity = error
@@ -63,15 +65,8 @@ dotnet_diagnostic.ca2208.severity = error
 dotnet_diagnostic.ca2213.severity = error
 
 # Ensure consistent line endings on all platforms
-[*.{cs,txt,md,html,js,json,xml}]
-end_of_line = lf
-
 [*.{appxmanifest,axml,build,c,c++,cc,cginc,compute,config,cp,cpp,cshtml,csproj,cu,cuh,cxx,dbml,discomap,dtd,fx,fxh,h,hh,hlsl,hlsli,hlslinc,hpp,htm,html,hxx,inc,inl,ino,ipp,ixx,jsproj,lsproj,mpp,mq4,mq5,mqh,njsproj,nuspec,proj,props,razor,resw,resx,StyleCop,targets,tasks,tpp,usf,ush,vbproj,xml,xsd}]
 indent_style = tab
-indent_size = tab
-tab_width = 4
-
-[*.{asax,ascx,aspx,axaml,cs,css,master,paml,skin,vb,xaml,xamlx,xoml}]
-indent_style = space
 indent_size = 4
 tab_width = 4
+insert_final_newline = true
