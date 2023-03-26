@@ -12,7 +12,7 @@ namespace Genshin_Stella_Setup
  * Rename this file to "Data.cs" from "DataDefault.cs" and change class name to "Data".
  * Good luck (☆ω☆)
  *
- * https://sefinek.net/genshin-impact-reshade
+ * https://genshin.sefinek.net
  *
  *
  */

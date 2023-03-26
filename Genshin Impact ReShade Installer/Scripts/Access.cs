@@ -1,5 +1,5 @@
-using System.Net;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Genshin_Stella_Setup.Models;
 using Newtonsoft.Json;
@@ -24,7 +24,9 @@ namespace Genshin_Stella_Setup.Scripts
             {
                 if (ex.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    Log.ErrorAndExit(new Exception("HTTP error 401: Your authorization token expired. Please try again."), false, false);
+                    Log.ErrorAndExit(
+                        new Exception("HTTP error 401: Your authorization token expired. Please try again."), false,
+                        false);
                 }
                 else
                 {
