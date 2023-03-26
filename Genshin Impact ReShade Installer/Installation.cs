@@ -18,14 +18,14 @@ namespace Genshin_Stella_Setup
     {
         // Dependencies
         private const string Dependencies = "Dependencies";
-        public static readonly string InstalledViaSetup = Program.AppData + @"\installed-via-setup.sfn";
         private const string MainSetup = Dependencies + @"\Genshin Stella Mod Setup.exe";
         private const string WtWin10Setup = Dependencies + @"\WindowsTerminal_Win10.msixbundle";
         private const string WtWin11Setup = Dependencies + @"\WindowsTerminal_Win11.msixbundle";
-        public static readonly string VcLibsSetup = Dependencies + @"\Microsoft.VCLibs.x64.14.00.Desktop.appx";
 
         // Other
         public const string Folder = @"C:\Genshin-Impact-ReShade";
+        public static readonly string InstalledViaSetup = Program.AppData + @"\installed-via-setup.sfn";
+        public static readonly string VcLibsSetup = Dependencies + @"\Microsoft.VCLibs.x64.14.00.Desktop.appx";
 
         public static readonly string
             ProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
@@ -400,7 +400,7 @@ namespace Genshin_Stella_Setup
                     Log.Output("Start menu shortcut has been created.");
 
                     // Create Internet shortcuts
-                    var urls = new Dictionary<string, string>()
+                    var urls = new Dictionary<string, string>
                     {
                         { "Official website", "https://genshin.sefinek.net" },
                         { "Donate", "https://sefinek.net/support-me" },

@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -19,12 +18,14 @@ namespace Genshin_Stella_Setup
 {
     internal abstract class Program
     {
-        public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
-        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        public static readonly string AppData = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Genshin Stella Mod by Sefinek");
-
         public const string AppWebsite = "https://genshin.sefinek.net";
         public const string DiscordUrl = "https://discord.gg/SVcbaRc7gH";
+        public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
+        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        public static readonly string AppData =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "Genshin Stella Mod by Sefinek");
 
         public static readonly string UserAgent =
             $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})";
@@ -82,7 +83,8 @@ namespace Genshin_Stella_Setup
             Console.Title = $"{AppName} • v{AppVersion}";
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("                                         » Important «\n                Please unzip downloaded ZIP archive before installation. Good luck!\n");
+            Console.WriteLine(
+                "                                         » Important «\n                Please unzip downloaded ZIP archive before installation. Good luck!\n");
 
 
             // 1
@@ -116,7 +118,7 @@ namespace Genshin_Stella_Setup
                 {
                     Telemetry.BearerToken = token;
 
-                    Log.Output( $"Successfully authorized with status code {status}!");
+                    Log.Output($"Successfully authorized with status code {status}!");
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("OK");
@@ -334,9 +336,9 @@ namespace Genshin_Stella_Setup
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("FAILED");
 
-                string alreadyRunning = "Another instance of the application is already running.";
+                const string alreadyRunning = "Another instance of the application is already running.";
                 Log.Output(alreadyRunning);
-                MessageBox.Show(alreadyRunning, AppName,MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(alreadyRunning, AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Environment.Exit(0);
             }
