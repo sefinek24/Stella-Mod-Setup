@@ -47,10 +47,9 @@ namespace Genshin_Stella_Setup
             return true;
         }
 
-        public static string Rot47(string input)
+        public static string EncodeString(string input)
         {
             var result = new StringBuilder();
-
             foreach (var c in input)
                 if (c >= 33 && c <= 126)
                 {
@@ -104,7 +103,7 @@ namespace Genshin_Stella_Setup
                     { "osName", Os.Name },
                     { "osBuild", Os.Build },
                     { "setupVersion", AppVersion },
-                    { "secretKey", Rot47(Data.SecretKey) }
+                    { "secretKey", EncodeString(Data.SecretKey) }
                 };
 
                 var webClient = new WebClient();
