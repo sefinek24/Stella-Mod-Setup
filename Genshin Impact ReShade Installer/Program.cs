@@ -134,7 +134,8 @@ namespace Genshin_Stella_Setup
             }
             catch (Exception ex)
             {
-                Log.ErrorAndExit(new Exception($"{ex.Message}\n\nMore information: {ex}"), false, false);
+                Log.SaveErrorLog(ex, true);
+                Log.ErrorAndExit(new Exception(ex.Message), false, false);
             }
 
 
@@ -221,6 +222,18 @@ namespace Genshin_Stella_Setup
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Checking other data... ");
             Console.ResetColor();
+
+            if (Process.GetProcessesByName(AppName).Length > 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("FAILED");
+
+                const string alreadyRunning = "Another instance of the application is already running.";
+                Log.Output(alreadyRunning);
+                MessageBox.Show(alreadyRunning, AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Environment.Exit(0);
+            }
 
             if (Directory.Exists(Installation.Folder))
             {
@@ -330,19 +343,6 @@ namespace Genshin_Stella_Setup
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Starting... ");
             Console.ResetColor();
-
-            if (Process.GetProcessesByName(AppName).Length > 1)
-            {
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine("FAILED");
-
-                const string alreadyRunning = "Another instance of the application is already running.";
-                Log.Output(alreadyRunning);
-                MessageBox.Show(alreadyRunning, AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                Environment.Exit(0);
-            }
-
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

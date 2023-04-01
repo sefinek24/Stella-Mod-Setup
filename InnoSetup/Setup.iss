@@ -1,5 +1,5 @@
 #define MyAppName "Genshin Stella Mod"
-#define MyAppVersion "6.0.0.0"
+#define MyAppVersion "6.0.0.1"
 #define MyAppPublisher "Sefinek Inc."
 #define MyAppURL "https://genshin.sefinek.net"
 #define MyAppExeName "Genshin Stella Mod Launcher.exe"
@@ -14,8 +14,8 @@ AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
-AppSupportURL=https://discord.gg/8GbXtnYQKd
-AppUpdatesURL=https://github.com/sefinek24/Genshin-Impact-ReShade/blob/main/CHANGELOG.md
+AppSupportURL=https://sefinek.net/genshin-impact-reshade/support
+AppUpdatesURL=https://github.com/sefinek24/Genshin-Impact-ReShade/wiki/13.-Changelog-for-v6.x.x
 ArchitecturesInstallIn64BitMode=x64
 ArchitecturesAllowed=x64
 MinVersion=6.1sp1

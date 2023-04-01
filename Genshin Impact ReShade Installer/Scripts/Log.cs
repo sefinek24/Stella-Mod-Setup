@@ -55,7 +55,7 @@ namespace Genshin_Stella_Setup.Scripts
             }
             catch (Exception e)
             {
-                Output($"Output() SaveErrorLog() - Telemetry error: {e}");
+                Output($"Output() SaveErrorLog() - Telemetry error {e}");
             }
         }
 
@@ -93,8 +93,9 @@ namespace Genshin_Stella_Setup.Scripts
 
                 try
                 {
-                    new ToastContentBuilder().AddText("Failed to install 😿")
-                        .AddText("🎶 Sad song... Something went wrong...")
+                    new ToastContentBuilder()
+                        .AddText("Failed to prepare setup or install 😿")
+                        .AddText("🎵 Sad song... Could you please try again?")
                         .Show();
                 }
                 catch (Exception e)
