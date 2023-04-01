@@ -31,7 +31,7 @@ namespace Genshin_Stella_Setup
                 Log.SaveErrorLog(ex, true);
             }
 
-            await Telemetry.Post("Installing mod on this machine...");
+            await Telemetry.Post("Successfully installed mod on this PC!");
             TaskbarManager.Instance.SetProgressValue(100, 100);
 
             Log.Output("Installation completed!");
