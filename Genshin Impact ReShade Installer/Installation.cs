@@ -74,7 +74,7 @@ namespace Genshin_Stella_Setup
 
 
             // ----------------------- 1 -----------------------
-            Console.WriteLine($"{ProcessInt++}/11 - Preparing...");
+            Console.WriteLine($"{ProcessInt++}/12 - Preparing...");
 
             using (var sw = File.AppendText(Log.OutputFile))
             {
@@ -121,7 +121,7 @@ namespace Genshin_Stella_Setup
 
             // ----------------------- 2 -----------------------
             Console.WriteLine(
-                $"{ProcessInt++}/11 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x64)... Skipped");
+                $"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x64)... Skipped");
 
             // if (!File.Exists(Redist64Setup))
             // 	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist64Setup}"), false, false);
@@ -135,7 +135,7 @@ namespace Genshin_Stella_Setup
 
             // ----------------------- 3 -----------------------
             Console.WriteLine(
-                $"{ProcessInt++}/11 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x86)... Skipped");
+                $"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x86)... Skipped");
 
             // if (!File.Exists(Redist86Setup))
             //	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist86Setup}"), false, false);
@@ -144,11 +144,11 @@ namespace Genshin_Stella_Setup
 
             // Log.Output("Installed Microsoft Visual C++ 2015-2022 Redistributable (x86).");
 
-            TaskbarManager.Instance.SetProgressValue(40, 100);
+            TaskbarManager.Instance.SetProgressValue(35, 100);
 
 
             // ----------------------- 4 -----------------------
-            Console.WriteLine($"{ProcessInt++}/11 - Installing .NET Framework 4.8... Skipped");
+            Console.WriteLine($"{ProcessInt++}/12 - Installing .NET Framework 4.8... Skipped");
 
             // if (!File.Exists(Ndp48Setup))
             // 	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Ndp48Setup}"), false, false);
@@ -157,26 +157,45 @@ namespace Genshin_Stella_Setup
 
             // Log.Output("Installed Microsoft .NET Framework 4.8.");
 
-            TaskbarManager.Instance.SetProgressValue(50, 100);
+            TaskbarManager.Instance.SetProgressValue(40, 100);
 
 
             // ----------------------- 5 -----------------------
-            Console.WriteLine($"{ProcessInt++}/11 - Installing mod and our launcher in {Folder}...");
+            Console.Write($"{ProcessInt++}/12 - Uninstalling previous version... ");
+
+            if (File.Exists($"{Folder}/unins000.exe") && File.Exists($"{Folder}/unins000.dat"))
+            {
+                Console.WriteLine();
+
+                await Cmd.Execute($"{Folder}/unins000.exe",
+                    $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\uninstallation.log\"", null);
+            }
+            else
+            {
+                Console.WriteLine("Skipped");
+            }
+
+
+            TaskbarManager.Instance.SetProgressValue(50, 100);
+
+
+            // ----------------------- 6 -----------------------
+            Console.WriteLine($"{ProcessInt++}/12 - Installing mod and our launcher in {Folder}...");
 
             if (!File.Exists(MainSetup))
                 Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
 
             await Cmd.Execute(MainSetup,
-                $"/SILENT /NORESTART /INSTVIASETUP /LOG=\"{Log.Folder}\\mod_installation.log\"", null);
+                $"/SILENT /NORESTART /INSTVIASETUP /LOG=\"{Log.Folder}\\installation.log\"", null);
 
             if (!Directory.Exists(Folder))
                 Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);
 
-            TaskbarManager.Instance.SetProgressValue(80, 100);
+            TaskbarManager.Instance.SetProgressValue(60, 100);
 
 
-            // ----------------------- 6 -----------------------
-            Console.Write($"{ProcessInt++}/11 - Backing up the Windows Terminal configuration file in app data... ");
+            // ----------------------- 7 -----------------------
+            Console.Write($"{ProcessInt++}/12 - Backing up the Windows Terminal configuration file in app data... ");
 
             var wtAppData1 = Wt.GetAppData();
             if (string.IsNullOrEmpty(wtAppData1))
@@ -236,11 +255,11 @@ namespace Genshin_Stella_Setup
                 Log.Output("Backup was skipped.");
             }
 
-            TaskbarManager.Instance.SetProgressValue(60, 100);
+            TaskbarManager.Instance.SetProgressValue(70, 100);
 
 
-            // ----------------------- 7 -----------------------
-            Console.WriteLine($"{ProcessInt++}/11 - Installing latest Windows Terminal...");
+            // ----------------------- 8 -----------------------
+            Console.WriteLine($"{ProcessInt++}/12 - Installing latest Windows Terminal...");
 
             if (!File.Exists(WtWin10Setup) || !File.Exists(WtWin11Setup))
                 Log.ErrorAndExit(
@@ -264,11 +283,11 @@ namespace Genshin_Stella_Setup
                 Log.Output($"Installed WT for Win 10: {WtWin10Setup}");
             }
 
-            TaskbarManager.Instance.SetProgressValue(70, 100);
+            TaskbarManager.Instance.SetProgressValue(75, 100);
 
 
-            // ----------------------- 8 -----------------------
-            Console.WriteLine($"{ProcessInt++}/11 - Checking installed software...");
+            // ----------------------- 9 -----------------------
+            Console.WriteLine($"{ProcessInt++}/12 - Checking installed software...");
 
             var wtProgramFiles = Wt.GetProgramFiles();
             if (string.IsNullOrEmpty(wtProgramFiles))
@@ -286,12 +305,12 @@ namespace Genshin_Stella_Setup
                 else _wtSettings = $@"{wtAppData2}\LocalState\settings.json";
             }
 
-            TaskbarManager.Instance.SetProgressValue(75, 100);
+            TaskbarManager.Instance.SetProgressValue(80, 100);
 
 
-            // ----------------------- 9 -----------------------
+            // ----------------------- 10 -----------------------
             Console.WriteLine(
-                $"{ProcessInt++}/11 - Downloading config file for FPS Unlocker from cdn.sefinek.net... [~500 bytes]");
+                $"{ProcessInt++}/12 - Downloading config file for FPS Unlocker from cdn.sefinek.net... [~500 bytes]");
 
             try
             {
@@ -324,8 +343,8 @@ namespace Genshin_Stella_Setup
             TaskbarManager.Instance.SetProgressValue(90, 100);
 
 
-            // ----------------------- 10 -----------------------
-            Console.Write($"{ProcessInt++}/11 - Downloading files from cdn.sefinek.net and configuring ReShade... ");
+            // ----------------------- 11 -----------------------
+            Console.Write($"{ProcessInt++}/12 - Downloading files from cdn.sefinek.net and configuring ReShade... ");
 
             if (Directory.Exists(Actions.GameDirGlobal))
             {
@@ -349,11 +368,11 @@ namespace Genshin_Stella_Setup
                 Log.Output("Configure ReShade manually.");
             }
 
-            TaskbarManager.Instance.SetProgressValue(95, 100);
+            TaskbarManager.Instance.SetProgressValue(99, 100);
 
 
-            // ----------------------- 11 -----------------------
-            Console.WriteLine($"{ProcessInt++}/11 - Excellent! Finishing... ");
+            // ----------------------- 12 -----------------------
+            Console.WriteLine($"{ProcessInt++}/12 - Excellent! Finishing... ");
 
             // Create shortcut on Desktop
             if (Regex.IsMatch(Actions.ShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase))
