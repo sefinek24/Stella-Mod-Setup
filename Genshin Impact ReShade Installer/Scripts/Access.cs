@@ -17,8 +17,7 @@ namespace Genshin_Stella_Setup.Scripts
                 wc.Headers.Add("User-Agent", Program.UserAgent);
                 wc.Headers.Add("Authorization", "Bearer " + Telemetry.BearerToken);
                 var res = await wc.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/access/setup");
-
-                Log.Output($"Received: {res}");
+                Log.Output(res);
 
                 return JsonConvert.DeserializeObject<SetupAccess>(res);
             }
