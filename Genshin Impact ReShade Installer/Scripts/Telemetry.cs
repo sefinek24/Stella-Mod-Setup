@@ -11,8 +11,8 @@ namespace Genshin_Stella_Setup.Scripts
     internal abstract class Telemetry
     {
         public const string ApiUrl = "https://api.sefinek.net/api/v3/genshin-impact-reshade";
-
         // public const string ApiUrl = " http://127.0.0.1:4010/api/v3/genshin-impact-reshade";
+
         public static string BearerToken = "";
 
         public static async Task Post(string data)
@@ -86,8 +86,7 @@ namespace Genshin_Stella_Setup.Scripts
                 var webClient = new WebClient();
                 webClient.Headers.Add("User-Agent", Program.UserAgent);
                 webClient.Headers.Add("Authorization", $"Bearer {BearerToken}");
-                var responseBytes =
-                    await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/send-log-files", "PUT", obj);
+                var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/send-log-files", "PUT", obj);
                 var json = Encoding.UTF8.GetString(responseBytes);
 
                 Log.Output(json);

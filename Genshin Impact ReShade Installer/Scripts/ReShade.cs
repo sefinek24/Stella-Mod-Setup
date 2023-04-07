@@ -11,21 +11,16 @@ namespace Genshin_Stella_Setup.Scripts
         {
             var wbClient1 = new WebClient();
             wbClient1.Headers.Add("user-agent", Program.UserAgent);
-            await wbClient1.DownloadFileTaskAsync(
-                "https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/config", Actions.ReShadeConfig);
+            await wbClient1.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/config", Actions.ReShadeConfig);
 
             var wbClient2 = new WebClient();
             wbClient2.Headers.Add("user-agent", Program.UserAgent);
-            await wbClient2.DownloadFileTaskAsync(
-                "https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/log", Actions.ReShadeLogFile);
+            await wbClient2.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/log", Actions.ReShadeLogFile);
 
             if (!File.Exists(Actions.ReShadeConfig) || !File.Exists(Actions.ReShadeLogFile))
             {
                 Console.WriteLine("Error");
-                Log.ThrowError(
-                    new Exception(
-                        $"Something went wrong. Config or log file for ReShade was not found in: {Actions.ReShadeConfig}"),
-                    true);
+                Log.ThrowError(new Exception($"Something went wrong. Config or log file for ReShade was not found in: {Actions.ReShadeConfig}"), true);
             }
             else
             {

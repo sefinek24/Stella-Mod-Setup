@@ -143,8 +143,7 @@ namespace Genshin_Stella_Setup.Scripts
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine(
-                            "Oh. We apologize for the fatal error that occurred while sending the debug logs.");
+                        Console.WriteLine("Oh. We apologize for the fatal error that occurred while sending the debug logs.");
                     }
 
                     Console.ForegroundColor = ConsoleColor.Magenta;

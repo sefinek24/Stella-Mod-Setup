@@ -23,9 +23,7 @@ namespace Genshin_Stella_Setup.Scripts
             catch (WebException ex)
             {
                 if (ex.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Unauthorized)
-                    Log.ErrorAndExit(
-                        new Exception("HTTP error 401: Your authorization token expired. Please try again."), false,
-                        false);
+                    Log.ErrorAndExit(new Exception("HTTP error 401: Your authorization token expired. Please try again."), false, false);
                 else
                     Log.ErrorAndExit(new Exception($"HTTP error: {ex.Message}"), false, false);
 

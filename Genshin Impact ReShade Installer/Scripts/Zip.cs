@@ -23,15 +23,16 @@ namespace Genshin_Stella_Setup.Scripts
         {
             using (var zip = new ZipFile { CompressionLevel = CompressionLevel.BestCompression })
             {
-                var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories)
-                    .Where(f => Path.GetExtension(f).ToLowerInvariant() != ".zip").ToArray();
+                var files = Directory
+                    .GetFiles(source, "*", SearchOption.AllDirectories)
+                    .Where(f => Path.GetExtension(f).ToLowerInvariant() != ".zip")
+                    .ToArray();
 
                 foreach (var f in files) zip.AddFile(f, GetCleanFolderName(source, f));
 
                 var destinationFilename = destination;
                 if (Directory.Exists(destination) && !destination.EndsWith(".zip"))
-                    destinationFilename +=
-                        $"\\{new DirectoryInfo(source).Name}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss-ffffff}.zip";
+                    destinationFilename += $"\\{new DirectoryInfo(source).Name}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss-ffffff}.zip";
 
                 zip.Save(destinationFilename);
             }

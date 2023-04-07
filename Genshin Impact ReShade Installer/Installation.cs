@@ -27,8 +27,7 @@ namespace Genshin_Stella_Setup
         public static readonly string InstalledViaSetup = Program.AppData + @"\installed-via-setup.sfn";
         public static readonly string VcLibsSetup = Dependencies + @"\Microsoft.VCLibs.x64.14.00.Desktop.appx";
 
-        public static readonly string
-            ProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        public static readonly string ProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
         public static readonly string WindowsApps = ProgramFiles + @"\WindowsApps";
         public static readonly string Packages = Environment.GetEnvironmentVariable("LocalAppData") + @"\Packages";
@@ -51,12 +50,10 @@ namespace Genshin_Stella_Setup
 
             // Info
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(
-                $"» Main server (sefinek.net): Piła, Poland                 » Start time: {date}\n» Proxy: WAW, FRA [Cloudflare]                            » Estimated time: ~1 minute\n");
+            Console.WriteLine($"» Main server (sefinek.net): Piła, Poland                 » Start time: {date}\n» Proxy: WAW, FRA [Cloudflare]                            » Estimated time: ~1 minute\n");
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(
-                "Installing, please wait. This may take a while. Do not use your computer during this process.");
+            Console.WriteLine("Installing, please wait. This may take a while. Do not use your computer during this process.");
             Console.ResetColor();
 
             Console.WriteLine($"{Actions.Line}\n");
@@ -167,8 +164,7 @@ namespace Genshin_Stella_Setup
             {
                 Console.WriteLine();
 
-                await Cmd.Execute($"{Folder}/unins000.exe",
-                    $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\uninstallation.log\"", null);
+                await Cmd.Execute($"{Folder}/unins000.exe", $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\uninstallation.log\"", null);
             }
             else
             {
@@ -185,8 +181,7 @@ namespace Genshin_Stella_Setup
             if (!File.Exists(MainSetup))
                 Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
 
-            await Cmd.Execute(MainSetup,
-                $"/SILENT /NORESTART /INSTVIASETUP /LOG=\"{Log.Folder}\\installation.log\"", null);
+            await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /INSTVIASETUP /LOG=\"{Log.Folder}\\installation.log\"", null);
 
             if (!Directory.Exists(Folder))
                 Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);
@@ -211,8 +206,7 @@ namespace Genshin_Stella_Setup
                 _wtSettings = $@"{_wtLocalState}\settings.json";
                 var wtState = $@"{_wtLocalState}\state.json";
                 var readmeFile = $@"{_wtLocalState}\README.txt";
-                Log.Output(
-                    $"Files and directories of backup.\n» wtAppData1: {wtAppData1}\n» _wtLocalState: {_wtLocalState}\n» _wtSettings: {_wtSettings}\n» wtState: {wtState}\n» readmeFile: {readmeFile}");
+                Log.Output($"Files and directories of backup.\n» wtAppData1: {wtAppData1}\n» _wtLocalState: {_wtLocalState}\n» _wtSettings: {_wtSettings}\n» wtState: {wtState}\n» readmeFile: {readmeFile}");
 
                 try
                 {
@@ -222,12 +216,10 @@ namespace Genshin_Stella_Setup
                             $"⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀\n⠀  ⠀⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿\n⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                          Genshin Impact ReShade Mod Pack 2023\n   ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                     Made by Sefinek\n⠀   ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿\n    ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟\n⠀   ⠀⠀⠀⠀⠀⠀⡟⠀⠀⠀⢠⠏⡆⠀⠀⠀⠀⠀⢀⣀⣤⣤⣤⣀⡀\n ⠀   ⠀⠀⡟⢦⡀⠇⠀⠀⣀⠞⠀⠀⠘⡀⢀⡠⠚⣉⠤⠂⠀⠀⠀⠈⠙⢦⡀\n  ⠀ ⠀⠀⠀⡇⠀⠉⠒⠊⠁⠀⠀⠀⠀⠀⠘⢧⠔⣉⠤⠒⠒⠉⠉⠀⠀⠀⠀⠹⣆\n    ⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⣤⠶⠶⢶⡄⠀⠀⠀⠀⢹⡆\n   ⣀⠤⠒⠒⢺⠒⠀⠀⠀⠀⠀⠀⠀⠀⠤⠊⠀⢸⠀⡿⠀⡀⠀⣀⡟⠀⠀⠀⠀⢸⡇\n  ⠈⠀⠀⣠⠴⠚⢯⡀⠐⠒⠚⠉⠀⢶⠂⠀⣀⠜⠀⢿⡀⠉⠚⠉⠀⠀⠀⠀⣠⠟\n   ⠠⠊⠀⠀⠀⠀⠙⠂⣴⠒⠒⣲⢔⠉⠉⣹⣞⣉⣈⠿⢦⣀⣀⣀⣠⡴⠟\n=========================================================================================\n» Windows Terminal application configuration backup files from {date}.");
                     }
 
-                    var zipFile =
-                        $@"{Program.AppData}\Windows Terminal\wt-config.backup-{DateTime.Now:HHmm_dd.MM.yyyy}.zip";
+                    var zipFile = $@"{Program.AppData}\Windows Terminal\wt-config.backup-{DateTime.Now:HHmm_dd.MM.yyyy}.zip";
                     Directory.CreateDirectory($@"{Program.AppData}\Windows Terminal");
                     Zip.Create(_wtLocalState, zipFile);
-                    Log.Output(
-                        $"The Windows Terminal application configuration files has been backed up.\n» Source: {_wtLocalState}\n» Backup: {zipFile}");
+                    Log.Output($"The Windows Terminal application configuration files has been backed up.\n» Source: {_wtLocalState}\n» Backup: {zipFile}");
                 }
                 catch (Exception e)
                 {
@@ -262,10 +254,7 @@ namespace Genshin_Stella_Setup
             Console.WriteLine($"{ProcessInt++}/12 - Installing latest Windows Terminal...");
 
             if (!File.Exists(WtWin10Setup) || !File.Exists(WtWin11Setup))
-                Log.ErrorAndExit(
-                    new Exception(
-                        $"I can't find a required file.\n\n{WtWin10Setup} or {WtWin11Setup}\n\nPlease unpack all files from zip archive and try again."),
-                    false, false);
+                Log.ErrorAndExit(new Exception($"I can't find a required file.\n\n{WtWin10Setup} or {WtWin11Setup}\n\nPlease unpack all files from zip archive and try again."), false, false);
 
             var dllHostName = Process.GetProcessesByName("dllhost");
             if (dllHostName.Length != 0) await Cmd.Execute("taskkill", "/F /IM dllhost.exe", null);
@@ -292,8 +281,7 @@ namespace Genshin_Stella_Setup
             var wtProgramFiles = Wt.GetProgramFiles();
             if (string.IsNullOrEmpty(wtProgramFiles))
             {
-                Log.ErrorAndExit(new Exception($"Windows Terminal directory was not found in: {WindowsApps}"), false,
-                    false);
+                Log.ErrorAndExit(new Exception($"Windows Terminal directory was not found in: {WindowsApps}"), false, false);
             }
             else
             {
@@ -322,9 +310,7 @@ namespace Genshin_Stella_Setup
                 using (var client = new WebClient())
                 {
                     client.Headers.Add("user-agent", Program.UserAgent);
-                    fpsUnlockerConfig =
-                        await client.DownloadStringTaskAsync(
-                            "https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config");
+                    fpsUnlockerConfig = await client.DownloadStringTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config");
                 }
 
                 var fpsUnlockerConfigPath = Path.Combine(unlockerFolderPath, "unlocker.config.json");
@@ -400,9 +386,7 @@ namespace Genshin_Stella_Setup
             // Start menu
             if (Regex.IsMatch(Actions.MShortcutQuestion, "^y$", RegexOptions.IgnoreCase))
             {
-                var appStartMenuPath =
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs",
-                        "Genshin Stella Mod");
+                var appStartMenuPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs", "Genshin Stella Mod");
                 Directory.CreateDirectory(appStartMenuPath);
 
                 try

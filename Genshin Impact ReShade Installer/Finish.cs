@@ -23,8 +23,10 @@ namespace Genshin_Stella_Setup
         {
             try
             {
-                new ToastContentBuilder().AddText("Installation completed 😻")
-                    .AddText("Go back to the installation window! Thanks.").Show();
+                new ToastContentBuilder()
+                    .AddText("Installation completed 😻")
+                    .AddText("Go back to the installation window! Thanks.")
+                    .Show();
             }
             catch (Exception ex)
             {
@@ -55,8 +57,7 @@ namespace Genshin_Stella_Setup
             Console.ResetColor();
 
             var joinToDiscord = Console.ReadLine()?.ToLower();
-            if (Regex.Match(joinToDiscord ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
-                .Success)
+            if (Regex.Match(joinToDiscord ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
             {
                 Process.Start(Program.DiscordUrl);
                 Log.Output($"Discord server URL opened in default browser.\n» Link: {Program.DiscordUrl}");
@@ -73,8 +74,7 @@ namespace Genshin_Stella_Setup
                 await Telemetry.Post("Reboot is required.");
 
                 var rebootPc = Console.ReadLine();
-                if (Regex.Match(rebootPc ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
-                    .Success)
+                if (Regex.Match(rebootPc ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
                 {
                     await Cmd.Execute("shutdown",
                         $"/r /t 30 /c \"{Program.AppName} - scheduled reboot, version {Program.AppVersion}.\n\nThank you for installing. If you need help, add me on Discord Sefinek#0001.\n\nGood luck and have fun!\"",
@@ -94,14 +94,12 @@ namespace Genshin_Stella_Setup
             Console.ResetColor();
 
             var sendLogFile = Console.ReadLine();
-            if (Regex.Match(sendLogFile ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
-                .Success)
+            if (Regex.Match(sendLogFile ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
             {
                 var deliveredFiles = await Telemetry.SendLogFiles();
                 if (deliveredFiles)
                 {
-                    Console.WriteLine(
-                        "Some files has been sent. This will help improve our apps. Thank you very much >~~<! Close the new window.");
+                    Console.WriteLine("Some files has been sent. This will help improve our apps. Thank you very much >~~<! Close the new window.");
 
                     if (File.Exists("Data/Images/kyaru.gif"))
                         Application.Run(new ThumbsUp { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") });
@@ -113,8 +111,7 @@ namespace Genshin_Stella_Setup
                     Console.ResetColor();
 
                     var seeLogFiles = Console.ReadLine();
-                    if (Regex.Match(seeLogFiles ?? string.Empty, "(?:y)",
-                            RegexOptions.IgnoreCase | RegexOptions.Singleline).Success) Process.Start(Log.Folder);
+                    if (Regex.Match(seeLogFiles ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success) Process.Start(Log.Folder);
                 }
                 else
                 {
@@ -147,8 +144,7 @@ namespace Genshin_Stella_Setup
                 Console.ResetColor();
 
                 var answer = Console.ReadLine()?.ToLower();
-                if (Regex.Match(answer ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
-                    .Success)
+                if (Regex.Match(answer ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
                     try
                     {
                         Process.Start(new ProcessStartInfo
@@ -169,8 +165,7 @@ namespace Genshin_Stella_Setup
             Console.ResetColor();
 
             var giveMeACatImg = Console.ReadLine()?.ToLower();
-            if (Regex.Match(giveMeACatImg ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline)
-                .Success)
+            if (Regex.Match(giveMeACatImg ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
             {
                 Console.WriteLine("Waiting for a random cat >.<");
 
@@ -182,16 +177,12 @@ namespace Genshin_Stella_Setup
                 if (res.Success)
                 {
                     Process.Start(res.Message);
-                    Log.Output(
-                        $"Random cat image has been opened in default browser.\n» Status code: {res.Status}\n» Image: {res.Message}");
+                    Log.Output($"Random cat image has been opened in default browser.\n» Status code: {res.Status}\n» Image: {res.Message}");
                 }
                 else
                 {
-                    MessageBox.Show(
-                        $"Whoops... Sorry, something went wrong. Cats are currently not available.\n\nStatus code: {res.Status}",
-                        Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Log.ErrorAndExit(new Exception($"Random cat image: error occurred.\n» Status code: {res.Status}"),
-                        false, true);
+                    MessageBox.Show($"Whoops... Sorry, something went wrong. Cats are currently not available.\n\nStatus code: {res.Status}", Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Log.ErrorAndExit(new Exception($"Random cat image: error occurred.\n» Status code: {res.Status}"), false, true);
                 }
             }
             else

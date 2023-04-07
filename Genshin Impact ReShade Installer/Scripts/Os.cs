@@ -12,8 +12,7 @@ namespace Genshin_Stella_Setup.Scripts
             ? RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64)
             : Registry.LocalMachine;
 
-        private static readonly RegistryKey RegistryKey =
-            LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion");
+        private static readonly RegistryKey RegistryKey = LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion");
 
         public static readonly string DeviceId = GetDeviceId();
         public static readonly string Name = GetOs();
@@ -28,10 +27,7 @@ namespace Genshin_Stella_Setup.Scripts
 
         private static string GetDeviceId()
         {
-            var computerSystemProduct = new ManagementClass("Win32_ComputerSystemProduct")
-                .GetInstances()
-                .Cast<ManagementObject>()
-                .FirstOrDefault();
+            var computerSystemProduct = new ManagementClass("Win32_ComputerSystemProduct").GetInstances().Cast<ManagementObject>().FirstOrDefault();
 
             var deviceId = computerSystemProduct?.Properties["UUID"].Value.ToString();
             if (!string.IsNullOrEmpty(deviceId)) return deviceId;

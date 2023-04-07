@@ -48,7 +48,7 @@ resharper_suggest_var_or_type_simple_types_highlighting = hint
 indent_style = space
 indent_size = 4
 insert_final_newline = true
-max_line_length = 120
+max_line_length = 220
 dotnet_diagnostic.ca1062.severity = error
 dotnet_diagnostic.ca1303.severity = error
 dotnet_diagnostic.ca1822.severity = error
@@ -60,7 +60,7 @@ dotnet_diagnostic.ca2213.severity = error
 [*]
 indent_size = 4
 tab_width = 4
-max_line_length = 120
+max_line_length = 220
 
 # Ensure consistent line endings on all platforms
 [*.{appxmanifest,axml,build,c,c++,cc,cginc,compute,config,cp,cpp,cshtml,csproj,cu,cuh,cxx,dbml,discomap,dtd,fx,fxh,h,hh,hlsl,hlsli,hlslinc,hpp,htm,html,hxx,inc,inl,ino,ipp,ixx,jsproj,lsproj,mpp,mq4,mq5,mqh,njsproj,nuspec,proj,props,razor,resw,resx,StyleCop,targets,tasks,tpp,usf,ush,vbproj,xml,xsd}]

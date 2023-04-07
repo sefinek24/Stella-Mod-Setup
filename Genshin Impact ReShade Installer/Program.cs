@@ -23,12 +23,9 @@ namespace Genshin_Stella_Setup
         public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
         public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        public static readonly string AppData =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "Genshin Stella Mod by Sefinek");
+        public static readonly string AppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Genshin Stella Mod by Sefinek");
 
-        public static readonly string UserAgent =
-            $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})";
+        public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})";
 
         private static readonly string[] Dirs = { "Data", "Dependencies", "Data/Images", "Data/Libs" };
 
@@ -82,8 +79,7 @@ namespace Genshin_Stella_Setup
             Console.Title = $"{AppName} • v{AppVersion}";
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(
-                "                                         » Important «\n                Please unzip downloaded ZIP archive before installation. Good luck!\n");
+            Console.WriteLine("                                         » Important «\n                Please unzip downloaded ZIP archive before installation. Good luck!\n");
 
 
             // 1
@@ -193,10 +189,7 @@ namespace Genshin_Stella_Setup
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR\n");
 
-                Log.ErrorAndExit(
-                    new Exception(
-                        $"Sorry, your operating system architecture is not supported.\n\n» Your: {Os.Bits}\n» Required: 64-bit"),
-                    false, false);
+                Log.ErrorAndExit(new Exception($"Sorry, your operating system architecture is not supported.\n\n» Your: {Os.Bits}\n» Required: 64-bit"), false, false);
             }
 
             if (Os.Version.ToUpper() != "22H2")
@@ -270,11 +263,9 @@ namespace Genshin_Stella_Setup
             }
             else
             {
-                Log.ErrorAndExit(new Exception(
-                    string.IsNullOrEmpty(getAccess.Data.Reason)
-                        ? "Failed to receive consent to install. Unknown reason."
-                        : $"Failed to receive consent to install.\n\n» Reason:\n{getAccess.Data.Reason}"
-                ), false, false);
+                Log.ErrorAndExit(
+                    new Exception(string.IsNullOrEmpty(getAccess.Data.Reason) ? "Failed to receive consent to install. Unknown reason." : $"Failed to receive consent to install.\n\n» Reason:\n{getAccess.Data.Reason}"),
+                    false, false);
             }
 
 
@@ -377,8 +368,7 @@ namespace Genshin_Stella_Setup
             else
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine(
-                    "\n• Unzip all files from zip archive or download the installer again.\n• If you need help, please join to my Discord server. Good luck!");
+                Console.WriteLine("\n• Unzip all files from zip archive or download the installer again.\n• If you need help, please join to my Discord server. Good luck!");
 
                 while (true) Console.ReadLine();
             }

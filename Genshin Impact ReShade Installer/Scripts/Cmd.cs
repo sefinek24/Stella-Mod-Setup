@@ -20,7 +20,9 @@ namespace Genshin_Stella_Setup.Scripts
             {
                 Log.Output($"Execute command: {app} {args} {workingDir}");
 
-                var action = Cli.Wrap(app).WithArguments(args).WithWorkingDirectory(workingDir)
+                var action = Cli.Wrap(app)
+                    .WithArguments(args)
+                    .WithWorkingDirectory(workingDir)
                     .WithValidation(CommandResultValidation.None);
                 var result = await action.ExecuteBufferedAsync();
 
@@ -31,8 +33,7 @@ namespace Genshin_Stella_Setup.Scripts
                 // StandardOutput
                 var stdoutLine = !string.IsNullOrEmpty(stdout) ? $"\n✅ STDOUT: {stdout}" : "";
                 var stderrLine = !string.IsNullOrEmpty(stderr) ? $"\n❌ STDERR: {stderr}" : "";
-                Log.Output(
-                    $"Successfully executed {app} command. Exit code: {result.ExitCode}, start time: {result.StartTime}, exit time: {result.ExitTime}{stdoutLine}{stderrLine}");
+                Log.Output($"Successfully executed {app} command. Exit code: {result.ExitCode}, start time: {result.StartTime}, exit time: {result.ExitTime}{stdoutLine}{stderrLine}");
 
                 // StandardError
                 if (result.ExitCode != 0)
@@ -65,12 +66,9 @@ namespace Genshin_Stella_Setup.Scripts
                         Console.WriteLine(
                             $"     » We cannot install this package because some process is currently in use.\n       Reboot your PC or close all opened apps from Microsoft Store.\n\n{stderr}");
 
-                        Log.SaveErrorLog(
-                            new Exception(
-                                $"We cannot install this package because some process is currently in use.\n\n» Attempt: {Installation.VcLibsAttemptNumber}\n» Exit code: 80073D02\n\n{stderr}"),
+                        Log.SaveErrorLog(new Exception($"We cannot install this package because some process is currently in use.\n\n» Attempt: {Installation.VcLibsAttemptNumber}\n» Exit code: 80073D02\n\n{stderr}"),
                             true);
-                        Log.Output(
-                            $"I can't install VCLibs because some process is currently in use. Attempt: {Installation.VcLibsAttemptNumber}");
+                        Log.Output($"I can't install VCLibs because some process is currently in use. Attempt: {Installation.VcLibsAttemptNumber}");
 
                         TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
 
@@ -84,22 +82,18 @@ namespace Genshin_Stella_Setup.Scripts
                         return;
                     }
 
-                    if (Regex.Match(stderr, "(?:80073CF3|Microsoft.VCLibs.)",
-                            RegexOptions.IgnoreCase | RegexOptions.Multiline).Success)
+                    if (Regex.Match(stderr, "(?:80073CF3|Microsoft.VCLibs.)", RegexOptions.IgnoreCase | RegexOptions.Multiline).Success)
                     {
                         Installation.VcLibsAttemptNumber++;
 
                         Log.Output($"Found missing dependency VCLibs. Attempt {Installation.VcLibsAttemptNumber}.");
-                        Log.SaveErrorLog(
-                            new Exception(
-                                $"Found missing dependency Microsoft.VCLibs.\n\nAttempt {Installation.VcLibsAttemptNumber}\nExit code: 80073CF3\n\n{stderr}"),
-                            true);
+                        Log.SaveErrorLog(new Exception($"Found missing dependency Microsoft.VCLibs.\n\nAttempt {Installation.VcLibsAttemptNumber}\nExit code: 80073CF3\n\n{stderr}"), true);
 
                         try
                         {
-                            new ToastContentBuilder().AddText("Ughh, sorry. We need more time 😥")
-                                .AddText(
-                                    "Found missing dependency with name VCLibs.\nClose all Microsoft Store apps and go back to the installer!")
+                            new ToastContentBuilder()
+                                .AddText("Ughh, sorry. We need more time 😥")
+                                .AddText("Found missing dependency with name VCLibs.\nClose all Microsoft Store apps and go back to the installer!")
                                 .Show();
                         }
                         catch (Exception ex)
@@ -109,13 +103,11 @@ namespace Genshin_Stella_Setup.Scripts
                         }
 
                         // Preparing...
-                        Console.WriteLine(
-                            $"{Installation.ProcessInt++}/11 - Preparing to install Microsoft Visual C++ 2015 UWP Desktop Package (attempt {Installation.VcLibsAttemptNumber}/3)...");
+                        Console.WriteLine($"{Installation.ProcessInt++}/11 - Preparing to install Microsoft Visual C++ 2015 UWP Desktop Package (attempt {Installation.VcLibsAttemptNumber}/3)...");
 
                         TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(
-                            "     » ATTENTION: Close all Microsoft Store apps and press ENTER to continue...");
+                        Console.WriteLine("     » ATTENTION: Close all Microsoft Store apps and press ENTER to continue...");
                         Console.ResetColor();
 
                         Console.ReadLine();
@@ -127,14 +119,10 @@ namespace Genshin_Stella_Setup.Scripts
                         if (wtProcess2.Length != 0) await Execute("taskkill", "/F /IM WindowsTerminal.exe", null);
 
                         // Installing...
-                        Console.WriteLine(
-                            $"{Installation.ProcessInt++}/11 - Installing Microsoft Visual C++ 2015 UWP Desktop Package...");
+                        Console.WriteLine($"{Installation.ProcessInt++}/11 - Installing Microsoft Visual C++ 2015 UWP Desktop Package...");
 
                         if (!File.Exists(Installation.VcLibsSetup))
-                            Log.ErrorAndExit(
-                                new Exception(
-                                    $"I can't find a required file. Please unpack downloaded zip archive.\nNot found: {Installation.VcLibsSetup}"),
-                                false, false);
+                            Log.ErrorAndExit(new Exception($"I can't find a required file. Please unpack downloaded zip archive.\nNot found: {Installation.VcLibsSetup}"), false, false);
 
                         Log.Output("Installing missing dependency VCLibs...");
                         await Execute("powershell", $"Add-AppxPackage -Path {Installation.VcLibsSetup}", null);
@@ -144,8 +132,7 @@ namespace Genshin_Stella_Setup.Scripts
                         try
                         {
                             new ToastContentBuilder().AddText("First part was finished 🎉")
-                                .AddText(
-                                    "VCLibs has been successfully installed, but now we need to restart your computer.")
+                                .AddText("VCLibs has been successfully installed, but now we need to restart your computer.")
                                 .Show();
                         }
                         catch (Exception ex)
@@ -164,15 +151,13 @@ namespace Genshin_Stella_Setup.Scripts
                         Console.ResetColor();
 
                         var rebootPc = Console.ReadLine();
-                        if (Regex.Match(rebootPc ?? string.Empty, "(?:y)",
-                                RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
+                        if (Regex.Match(rebootPc ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
                         {
                             await Execute("shutdown",
                                 $"/r /t 25 /c \"{Program.AppName} - scheduled reboot, version {Program.AppVersion}.\n\nAfter restarting, run the installer again. If you need help, add me on Discord Sefinek#0001.\n\nGood luck!\"",
                                 null);
 
-                            Console.WriteLine(
-                                "Your computer will restart in 25 seconds. Save your work!\nAfter restarting, run the installer again.");
+                            Console.WriteLine("Your computer will restart in 25 seconds. Save your work!\nAfter restarting, run the installer again.");
                             Log.Output("PC reboot was scheduled. Installed VCLibs.");
 
                             await Telemetry.Post("Reboot was scheduled.");
@@ -192,18 +177,17 @@ namespace Genshin_Stella_Setup.Scripts
                         {
                             try
                             {
-                                var builder = new ToastContentBuilder().AddText("Installation alert 📄")
-                                    .AddText(
-                                        "Required dependency has been successfully installed, but your computer needs a restart. Please wait to complete installation.");
-                                builder.Show();
+                                new ToastContentBuilder()
+                                    .AddText("Installation alert 📄")
+                                    .AddText("Required dependency has been successfully installed, but your computer needs a restart. Please wait to complete installation.")
+                                    .Show();
                             }
                             catch (Exception ex)
                             {
                                 Log.SaveErrorLog(ex, true);
                             }
 
-                            Log.Output(
-                                $"{app} installed. Exit code: {result.ExitCode}\nThe requested operation is successful. Changes will not be effective until the system is rebooted.");
+                            Log.Output($"{app} installed. Exit code: {result.ExitCode}\nThe requested operation is successful. Changes will not be effective until the system is rebooted.");
 
                             RebootNeeded = true;
                             return;
@@ -222,7 +206,6 @@ namespace Genshin_Stella_Setup.Scripts
                                 new Exception(
                                     $"Command execution failed because the underlying process ({app.Replace(@"Dependencies\", "").Replace(@"C:\Program Files\Git\cmd\", "")}) returned a non-zero exit code - {result.ExitCode}.\nCheck your Internet connection, antivirus program or restart PC and try again.{info}"),
                                 false, result.ExitCode != 128);
-
                             return;
                         }
                     }

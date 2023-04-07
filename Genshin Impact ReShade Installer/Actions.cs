@@ -21,11 +21,9 @@ namespace Genshin_Stella_Setup
         public static string MShortcutQuestion;
 
         // Other
-        public static string GameGenshinImpact =
-            $@"{Installation.ProgramFiles}\Genshin Impact\Genshin Impact game\GenshinImpact.exe";
+        public static string GameGenshinImpact = $@"{Installation.ProgramFiles}\Genshin Impact\Genshin Impact game\GenshinImpact.exe";
 
-        public static string GameYuanShen =
-            $@"{Installation.ProgramFiles}\Genshin Impact\Genshin Impact game\YuanShen.exe";
+        public static string GameYuanShen = $@"{Installation.ProgramFiles}\Genshin Impact\Genshin Impact game\YuanShen.exe";
 
         public static string GameExeGlobal;
         public static string GameDirGlobal;

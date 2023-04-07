@@ -12,8 +12,7 @@ namespace Genshin_Stella_Setup.Scripts
                 return null;
             }
 
-            var dirs = Directory.GetDirectories(Installation.Packages, "Microsoft.WindowsTerminal_*",
-                SearchOption.AllDirectories);
+            var dirs = Directory.GetDirectories(Installation.Packages, "Microsoft.WindowsTerminal_*", SearchOption.AllDirectories);
 
             var path = "";
             foreach (var dir in dirs) path = dir;
@@ -29,8 +28,7 @@ namespace Genshin_Stella_Setup.Scripts
                 return null;
             }
 
-            var dirs = Directory.GetDirectories(Installation.WindowsApps, "Microsoft.WindowsTerminal_*",
-                SearchOption.AllDirectories);
+            var dirs = Directory.GetDirectories(Installation.WindowsApps, "Microsoft.WindowsTerminal_*", SearchOption.AllDirectories);
 
             var path = "";
             foreach (var dir in dirs) path = dir;
