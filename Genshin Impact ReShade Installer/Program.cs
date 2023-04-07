@@ -25,7 +25,7 @@ namespace Genshin_Stella_Setup
 
         public static readonly string AppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Genshin Stella Mod by Sefinek");
 
-        public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinStellaSetup/{AppVersion}; +{AppWebsite})";
+        public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})"; // GenshinStellaSetup
 
         private static readonly string[] Dirs = { "Data", "Dependencies", "Data/Images", "Data/Libs" };
 
@@ -254,7 +254,7 @@ namespace Genshin_Stella_Setup
             Console.ResetColor();
 
             var getAccess = await Access.Get();
-            if (getAccess.Data.Allow)
+            if (getAccess.Success)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("OK");
@@ -264,7 +264,9 @@ namespace Genshin_Stella_Setup
             else
             {
                 Log.ErrorAndExit(
-                    new Exception(string.IsNullOrEmpty(getAccess.Data.Reason) ? "Failed to receive consent to install. Unknown reason." : $"Failed to receive consent to install.\n\n» Reason:\n{getAccess.Data.Reason}"),
+                    new Exception(string.IsNullOrEmpty(getAccess.Response)
+                        ? "Failed to receive consent to install. Unknown reason."
+                        : $"Oh no! Failed to receive consent to install.\n\n» Information:\n{getAccess.Message}\n\n» Reason:\n{getAccess.Response}"),
                     false, false);
             }
 

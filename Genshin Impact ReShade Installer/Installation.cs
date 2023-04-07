@@ -108,7 +108,7 @@ namespace Genshin_Stella_Setup
 
             // Check access
             var getAccess = await Access.Get();
-            if (!getAccess.Data.Allow) return;
+            if (!getAccess.Success) return;
 
             // Post data
             await Telemetry.Post("Installation in progress. Please wait...");
@@ -117,8 +117,7 @@ namespace Genshin_Stella_Setup
 
 
             // ----------------------- 2 -----------------------
-            Console.WriteLine(
-                $"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x64)... Skipped");
+            Console.WriteLine($"{ProcessInt++}/12 - Installing Microsoft Visual C++ 2015-2022 Redistributable (x64)... Skipped");
 
             // if (!File.Exists(Redist64Setup))
             // 	Log.ErrorAndExit(new Exception($"I can't find a required file.\n{Redist64Setup}"), false, false);
