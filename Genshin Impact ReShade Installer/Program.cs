@@ -279,10 +279,9 @@ namespace Genshin_Stella_Setup
             var client = new WebClient();
             client.Headers.Add("user-agent", UserAgent);
             var json = await client.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/version/apps");
-            Log.Output($"Received: {json}");
+            Log.Output(json);
 
             var res = JsonConvert.DeserializeObject<InstallerVersion>(json);
-
             if (res.Installer.Version != AppVersion)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
