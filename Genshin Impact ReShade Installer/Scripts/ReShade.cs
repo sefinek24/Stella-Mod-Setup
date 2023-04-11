@@ -11,11 +11,11 @@ namespace Genshin_Stella_Setup.Scripts
         {
             var wbClient1 = new WebClient();
             wbClient1.Headers.Add("user-agent", Program.UserAgent);
-            await wbClient1.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/config", Actions.ReShadeConfig);
+            await wbClient1.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/v2/genshin-impact-reshade/reshade/ReShade.ini", Actions.ReShadeConfig);
 
             var wbClient2 = new WebClient();
             wbClient2.Headers.Add("user-agent", Program.UserAgent);
-            await wbClient2.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/log", Actions.ReShadeLogFile);
+            await wbClient2.DownloadFileTaskAsync("https://cdn.sefinek.net/resources/v2/genshin-impact-reshade/reshade/ReShade.ini", Actions.ReShadeLogFile);
 
             if (!File.Exists(Actions.ReShadeConfig) || !File.Exists(Actions.ReShadeLogFile))
             {
@@ -27,8 +27,8 @@ namespace Genshin_Stella_Setup.Scripts
                 Console.WriteLine("Done");
                 Log.Output(
                     "ReShade.ini and ReShade.log was successfully downloaded.\n" +
-                    "» Source 1: https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/config\n" +
-                    "» Source 2: https://cdn.sefinek.net/resources/genshin-impact-reshade/reshade/log"
+                    "» Source 1: \"https://cdn.sefinek.net/resources/v2/genshin-impact-reshade/reshade/ReShade.ini\n" +
+                    "» Source 2: https://cdn.sefinek.net/resources/v2/genshin-impact-reshade/reshade/ReShade.ini"
                 );
             }
         }

@@ -309,7 +309,7 @@ namespace Genshin_Stella_Setup
                 using (var client = new WebClient())
                 {
                     client.Headers.Add("user-agent", Program.UserAgent);
-                    fpsUnlockerConfig = await client.DownloadStringTaskAsync("https://cdn.sefinek.net/resources/genshin-impact-reshade/unlocker-config");
+                    fpsUnlockerConfig = await client.DownloadStringTaskAsync("https://cdn.sefinek.net/resources/v2/genshin-impact-reshade/unlocker/unlocker.config.json");
                 }
 
                 var fpsUnlockerConfigPath = Path.Combine(unlockerFolderPath, "unlocker.config.json");
