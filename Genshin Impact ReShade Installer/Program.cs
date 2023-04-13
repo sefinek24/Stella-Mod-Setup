@@ -25,7 +25,7 @@ namespace Genshin_Stella_Setup
 
         public static readonly string AppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Genshin Stella Mod by Sefinek");
 
-        public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinModSetup/{AppVersion}; +{AppWebsite})"; // GenshinStellaSetup
+        public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinStellaSetup/{AppVersion}; +{AppWebsite})";
 
         private static readonly string[] Dirs = { "Data", "Dependencies", "Data/Images", "Data/Libs" };
 
