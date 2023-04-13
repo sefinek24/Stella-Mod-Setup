@@ -295,14 +295,17 @@ namespace Genshin_Stella_Setup
             if (res.Installer.Version != AppVersion)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("WARNING\n");
+                Console.WriteLine("WARNING");
                 Console.ResetColor();
 
+                var remoteVerDate = DateTime.Parse(res.Installer.ReleaseDate, null, DateTimeStyles.RoundtripKind).ToUniversalTime().ToLocalTime();
+
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
-                    $"This setup is outdated. Please download the latest version from:\n{AppWebsite}\n\n" +
-                    $"• Your version   : v{AppVersion}\n" +
-                    $"• Latest version : v{res.Installer.Version} {(res.Installer.Beta ? "Beta" : "stable")} from {res.Installer.ReleaseDate}\n" +
-                    $"• Size           : {res.Installer.Size}\n");
+                    $"• This setup is outdated. Please download the latest version from:\n{AppWebsite}\n\n" +
+                    $"» Your version   : v{AppVersion}\n" +
+                    $"» Latest version : v{res.Installer.Version} {(res.Installer.Beta ? "Beta" : "stable")} from {remoteVerDate}\n" +
+                    $"» Size           : {res.Installer.Size}\n");
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("» Open the official website now to download? [Yes/no]: ");
