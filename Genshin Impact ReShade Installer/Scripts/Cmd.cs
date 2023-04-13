@@ -131,7 +131,8 @@ namespace Genshin_Stella_Setup.Scripts
                         await Telemetry.Post("Successfully installed VCLibs.");
                         try
                         {
-                            new ToastContentBuilder().AddText("First part was finished 🎉")
+                            new ToastContentBuilder()
+                                .AddText("First part was finished 🎉")
                                 .AddText("VCLibs has been successfully installed, but now we need to restart your computer.")
                                 .Show();
                         }
@@ -142,8 +143,7 @@ namespace Genshin_Stella_Setup.Scripts
 
                         // Completed!
                         Log.Output("Installed Microsoft Visual C++ 2015 UWP Desktop Package.");
-                        Console.WriteLine(
-                            "      » Successfully! Please reboot your PC and open the installer again!\n");
+                        Console.WriteLine("      » Successfully! Please reboot your PC and open the installer again!\n");
 
                         // Reboot PC
                         Console.ForegroundColor = ConsoleColor.Green;

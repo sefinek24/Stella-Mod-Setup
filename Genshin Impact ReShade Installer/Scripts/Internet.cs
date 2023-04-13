@@ -18,7 +18,8 @@ namespace Genshin_Stella_Setup.Scripts
             }
             catch (Exception ex)
             {
-                Log.ErrorAndExit(new Exception($"Sorry. I cannot connect to the {host} server. Please check your network or antivirus program and try again.\n\n• Error:\n{ex.Message}"), false, false);
+                Log.ErrorAndExit(new Exception(
+                    $"Sorry. I cannot connect to the {host} server. Please check your network or antivirus program and try again.\n\n• Error:\n{ex.Message}"), false, false);
 
                 return false;
             }

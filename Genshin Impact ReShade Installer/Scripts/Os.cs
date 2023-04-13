@@ -8,19 +8,19 @@ namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class Os
     {
-        private static readonly RegistryKey LocalMachine = Environment.Is64BitProcess
-            ? RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64)
-            : Registry.LocalMachine;
-
+        // Registry
+        private static readonly RegistryKey LocalMachine = Environment.Is64BitProcess ? RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64) : Registry.LocalMachine;
         private static readonly RegistryKey RegistryKey = LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion");
 
+        // Device
         public static readonly string DeviceId = GetDeviceId();
         public static readonly string Name = GetOs();
         public static readonly string Build = GetBuild();
         public static readonly string Version = GetVersion().ToUpper();
         public static readonly string Bits = Environment.Is64BitOperatingSystem ? "64-bit" : "32-bit";
-        public static readonly string AllInfos = $"{Name} {Version} [{Build}]";
+        public static readonly string AllInfo = $"{Name} {Version} [{Build}]";
 
+        // Region
         public static readonly string TimeZone = TimeZoneInfo.Local.ToString();
         public static readonly string RegionEngName = RegionInfo.CurrentRegion.EnglishName;
         public static readonly string RegionName = RegionInfo.CurrentRegion.Name;

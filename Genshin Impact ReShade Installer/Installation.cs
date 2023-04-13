@@ -95,7 +95,7 @@ namespace Genshin_Stella_Setup
                     $"• ReShade log file: {Actions.ReShadeLogFile}\n\n" +
                     //
                     $"• Attempt number: {Actions.AttemptNumber}\n" +
-                    $"• VcLibs attempt: {VcLibsAttemptNumber}\n" +
+                    $"• VCLibs attempt: {VcLibsAttemptNumber}\n" +
                     $"• Shortcut: {Actions.ShortcutQuestion}\n" +
                     $"• Menu shortcuts: {Actions.MShortcutQuestion}\n" +
                     "=========================================================================================\n\n"
@@ -191,7 +191,7 @@ namespace Genshin_Stella_Setup
             // ----------------------- 7 -----------------------
             Console.Write($"{ProcessInt++}/12 - Backing up the Windows Terminal configuration file in app data... ");
 
-            var wtAppData1 = Wt.GetAppData();
+            var wtAppData1 = Utils.GetAppData();
             if (string.IsNullOrEmpty(wtAppData1))
             {
                 Console.WriteLine("Skipped");
@@ -277,7 +277,7 @@ namespace Genshin_Stella_Setup
             // ----------------------- 9 -----------------------
             Console.WriteLine($"{ProcessInt++}/12 - Checking installed software...");
 
-            var wtProgramFiles = Wt.GetProgramFiles();
+            var wtProgramFiles = Utils.GetProgramFiles();
             if (string.IsNullOrEmpty(wtProgramFiles))
             {
                 Log.ErrorAndExit(new Exception($"Windows Terminal directory was not found in: {WindowsApps}"), false, false);
@@ -286,7 +286,7 @@ namespace Genshin_Stella_Setup
             {
                 Log.Output($"Windows Terminal has been successfully installed in {wtProgramFiles}");
 
-                var wtAppData2 = Wt.GetAppData();
+                var wtAppData2 = Utils.GetAppData();
                 if (string.IsNullOrEmpty(wtAppData2))
                     Log.ErrorAndExit(new Exception("Fatal error. Code: 3781780149"), false, true);
                 else _wtSettings = $@"{wtAppData2}\LocalState\settings.json";

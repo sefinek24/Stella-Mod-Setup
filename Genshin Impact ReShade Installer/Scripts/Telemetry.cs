@@ -10,9 +10,11 @@ namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class Telemetry
     {
+        // API
         public const string ApiUrl = "https://api.sefinek.net/api/v3/genshin-impact-reshade";
         // public const string ApiUrl = " http://127.0.0.1:4010/api/v3/genshin-impact-reshade";
 
+        // Token
         public static string BearerToken = "";
 
         public static async Task Post(string data)
@@ -81,7 +83,7 @@ namespace Genshin_Stella_Setup.Scripts
                     { "deviceId", Os.DeviceId },
                     { "regionName", Os.RegionEngName },
                     { "timezone", Os.TimeZone },
-                    { "osName", Os.AllInfos },
+                    { "osName", Os.AllInfo },
                     { "data", $"{content1}\n\n\n{content2}" }
                 };
 

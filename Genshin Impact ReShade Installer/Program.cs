@@ -18,47 +18,17 @@ namespace Genshin_Stella_Setup
 {
     internal abstract class Program
     {
+        // Links
         public const string AppWebsite = "https://genshin.sefinek.net";
         public const string DiscordUrl = "https://discord.gg/SVcbaRc7gH";
+
+        // App
         public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
         public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
         public static readonly string AppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Genshin Stella Mod by Sefinek");
 
+        // Other
         public static readonly string UserAgent = $"Mozilla/5.0 (compatible; GenshinStellaSetup/{AppVersion}; +{AppWebsite})";
-
-        private static readonly string[] Dirs = { "Data", "Dependencies", "Data/Images", "Data/Libs" };
-
-        private static bool AnalyzeFiles()
-        {
-            foreach (var dir in Dirs)
-            {
-                if (Directory.Exists(dir)) continue;
-                Log.SaveErrorLog(new Exception($"Required folder \"{dir}\" was not found."), true);
-
-                return false;
-            }
-
-            return true;
-        }
-
-        public static string EncodeString(string input)
-        {
-            var result = new StringBuilder();
-            foreach (var c in input)
-                if (c >= 33 && c <= 126)
-                {
-                    var rotated = (char)((c - 33 + 47) % 94 + 33);
-                    result.Append(rotated);
-                }
-                else
-                {
-                    result.Append(c);
-                }
-
-            return result.ToString();
-        }
-
 
         public static async Task Main()
         {
@@ -97,7 +67,7 @@ namespace Genshin_Stella_Setup
                     { "osName", Os.Name },
                     { "osBuild", Os.Build },
                     { "setupVersion", AppVersion },
-                    { "secretKey", EncodeString(Data.SecretKey) }
+                    { "secretKey", Utils.EncodeString(Data.SecretKey) }
                 };
 
                 var webClient = new WebClient();
@@ -243,7 +213,7 @@ namespace Genshin_Stella_Setup
                 Log.Output($"Found installed instance of Genshin Impact Stella Mod in {Installation.Folder}.");
             }
 
-            var start = AnalyzeFiles();
+            var start = Utils.AnalyzeFiles();
             if (!start)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -290,28 +260,29 @@ namespace Genshin_Stella_Setup
             client.Headers.Add("user-agent", UserAgent);
             var json = await client.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/version/apps");
             Log.Output(json);
-
             var res = JsonConvert.DeserializeObject<InstallerVersion>(json);
-            if (res.Installer.Version != AppVersion)
+
+            var remoteVersion = res.Installer.Version;
+            var remoteVerDate = DateTime.Parse(res.Installer.ReleaseDate, null, DateTimeStyles.RoundtripKind).ToUniversalTime().ToLocalTime();
+
+            if (remoteVersion != AppVersion)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("WARNING");
                 Console.ResetColor();
 
-                var remoteVerDate = DateTime.Parse(res.Installer.ReleaseDate, null, DateTimeStyles.RoundtripKind).ToUniversalTime().ToLocalTime();
-
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
                     $"• This setup is outdated. Please download the latest version from:\n{AppWebsite}\n\n" +
                     $"» Your version   : v{AppVersion}\n" +
-                    $"» Latest version : v{res.Installer.Version} {(res.Installer.Beta ? "Beta" : "stable")} from {remoteVerDate}\n" +
-                    $"» Size           : {res.Installer.Size}\n");
+                    $"» Latest version : v{remoteVersion} {(res.Installer.Beta ? "Beta" : "stable")} from {remoteVerDate}\n" +
+                    $"» Size           : ~{res.Installer.Size}\n");
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("» Open the official website now to download? [Yes/no]: ");
                 Console.ResetColor();
 
-                Log.Output($"This program is outdated. Your version: {AppVersion}, latest: {res.Installer.Version}");
+                Log.Output($"This program is outdated. Your version: {AppVersion}, latest: {remoteVersion}");
 
                 var websiteQuestion = Console.ReadLine()?.ToLower();
                 switch (websiteQuestion)
