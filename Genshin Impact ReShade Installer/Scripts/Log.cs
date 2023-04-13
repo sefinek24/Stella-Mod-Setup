@@ -9,14 +9,15 @@ namespace Genshin_Stella_Setup.Scripts
     internal abstract class Log
     {
         public static readonly string Folder = Program.AppData + @"\logs";
-        public static readonly string OutputFile = Folder + @"\installer.output.log";
-        public static readonly string ModInstFile = Folder + @"\mod_installation.log";
+        public static readonly string OutputFile = Folder + @"\setup.output.log";
+        public static readonly string ModInstFile = Folder + @"\installation.log";
         private static int _reportTry = 1;
 
         private static void TryAgain(bool tryAgain)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(tryAgain ? "\n» Press ENTER to try again..." : "\n» Press ENTER to continue...");
+            const string prompt = "\n» Something went wrong. Press ENTER to";
+            Console.WriteLine(tryAgain ? $"{prompt} try again..." : $"{prompt} continue...");
             Console.ReadLine();
 
             Console.WriteLine(">> Waiting 5 seconds. Please wait... <<");
@@ -95,7 +96,7 @@ namespace Genshin_Stella_Setup.Scripts
                 {
                     new ToastContentBuilder()
                         .AddText("Failed to prepare setup or install 😿")
-                        .AddText("🎵 Sad song... Could you please try again?")
+                        .AddText("🎶 Sad song... Could you please try again?")
                         .Show();
                 }
                 catch (Exception e)
@@ -110,7 +111,7 @@ namespace Genshin_Stella_Setup.Scripts
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(
-                        $"Sorry, something went wrong. Critical error occurred.\nPlease report this issue if you can or try again.\n• Discord server: {Program.DiscordUrl} [My username: Sefinek#0001]\n• E-mail: contact@sefinek.net\n• Use the available chat on my website.");
+                        $"Oh nooo!! I'm sorry, but something went wrong. If you need help, please do one of the following:\n• Join my Discord server: {Program.DiscordUrl} [My username: Sefinek#0001]\n• Send an email: contact@sefinek.net\n• Use the chat available on my website.");
                     Console.ResetColor();
 
                     Console.WriteLine($"\n{Actions.Line}\n");
@@ -119,7 +120,7 @@ namespace Genshin_Stella_Setup.Scripts
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(
-                        $"Visit our Discord server for help or try again. Good luck!\n• Discord: {Program.DiscordUrl} [My username: Sefinek#0001]\n• E-mail: contact@sefinek.net\n• Use the available chat on my website.");
+                        $"Visit our Discord server for help or try again. Good luck!\n• Discord: {Program.DiscordUrl} [My username: Sefinek#0001]\n• E-mail: contact@sefinek.net\n• Use the chat available on my website.");
 
                     while (true) Console.ReadLine();
                 }

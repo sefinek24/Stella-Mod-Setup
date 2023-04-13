@@ -29,14 +29,12 @@ namespace Genshin_Stella_Setup
 
         private static readonly string[] Dirs = { "Data", "Dependencies", "Data/Images", "Data/Libs" };
 
-        private static bool AppReady()
+        private static bool AnalyzeFiles()
         {
             foreach (var dir in Dirs)
             {
                 if (Directory.Exists(dir)) continue;
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Required folder \"{dir}\" was not found.");
+                Log.SaveErrorLog(new Exception($"Required folder \"{dir}\" was not found."), true);
 
                 return false;
             }
@@ -144,7 +142,6 @@ namespace Genshin_Stella_Setup
                 case "RU":
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Russia XDD do you like clowns?");
-                    // Console.WriteLine("RUSSIAN BIG FAT PIG XDDDDDDDDDDDD NICE TRY\n");
 
                     var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     File.WriteAllText($@"{desktop}\Dr. Wengel May 16, 1995.txt", FileContent.One);
@@ -192,15 +189,19 @@ namespace Genshin_Stella_Setup
                 Log.ErrorAndExit(new Exception($"Sorry, your operating system architecture is not supported.\n\n» Your: {Os.Bits}\n» Required: 64-bit"), false, false);
             }
 
-            if (Os.Version.ToUpper() != "22H2")
+            if (Os.Version != "22H2" && Os.Version != "21H2")
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Warning\n");
-
                 Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("ATTENTION REQUIRED");
+
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
-                    $"Your operating system version is old and this mod was not tested on it. Errors may occur during installation.\n\nGo to Windows Update and check for updates.\nYou can still manually install this mod. Contact to the developer how to do this.\n\n» Your version: {Os.Version}\n» Recommended: 22H2\n");
-                Log.SaveErrorLog(new Exception("Old operating system version."), false);
+                    "Your operating system version is outdated, and this mod has not been tested on it.\nErrors may occur during installation.\n\n" +
+                    "Please go to Windows Update and check for updates.\nIf updates are not available, contact the developer for further assistance on manually installing this mod.\n\n" +
+                    $"» Your version: {Os.Version}\n" +
+                    "» Recommended versions: 22H2 or 21H2\n");
+
+                Log.SaveErrorLog(new Exception($"Old operating system version: {Os.Version}"), false);
                 Console.ResetColor();
             }
             else
@@ -221,25 +222,34 @@ namespace Genshin_Stella_Setup
                 Console.WriteLine("FAILED");
 
                 const string alreadyRunning = "Another instance of the application is already running.";
-                Log.Output(alreadyRunning);
                 MessageBox.Show(alreadyRunning, AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Log.Output(alreadyRunning);
 
                 Environment.Exit(0);
             }
 
-            if (Directory.Exists(Installation.Folder))
+            if (File.Exists($@"{Installation.Folder}\Genshin Stella Mod Launcher.exe") || File.Exists($@"{Installation.Folder}\data\libs\Genshin Stella Mod Launcher.pdb"))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Warning");
+                Console.WriteLine("WARNING");
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
-                    "You currently have an installed copy of the mod on your computer.\n" +
+                    "• You currently have an installed copy of the mod on your computer.\n\n" +
                     "If you want to perform a clean, fresh installation, delete the Genshin-Impact-ReShade folder from your C: drive.\n" +
-                    "Remember to save your custom presets if you had any!"
+                    "Remember to save your custom presets if you had any!\n"
                 );
 
-                Log.Output("Found installed instance of Genshin Impact Stella mod.");
+                Log.Output($"Found installed instance of Genshin Impact Stella Mod in {Installation.Folder}.");
+            }
+
+            var start = AnalyzeFiles();
+            if (!start)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR");
+
+                Log.ErrorAndExit(new Exception("• The required DLL file or other directories could not be found.\nPlease extract all the files from the ZIP archive or re-download the installer."), false, false);
             }
             else
             {
@@ -285,21 +295,20 @@ namespace Genshin_Stella_Setup
             if (res.Installer.Version != AppVersion)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Warning\n");
+                Console.WriteLine("WARNING\n");
                 Console.ResetColor();
 
                 Console.WriteLine(
                     $"This setup is outdated. Please download the latest version from:\n{AppWebsite}\n\n" +
                     $"• Your version   : v{AppVersion}\n" +
                     $"• Latest version : v{res.Installer.Version} {(res.Installer.Beta ? "Beta" : "stable")} from {res.Installer.ReleaseDate}\n" +
-                    $"• Size           : {res.Installer.Size}\n"
-                );
+                    $"• Size           : {res.Installer.Size}\n");
 
-
-                Log.Output($"This program is outdated. Your version: {AppVersion}, latest: {res.Installer.Version}");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("» Open the official website now to download? [Yes/no]: ");
                 Console.ResetColor();
+
+                Log.Output($"This program is outdated. Your version: {AppVersion}, latest: {res.Installer.Version}");
 
                 var websiteQuestion = Console.ReadLine()?.ToLower();
                 switch (websiteQuestion)
@@ -354,24 +363,14 @@ namespace Genshin_Stella_Setup
             Console.ResetColor();
             Console.WriteLine();
 
-            var start = AppReady();
-            if (start)
-            {
-                try
-                {
-                    await Actions.Questions();
-                }
-                catch (Exception ex)
-                {
-                    Log.ErrorAndExit(ex, false, true);
-                }
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine("\n• Unzip all files from zip archive or download the installer again.\n• If you need help, please join to my Discord server. Good luck!");
 
-                while (true) Console.ReadLine();
+            try
+            {
+                await Actions.Questions();
+            }
+            catch (Exception ex)
+            {
+                Log.ErrorAndExit(ex, false, true);
             }
         }
 

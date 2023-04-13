@@ -17,6 +17,8 @@ namespace Genshin_Stella_Setup.Scripts
 
         public static async Task Post(string data)
         {
+            Log.Output($"Telemetry: {data}");
+
             var obj = new NameValueCollection
             {
                 { "deviceId", Os.DeviceId },
@@ -67,10 +69,10 @@ namespace Genshin_Stella_Setup.Scripts
             try
             {
                 // Files
-                var content1 = "File installer.output.log is empty.";
+                var content1 = "File setup.output.log is empty.";
                 if (File.Exists(Log.OutputFile)) content1 = File.ReadAllText(Log.OutputFile);
 
-                var content2 = "File mod_installation.log is empty.";
+                var content2 = "File installation.log is empty.";
                 if (File.Exists(Log.ModInstFile)) content2 = File.ReadAllText(Log.ModInstFile);
 
                 // Send

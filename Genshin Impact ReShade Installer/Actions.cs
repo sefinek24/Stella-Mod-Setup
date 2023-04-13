@@ -13,8 +13,7 @@ namespace Genshin_Stella_Setup
     internal abstract class Actions
     {
         // Other
-        public const string Line =
-            "===============================================================================================";
+        public const string Line = "===============================================================================================";
 
         // Questions
         public static string ShortcutQuestion;

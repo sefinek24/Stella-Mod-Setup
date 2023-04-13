@@ -17,7 +17,7 @@ namespace Genshin_Stella_Setup.Scripts
         public static readonly string DeviceId = GetDeviceId();
         public static readonly string Name = GetOs();
         public static readonly string Build = GetBuild();
-        public static readonly string Version = GetVersion();
+        public static readonly string Version = GetVersion().ToUpper();
         public static readonly string Bits = Environment.Is64BitOperatingSystem ? "64-bit" : "32-bit";
         public static readonly string AllInfos = $"{Name} {Version} [{Build}]";
 
