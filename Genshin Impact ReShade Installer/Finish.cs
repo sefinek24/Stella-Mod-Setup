@@ -116,7 +116,7 @@ namespace Genshin_Stella_Setup
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Ohh noooo!! Something went wrong. Failed to send Webhook. Sorry ):");
+                    Console.WriteLine("Oh nooo!!! Something went wrong while sending the logs.");
                 }
             }
 
