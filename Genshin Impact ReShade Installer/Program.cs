@@ -145,8 +145,7 @@ namespace Genshin_Stella_Setup
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR\n");
 
-                Log.ErrorAndExit(
-                    new Exception(
+                Log.ErrorAndExit(new Exception(
                         $"Sorry, your operating system version is deprecated and not supported.\nGo to Windows Update and check for updates. If you need help, contact to the developers. We can help you!\n\nSupported OS list: https://github.com/sefinek24/Genshin-Impact-ReShade#--supported-operating-systems\n\n» Your version: {Environment.OSVersion.Version.Build}\n» Version higher than: 19041"),
                     false, false);
             }
@@ -198,7 +197,7 @@ namespace Genshin_Stella_Setup
                 Environment.Exit(0);
             }
 
-            if (File.Exists($@"{Installation.Folder}\Genshin Stella Mod Launcher.exe") || File.Exists($@"{Installation.Folder}\data\libs\Genshin Stella Mod Launcher.pdb"))
+            if (File.Exists($@"{Installation.Folder}\Genshin Stella Mod.exe") || File.Exists($@"{Installation.Folder}\data\libs\Genshin Stella Mod.pdb"))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("WARNING");
@@ -243,11 +242,9 @@ namespace Genshin_Stella_Setup
             }
             else
             {
-                Log.ErrorAndExit(
-                    new Exception(string.IsNullOrEmpty(getAccess.Response)
-                        ? "Failed to receive consent to install. Unknown reason."
-                        : $"Oh no! Failed to receive consent to install.\n\n» Information:\n{getAccess.Message}\n\n» Reason:\n{getAccess.Response}"),
-                    false, false);
+                Log.ErrorAndExit(new Exception(string.IsNullOrEmpty(getAccess.Response)
+                    ? "Failed to receive consent to install. Unknown reason."
+                    : $"Oh no! Failed to receive consent to install.\n\n» Information:\n{getAccess.Message}\n\n» Reason:\n{getAccess.Response}"), false, false);
             }
 
 

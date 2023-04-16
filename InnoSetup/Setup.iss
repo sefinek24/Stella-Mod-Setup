@@ -1,8 +1,8 @@
 #define MyAppName "Genshin Stella Mod"
-#define MyAppVersion "6.0.0.0"
+#define MyAppVersion "6.1.0.0"
 #define MyAppPublisher "Sefinek Inc."
 #define MyAppURL "https://genshin.sefinek.net"
-#define MyAppExeName "Genshin Stella Mod Launcher.exe"
+#define MyAppExeName "Genshin Stella Mod.exe"
 #define MyAppId "5D6E44F3-2141-4EA4-89E3-6C3018583FF7"
 
 [Setup]
@@ -62,29 +62,102 @@ Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Tasks]
-Name: "CreateDesktopIcon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional shortcuts:"; Check: not InstViaSetup and not InstViaLauncher and not DesktopIconExists
-Name: "RunSfcSCANNOW"; Description: "Scan and repair system files"; GroupDescription: "Other:"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Check: not InstViaSetup and not InstViaLauncher 
 
 [Files]
 Source: "C:\Genshin-Impact-ReShade\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Genshin-Impact-ReShade\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\Genshin Impact ReShade Installer\Dependencies\Microsoft.VCLibs.x64.14.00.Desktop.appx"; DestDir: {tmp}; Flags: deleteafterinstall
-;Source: "Genshin Impact ReShade Installer\Dependencies\WindowsTerminal_Win10.msixbundle"; DestDir: {tmp}; Flags: deleteafterinstall
+
+Source: "UninsIS.dll"; Flags: dontcopy
 
 [Icons]
-Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: CreateDesktopIcon
-Name: "{autoprograms}\Genshin Impact Mod Pack\Uninstall mod"; Filename: "{app}\unins000.exe"
+Name: "{autodesktop}\Stella Mod Launcher"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{autoprograms}\Genshin Stella Mod\Uninstall {#MyAppName}"; Filename: "{uninstallexe}"
 
 [Run]
 Filename: "powershell.exe"; Parameters: "Add-AppxPackage -Path {tmp}\Microsoft.VCLibs.x64.14.00.Desktop.appx"; StatusMsg: "Installing Microsoft VCLibs..."; Flags: runhidden
-Filename: "cmd.exe"; Parameters: "sfc /SCANNOW"; Flags: runhidden; StatusMsg: "Scanning and reparing system files..."; Tasks: RunSfcSCANNOW
-
-WorkingDir: "{app}"; Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}} Launcher"; Flags: nowait postinstall skipifsilent runascurrentuser
+Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}} Launcher"; Flags: nowait postinstall skipifsilent runascurrentuser
 
 #define public Dependency_NoExampleSetup
 #include "CodeDependencies.iss"
 
 [Code]
+// ------------------------------------------- UNINSTALL THE OLD VERSION -------------------------------------------
+// Import IsISPackageInstalled() function from UninsIS.dll at setup time
+function DLLIsISPackageInstalled(AppId: string; Is64BitInstallMode,
+  IsAdminInstallMode: DWORD): DWORD;
+  external 'IsISPackageInstalled@files:UninsIS.dll stdcall setuponly';
+
+// Import CompareISPackageVersion() function from UninsIS.dll at setup time
+function DLLCompareISPackageVersion(AppId, InstallingVersion: string;
+  Is64BitInstallMode, IsAdminInstallMode: DWORD): LongInt;
+  external 'CompareISPackageVersion@files:UninsIS.dll stdcall setuponly';
+
+// Import UninstallISPackage() function from UninsIS.dll at setup time
+function DLLUninstallISPackage(AppId: string; Is64BitInstallMode,
+  IsAdminInstallMode: DWORD): DWORD;
+  external 'UninstallISPackage@files:UninsIS.dll stdcall setuponly';
+
+// Wrapper for UninsIS.dll IsISPackageInstalled() function
+// Returns true if package is detected as installed, or false otherwise
+function IsISPackageInstalled(): Boolean;
+begin
+  result := DLLIsISPackageInstalled('{#MyAppId}',  // AppId
+    DWORD(Is64BitInstallMode()),                   // Is64BitInstallMode
+    DWORD(IsAdminInstallMode())) = 1;              // IsAdminInstallMode
+  if result then
+    Log('UninsIS.dll - Package detected as installed')
+  else
+    Log('UninsIS.dll - Package not detected as installed');
+end;
+
+// Wrapper for UninsIS.dll CompareISPackageVersion() function
+// Returns:
+// < 0 if version we are installing is < installed version
+// 0   if version we are installing is = installed version
+// > 0 if version we are installing is > installed version
+function CompareISPackageVersion(): LongInt;
+begin
+  result := DLLCompareISPackageVersion('{#MyAppId}',  // AppId
+    '{#MyAppVersion}',                                  // InstallingVersion
+    DWORD(Is64BitInstallMode()),                      // Is64BitInstallMode
+    DWORD(IsAdminInstallMode()));                     // IsAdminInstallMode
+  if result < 0 then
+    Log('UninsIS.dll - This version {#MyAppVersion} older than installed version')
+  else if result = 0 then
+    Log('UninsIS.dll - This version {#MyAppVersion} same as installed version')
+  else
+    Log('UninsIS.dll - This version {#MyAppVersion} newer than installed version');
+end;
+
+// Wrapper for UninsIS.dll UninstallISPackage() function
+// Returns 0 for success, non-zero for failure
+function UninstallISPackage(): DWORD;
+begin
+  result := DLLUninstallISPackage('{#MyAppId}',  // AppId
+    DWORD(Is64BitInstallMode()),                 // Is64BitInstallMode
+    DWORD(IsAdminInstallMode()));                // IsAdminInstallMode
+  if result = 0 then
+    Log('UninsIS.dll - Installed package uninstall completed successfully')
+  else
+    Log('UninsIS.dll - installed package uninstall did not complete successfully');
+end;
+
+function PrepareToInstall(var NeedsRestart: Boolean): string;
+begin
+  result := '';
+  // If package installed, uninstall it automatically if the version we are
+  // installing does not match the installed version; If you want to
+  // automatically uninstall only...
+  // ...when downgrading: change <> to <
+  // ...when upgrading:   change <> to >
+  if IsISPackageInstalled() and (CompareISPackageVersion() <> 0) then
+    UninstallISPackage();
+end;
+
+
+// ------------------------------------------- INSTALL REQUIRED DEPS -------------------------------------------
 function InitializeSetup: Boolean;
 begin
   Dependency_AddDotNet48;
@@ -98,6 +171,8 @@ begin
   Result := True;
 end;
 
+
+// ------------------------------------------- PARAMS -------------------------------------------
 function CmdLineParamExists(const value: string): Boolean;
 var
   i: Integer;
@@ -113,15 +188,10 @@ end;
 
 function InstViaSetup(): Boolean;
 begin
-  Result := CmdLineParamExists('/INSTVIASETUP');
+  Result := CmdLineParamExists('/SETUP');
 end;
 
 function InstViaLauncher(): Boolean;
 begin
-  Result := CmdLineParamExists('/INSTVIALAUNCHER');
-end;
-
-function DesktopIconExists(): Boolean;
-begin
-  Result := FileExists(ExpandConstant('{userdesktop}\{#MyAppName}.lnk'));
+  Result := CmdLineParamExists('/UPDATE');
 end;

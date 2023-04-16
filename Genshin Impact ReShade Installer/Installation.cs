@@ -180,7 +180,7 @@ namespace Genshin_Stella_Setup
             if (!File.Exists(MainSetup))
                 Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
 
-            await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /INSTVIASETUP /LOG=\"{Log.Folder}\\installation.log\"", null);
+            await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /SETUP /LOG=\"{Log.Folder}\\installation.log\"", null);
 
             if (!Directory.Exists(Folder))
                 Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);
@@ -363,7 +363,7 @@ namespace Genshin_Stella_Setup
             if (Regex.IsMatch(Actions.ShortcutQuestion, "(?:y)", RegexOptions.IgnoreCase))
                 try
                 {
-                    var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                    var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
                     var shortcutPath = Path.Combine(desktopPath, "Stella Mod Launcher.lnk");
 
                     var shell = new WshShell();
@@ -371,7 +371,7 @@ namespace Genshin_Stella_Setup
                     shortcut.Description = "Run official launcher for Genshin Impact Mod made by Sefinek.";
                     shortcut.IconLocation = Path.Combine(Folder, "icons", "52x52.ico");
                     shortcut.WorkingDirectory = Folder;
-                    shortcut.TargetPath = Path.Combine(Folder, "Genshin Stella Mod Launcher.exe");
+                    shortcut.TargetPath = Path.Combine(Folder, "Genshin Stella Mod.exe");
 
                     shortcut.Save();
                     Log.Output("Desktop shortcut has been created.");
@@ -397,7 +397,7 @@ namespace Genshin_Stella_Setup
                     shortcut.Description = "Run official mod launcher made by Sefinek.";
                     shortcut.IconLocation = Path.Combine(Folder, "icons", "52x52.ico");
                     shortcut.WorkingDirectory = Folder;
-                    shortcut.TargetPath = Path.Combine(Folder, "Genshin Stella Mod Launcher.exe");
+                    shortcut.TargetPath = Path.Combine(Folder, "Genshin Stella Mod.exe");
                     shortcut.Save();
                     Log.Output("Start menu shortcut has been created.");
 

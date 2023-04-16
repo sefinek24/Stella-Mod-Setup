@@ -147,9 +147,8 @@ namespace Genshin_Stella_Setup
                 if (Regex.Match(answer ?? string.Empty, "(?:y)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
                     try
                     {
-                        Process.Start(new ProcessStartInfo
-                            { FileName = "Genshin Stella Mod Launcher.exe", WorkingDirectory = Installation.Folder });
-                        Log.Output("Application has been opened.");
+                        Process.Start(new ProcessStartInfo { FileName = "Genshin Stella Mod.exe", WorkingDirectory = Installation.Folder });
+                        Log.Output("Application 'Genshin Stella Mod.exe' has been opened.");
                     }
                     catch (Exception e)
                     {

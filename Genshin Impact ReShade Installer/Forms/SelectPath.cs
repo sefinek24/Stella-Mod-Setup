@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using Genshin_Stella_Setup.Properties;
 using Genshin_Stella_Setup.Scripts;
 
 namespace Genshin_Stella_Setup.Forms
@@ -82,8 +82,9 @@ namespace Genshin_Stella_Setup.Forms
             var selectedFile = comboBox1.GetItemText(comboBox1.SelectedItem);
             if (!selectedFile.Contains("GenshinImpact.exe") && !selectedFile.Contains("YuanShen.exe"))
             {
-                MessageBox.Show("We can't save your settings. Please select the game exe.\n\nGenshinImpact.exe for OS version.\nYuanShen.exe for CN version.", Program.AppName, MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "We can't save your settings. Please select the game exe.\n\nGenshinImpact.exe for OS version.\nYuanShen.exe for CN version.",
+                    Program.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -105,7 +106,7 @@ namespace Genshin_Stella_Setup.Forms
 
         private void Help_Click(object sender, EventArgs e)
         {
-            new Help { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") }.Show();
+            new Help { Icon = Resources.icon }.Show();
         }
     }
 }

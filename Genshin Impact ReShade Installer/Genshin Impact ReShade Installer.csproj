@@ -36,7 +36,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>52x52_installer.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\52x52.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Genshin_Stella_Setup.Program</StartupObject>
@@ -134,14 +134,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="52x52_installer.ico" />
+    <None Include="Resources\52x52.ico" />
     <None Include="Resources\Noir.%28Hoshizora%29.full.3630547.png" />
     <None Include="Data\sound.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Data\Images\52x52.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Data\Images\kyaru.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

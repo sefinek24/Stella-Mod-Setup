@@ -1,11 +1,11 @@
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Genshin_Stella_Setup.Forms;
+using Genshin_Stella_Setup.Properties;
 using Genshin_Stella_Setup.Scripts;
 
 namespace Genshin_Stella_Setup
@@ -140,7 +140,7 @@ namespace Genshin_Stella_Setup
             }
             else
             {
-                Application.Run(new SelectPath { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") });
+                Application.Run(new SelectPath { Icon = Resources.icon });
             }
 
 
