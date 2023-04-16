@@ -394,7 +394,7 @@ namespace Genshin_Stella_Setup
                     var shell = new WshShell();
                     var shortcutLocation = Path.Combine(appStartMenuPath, "Genshin Stella Mod.lnk");
                     var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
-                    shortcut.Description = "Run official mod launcher made by Sefinek.";
+                    shortcut.Description = "Run official Genshin Stella Mod Launcher made by Sefinek.";
                     shortcut.IconLocation = Path.Combine(Folder, "icons", "52x52.ico");
                     shortcut.WorkingDirectory = Folder;
                     shortcut.TargetPath = Path.Combine(Folder, "Genshin Stella Mod.exe");
