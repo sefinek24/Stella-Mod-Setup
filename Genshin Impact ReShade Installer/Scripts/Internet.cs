@@ -1,33 +1,39 @@
 using System;
+using System.Linq;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 
 namespace Genshin_Stella_Setup.Scripts
 {
     internal abstract class Internet
     {
-        private static bool Ping(string host)
+        private static async Task<bool> Ping(string host)
         {
             try
             {
-                var ping = new Ping();
-                var buffer = new byte[32];
-                const int timeout = 5000;
-                var options = new PingOptions();
-                var reply = ping.Send(host, timeout, buffer, options);
-                return reply != null && reply.Status == IPStatus.Success;
+                using (var ping = new Ping())
+                {
+                    var buffer = new byte[32];
+                    const int timeout = 9000;
+                    var options = new PingOptions();
+                    var reply = await ping.SendPingAsync(host, timeout, buffer, options);
+                    return reply.Status == IPStatus.Success;
+                }
             }
             catch (Exception ex)
             {
                 Log.ErrorAndExit(new Exception(
-                    $"Sorry. I cannot connect to the {host} server. Please check your network or antivirus program and try again.\n\n• Error:\n{ex.Message}"), false, false);
-
+                    $"ERROR\n\nSorry. I cannot connect to the {host} server. Please check your network or antivirus program and try again.\n\n» Error:\n{ex.Message}"), false, false);
                 return false;
             }
         }
 
-        public static bool CheckConnection()
+        public static async Task<bool> CheckConnection()
         {
-            return Ping("sefinek.net") && Ping("api.sefinek.net") && Ping("cdn.sefinek.net");
+            var hostsToPing = new[] { "sefinek.net", "api.sefinek.net", "cdn.sefinek.net" };
+            var pingTasks = hostsToPing.Select(Ping);
+            var pingResults = await Task.WhenAll(pingTasks);
+            return pingResults.All(x => x);
         }
     }
 }

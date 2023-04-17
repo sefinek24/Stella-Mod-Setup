@@ -61,10 +61,13 @@ namespace Genshin_Stella_Setup
             {
                 var obj = new NameValueCollection
                 {
+                    { "cpuId", Os.CpuId },
                     { "deviceId", Os.DeviceId },
                     { "regionCode", RegionInfo.CurrentRegion.Name },
                     { "regionName", Os.RegionEngName },
+                    { "timezone", Os.TimeZone },
                     { "osName", Os.Name },
+                    { "osVersion", Os.Version },
                     { "osBuild", Os.Build },
                     { "setupVersion", AppVersion },
                     { "secretKey", Utils.EncodeString(Data.SecretKey) }
@@ -170,7 +173,7 @@ namespace Genshin_Stella_Setup
                     $"» Your version: {Os.Version}\n" +
                     "» Recommended versions: 22H2 or 21H2\n");
 
-                Log.SaveErrorLog(new Exception($"Old operating system version: {Os.Version}"), false);
+                Log.SaveErrorLog(new Exception($"Old operating system version: {Os.Version}"), true);
                 Console.ResetColor();
             }
             else
@@ -192,11 +195,12 @@ namespace Genshin_Stella_Setup
 
                 const string alreadyRunning = "Another instance of the application is already running.";
                 MessageBox.Show(alreadyRunning, AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Log.Output(alreadyRunning);
+                Log.SaveErrorLog(new Exception(alreadyRunning), true);
 
                 Environment.Exit(0);
             }
 
+            var isWarning = false;
             if (File.Exists($@"{Installation.Folder}\Genshin Stella Mod.exe") || File.Exists($@"{Installation.Folder}\data\libs\Genshin Stella Mod.pdb"))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -204,12 +208,12 @@ namespace Genshin_Stella_Setup
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
-                    "• You currently have an installed copy of the mod on your computer.\n\n" +
+                    "» You currently have an installed copy of the mod on your computer.\n\n" +
                     "If you want to perform a clean, fresh installation, delete the Genshin-Impact-ReShade folder from your C: drive.\n" +
-                    "Remember to save your custom presets if you had any!\n"
-                );
+                    "Remember to save your custom presets if you had any!\n");
 
                 Log.Output($"Found installed instance of Genshin Impact Stella Mod in {Installation.Folder}.");
+                isWarning = true;
             }
 
             var start = Utils.AnalyzeFiles();
@@ -218,9 +222,11 @@ namespace Genshin_Stella_Setup
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR");
 
-                Log.ErrorAndExit(new Exception("• The required DLL file or other directories could not be found.\nPlease extract all the files from the ZIP archive or re-download the installer."), false, false);
+                Log.ErrorAndExit(new Exception("» The required DLL file or other directories could not be found.\nPlease extract all the files from the ZIP archive or re-download the installer."), false, false);
+                isWarning = true;
             }
-            else
+
+            if (!isWarning)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("OK");
@@ -255,7 +261,7 @@ namespace Genshin_Stella_Setup
 
             var client = new WebClient();
             client.Headers.Add("user-agent", UserAgent);
-            var json = await client.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/version/apps");
+            var json = await client.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/version/app/installer");
             Log.Output(json);
             var res = JsonConvert.DeserializeObject<InstallerVersion>(json);
 
@@ -280,6 +286,7 @@ namespace Genshin_Stella_Setup
                 Console.ResetColor();
 
                 Log.Output($"This program is outdated. Your version: {AppVersion}, latest: {remoteVersion}");
+                await Telemetry.Post("Found new updates.");
 
                 var websiteQuestion = Console.ReadLine()?.ToLower();
                 switch (websiteQuestion)
@@ -314,6 +321,9 @@ namespace Genshin_Stella_Setup
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("• Starting... ");
             Console.ResetColor();
+
+            var connection = await Internet.CheckConnection();
+            if (!connection) return;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

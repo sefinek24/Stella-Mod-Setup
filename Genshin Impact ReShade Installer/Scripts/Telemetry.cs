@@ -11,8 +11,8 @@ namespace Genshin_Stella_Setup.Scripts
     internal abstract class Telemetry
     {
         // API
-        public const string ApiUrl = "https://api.sefinek.net/api/v3/genshin-impact-reshade";
-        // public const string ApiUrl = " http://127.0.0.1:4010/api/v3/genshin-impact-reshade";
+        // public const string ApiUrl = "https://api.sefinek.net/api/v3/genshin-stella-mod";
+        public const string ApiUrl = " http://127.0.0.1:4010/api/v3/genshin-stella-mod";
 
         // Token
         public static string BearerToken = "";
@@ -23,20 +23,19 @@ namespace Genshin_Stella_Setup.Scripts
 
             var obj = new NameValueCollection
             {
+                { "cpuId", Os.CpuId },
                 { "deviceId", Os.DeviceId },
                 { "regionName", Os.RegionEngName },
                 { "regionCode", RegionInfo.CurrentRegion.Name },
                 { "osName", Os.Name },
-                { "osVersion", Os.Version },
                 { "osBuild", Os.Build },
-                { "setupVersion", Program.AppVersion },
-                { "data", data }
+                { "log", data }
             };
 
             var webClient = new WebClient();
             webClient.Headers.Add("User-Agent", Program.UserAgent);
             webClient.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + BearerToken);
-            var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/setup/send", obj);
+            var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/send", obj);
             var responseString = Encoding.UTF8.GetString(responseBytes);
             Log.Output(responseString);
         }
@@ -45,11 +44,10 @@ namespace Genshin_Stella_Setup.Scripts
         {
             var obj = new NameValueCollection
             {
+                { "cpuId", Os.CpuId },
                 { "deviceId", Os.DeviceId },
                 { "regionName", Os.RegionEngName },
                 { "regionCode", RegionInfo.CurrentRegion.Name },
-                { "osName", Os.Name },
-                { "osVersion", Os.Version },
                 { "osBuild", Os.Build },
                 { "setupVersion", Program.AppVersion },
                 { "error", error.ToString() }
@@ -58,7 +56,7 @@ namespace Genshin_Stella_Setup.Scripts
             var webClient = new WebClient();
             webClient.Headers.Add("User-Agent", Program.UserAgent);
             webClient.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + BearerToken);
-            var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/setup/error", obj);
+            var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/error", obj);
             var responseString = Encoding.UTF8.GetString(responseBytes);
             Log.Output(responseString);
         }
@@ -74,23 +72,26 @@ namespace Genshin_Stella_Setup.Scripts
                 var content1 = "File setup.output.log is empty.";
                 if (File.Exists(Log.OutputFile)) content1 = File.ReadAllText(Log.OutputFile);
 
-                var content2 = "File installation.log is empty.";
+                var content2 = "File innosetup-logs.install.log is empty.";
                 if (File.Exists(Log.ModInstFile)) content2 = File.ReadAllText(Log.ModInstFile);
 
                 // Send
                 var obj = new NameValueCollection
                 {
+                    { "cpuId", Os.CpuId },
                     { "deviceId", Os.DeviceId },
                     { "regionName", Os.RegionEngName },
                     { "timezone", Os.TimeZone },
                     { "osName", Os.AllInfo },
-                    { "data", $"{content1}\n\n\n{content2}" }
+                    { "setupVersion", Program.AppVersion },
+                    { "setupOutput", content1 },
+                    { "innoSetupOutput", content2 }
                 };
 
                 var webClient = new WebClient();
                 webClient.Headers.Add("User-Agent", Program.UserAgent);
                 webClient.Headers.Add("Authorization", $"Bearer {BearerToken}");
-                var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/send-log-files", "PUT", obj);
+                var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/setup/send-log-files", "PUT", obj);
                 var json = Encoding.UTF8.GetString(responseBytes);
 
                 Log.Output(json);

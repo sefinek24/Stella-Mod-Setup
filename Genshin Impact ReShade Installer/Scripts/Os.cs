@@ -13,6 +13,7 @@ namespace Genshin_Stella_Setup.Scripts
         private static readonly RegistryKey RegistryKey = LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion");
 
         // Device
+        public static readonly string CpuId = GetCpuId();
         public static readonly string DeviceId = GetDeviceId();
         public static readonly string Name = GetOs();
         public static readonly string Build = GetBuild();
@@ -25,16 +26,36 @@ namespace Genshin_Stella_Setup.Scripts
         public static readonly string RegionEngName = RegionInfo.CurrentRegion.EnglishName;
         public static readonly string RegionName = RegionInfo.CurrentRegion.Name;
 
+        private static string GetCpuId()
+        {
+            var serialNumber = "";
+
+            try
+            {
+                var searcher = new ManagementObjectSearcher("SELECT ProcessorId FROM Win32_Processor");
+                var collection = searcher.Get();
+
+                foreach (var o in collection)
+                {
+                    var obj = (ManagementObject)o;
+                    serialNumber = obj["ProcessorId"].ToString();
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.ErrorAndExit(ex, false, true);
+            }
+
+            return serialNumber;
+        }
+
         private static string GetDeviceId()
         {
             var computerSystemProduct = new ManagementClass("Win32_ComputerSystemProduct").GetInstances().Cast<ManagementObject>().FirstOrDefault();
 
             var deviceId = computerSystemProduct?.Properties["UUID"].Value.ToString();
-            if (!string.IsNullOrEmpty(deviceId)) return deviceId;
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Failed to retrieve device identifier.");
-            while (true) Console.ReadLine();
+            return !string.IsNullOrEmpty(deviceId) ? deviceId : "Unknown";
         }
 
         private static string GetOs()

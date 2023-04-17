@@ -103,12 +103,16 @@ namespace Genshin_Stella_Setup
             }
 
             // Ping
-            var connection = Internet.CheckConnection();
+            var connection = await Internet.CheckConnection();
             if (!connection) return;
 
             // Check access
             var getAccess = await Access.Get();
-            if (!getAccess.Success) return;
+            if (!getAccess.Success)
+            {
+                Log.ErrorAndExit(new Exception("The server unexpectedly refused installation.\nThe authorization key may have expired. Please try again."), false, false);
+                return;
+            }
 
             // Post data
             await Telemetry.Post("Installation in progress. Please wait...");
@@ -163,7 +167,7 @@ namespace Genshin_Stella_Setup
             {
                 Console.WriteLine();
 
-                await Cmd.Execute($"{Folder}/unins000.exe", $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\uninstallation.log\"", null);
+                await Cmd.Execute($"{Folder}/unins000.exe", $"/SILENT /NORESTART /LOG=\"{Log.Folder}\\innosetup-logs.uninstall.log\"", null);
             }
             else
             {
@@ -180,7 +184,7 @@ namespace Genshin_Stella_Setup
             if (!File.Exists(MainSetup))
                 Log.ErrorAndExit(new Exception($"I can't find a required file.\n{MainSetup}"), false, false);
 
-            await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /SETUP /LOG=\"{Log.Folder}\\installation.log\"", null);
+            await Cmd.Execute(MainSetup, $"/SILENT /NORESTART /SETUP /LOG=\"{Log.Folder}\\innosetup-logs.install.log\"", null);
 
             if (!Directory.Exists(Folder))
                 Log.ErrorAndExit(new Exception($"I can't find main mod directory in: {Folder}"), false, false);

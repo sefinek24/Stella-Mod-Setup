@@ -10,7 +10,7 @@ namespace Genshin_Stella_Setup.Scripts
     {
         public static readonly string Folder = Program.AppData + @"\logs";
         public static readonly string OutputFile = Folder + @"\setup.output.log";
-        public static readonly string ModInstFile = Folder + @"\installation.log";
+        public static readonly string ModInstFile = Folder + @"\innosetup-logs.install.log";
         private static int _reportTry = 1;
 
         private static void TryAgain(bool tryAgain)
@@ -121,6 +121,38 @@ namespace Genshin_Stella_Setup.Scripts
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(
                         $"Visit our Discord server for help or try again. Good luck!\n• Discord: {Program.DiscordUrl} [My username: Sefinek#0001]\n• E-mail: contact@sefinek.net\n• Use the chat available on my website.");
+
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write("\n» Would you like to join our Discord server? [Yes/no]: ");
+                    Console.ResetColor();
+
+                    var joinDiscord = Console.ReadLine()?.ToLower();
+                    switch (joinDiscord)
+                    {
+                        case "y":
+                        case "yes":
+                            Utils.OpenUrl(Program.DiscordUrl);
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("An invitation to the server has been opened in your default web browser.\n");
+
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.WriteLine("You can close the installer window.");
+                            break;
+
+                        case "n":
+                        case "no":
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.WriteLine("Okay... You can close this window.");
+                            break;
+
+                        default:
+                        {
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.WriteLine("Wrong answer. Close this window.");
+                            break;
+                        }
+                    }
 
                     while (true) Console.ReadLine();
                 }

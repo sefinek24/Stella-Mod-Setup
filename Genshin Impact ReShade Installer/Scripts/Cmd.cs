@@ -16,10 +16,10 @@ namespace Genshin_Stella_Setup.Scripts
 
         public static async Task Execute(string app, string args, string workingDir)
         {
+            Log.Output($"Execute command: {app} {args} {workingDir}");
+
             try
             {
-                Log.Output($"Execute command: {app} {args} {workingDir}");
-
                 var action = Cli.Wrap(app)
                     .WithArguments(args)
                     .WithWorkingDirectory(workingDir)
@@ -93,7 +93,7 @@ namespace Genshin_Stella_Setup.Scripts
                         {
                             new ToastContentBuilder()
                                 .AddText("Ughh, sorry. We need more time 😥")
-                                .AddText("Found missing dependency with name VCLibs.\nClose all Microsoft Store apps and go back to the installer!")
+                                .AddText("Found missing dependency with name VCLibs.\nClose all Microsoft Store apps and go back to the setup!")
                                 .Show();
                         }
                         catch (Exception ex)
