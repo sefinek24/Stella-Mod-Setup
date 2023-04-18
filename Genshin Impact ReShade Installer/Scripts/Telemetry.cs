@@ -11,8 +11,8 @@ namespace Genshin_Stella_Setup.Scripts
     internal abstract class Telemetry
     {
         // API
-        // public const string ApiUrl = "https://api.sefinek.net/api/v3/genshin-stella-mod";
-        public const string ApiUrl = " http://127.0.0.1:4010/api/v3/genshin-stella-mod";
+        public const string ApiUrl = "https://api.sefinek.net/api/v4/genshin-stella-mod";
+        // public const string ApiUrl = " http://127.0.0.1:4010/api/v4/genshin-stella-mod";
 
         // Token
         public static string BearerToken = "";
@@ -29,7 +29,7 @@ namespace Genshin_Stella_Setup.Scripts
                 { "regionCode", RegionInfo.CurrentRegion.Name },
                 { "osName", Os.Name },
                 { "osBuild", Os.Build },
-                { "log", data }
+                { "data", data }
             };
 
             var webClient = new WebClient();
