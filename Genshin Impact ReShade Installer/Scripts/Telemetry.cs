@@ -23,13 +23,13 @@ namespace Genshin_Stella_Setup.Scripts
 
             var obj = new NameValueCollection
             {
-                { "cpuId", Os.CpuId },
+                { "identity", Os.FullIdentity },
                 { "deviceId", Os.DeviceId },
                 { "regionName", Os.RegionEngName },
                 { "regionCode", RegionInfo.CurrentRegion.Name },
                 { "osName", Os.Name },
                 { "osBuild", Os.Build },
-                { "data", data }
+                { "log", data }
             };
 
             var webClient = new WebClient();
@@ -44,7 +44,7 @@ namespace Genshin_Stella_Setup.Scripts
         {
             var obj = new NameValueCollection
             {
-                { "cpuId", Os.CpuId },
+                { "identity", Os.FullIdentity },
                 { "deviceId", Os.DeviceId },
                 { "regionName", Os.RegionEngName },
                 { "regionCode", RegionInfo.CurrentRegion.Name },
@@ -78,7 +78,7 @@ namespace Genshin_Stella_Setup.Scripts
                 // Send
                 var obj = new NameValueCollection
                 {
-                    { "cpuId", Os.CpuId },
+                    { "identity", Os.FullIdentity },
                     { "deviceId", Os.DeviceId },
                     { "regionName", Os.RegionEngName },
                     { "timezone", Os.TimeZone },

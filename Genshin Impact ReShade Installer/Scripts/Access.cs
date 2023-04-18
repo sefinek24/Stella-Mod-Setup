@@ -18,7 +18,7 @@ namespace Genshin_Stella_Setup.Scripts
             {
                 var obj = new NameValueCollection
                 {
-                    { "cpuId", Os.CpuId },
+                    { "identity", Os.FullIdentity },
                     { "deviceId", Os.DeviceId },
                     { "regionCode", RegionInfo.CurrentRegion.Name },
                     { "regionName", Os.RegionEngName },

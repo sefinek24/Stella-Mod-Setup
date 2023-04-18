@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -10,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Genshin_Stella_Setup.Forms;
 using Genshin_Stella_Setup.Models;
+using Genshin_Stella_Setup.Properties;
 using Genshin_Stella_Setup.Scripts;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.WindowsAPICodePack.Taskbar;
@@ -102,7 +102,7 @@ namespace Genshin_Stella_Setup
                     Console.WriteLine("Some files has been sent. This will help improve our apps. Thank you very much >~~<! Close the new window.");
 
                     if (File.Exists("Data/Images/kyaru.gif"))
-                        Application.Run(new ThumbsUp { Icon = Icon.ExtractAssociatedIcon("Data/Images/52x52.ico") });
+                        Application.Run(new ThumbsUp { Icon = Resources.icon });
                     else
                         Process.Start("https://media.tenor.com/KMMqrCPegSUAAAAC/kyaru-anime.gif");
 

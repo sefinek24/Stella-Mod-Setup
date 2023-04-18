@@ -19,7 +19,7 @@ namespace Genshin_Stella_Setup
     internal abstract class Program
     {
         // Links
-        public const string AppWebsite = "https://genshin.sefinek.net";
+        private const string AppWebsite = "https://genshin.sefinek.net";
         public const string DiscordUrl = "https://discord.gg/SVcbaRc7gH";
 
         // App
@@ -61,7 +61,7 @@ namespace Genshin_Stella_Setup
             {
                 var obj = new NameValueCollection
                 {
-                    { "cpuId", Os.CpuId },
+                    { "identity", Os.FullIdentity },
                     { "deviceId", Os.DeviceId },
                     { "regionCode", RegionInfo.CurrentRegion.Name },
                     { "regionName", Os.RegionEngName },
