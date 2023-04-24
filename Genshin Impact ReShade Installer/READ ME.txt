@@ -1,7 +1,7 @@
 
 ⠀   ⠀⠀⠀⠀⠀⠀⠀⢀⣤⡶⢶⣦⡀
-⠀   ⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿                                 Genshin Impact ReShade - Made by Sefinek
-⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                                            for all players...
+⠀   ⠀⣴⡿⠟⠷⠆⣠⠋⠀⠀⠀⢸⣿                                         Genshin Impact Stella Mod 2023
+⠀   ⠀⣿⡄⠀⠀⠀⠈⠀⠀⠀⠀⣾⡿                                                 Made by Sefinek
    ⠀⠀⠹⣿⣦⡀⠀⠀⠀⠀⢀⣾⣿                                     
     ⠀⠀⠈⠻⣿⣷⣦⣀⣠⣾⡿                           • First release    : 2 Nov 2022
     ⠀⠀⠀⠀⠀⠉⠻⢿⡿⠟                            • Used languages   : C#, C++, JS, HTML, CSS
