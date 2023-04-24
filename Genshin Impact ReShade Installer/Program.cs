@@ -52,7 +52,7 @@ namespace Genshin_Stella_Setup
 
             // 1
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("• Authorizing... ");
+            Console.Write("• Connecting to the Sefinek API and authorizing... ");
             Console.ResetColor();
 
             Log.Output("Connecting to Sefinek API and authorizing...");
@@ -100,14 +100,16 @@ namespace Genshin_Stella_Setup
             }
             catch (Exception ex)
             {
-                Log.SaveErrorLog(ex, true);
                 Log.ErrorAndExit(new Exception(ex.Message), false, false);
             }
 
 
+            await Telemetry.Launched();
+
+
             // 3
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("• Checking your region... ");
+            Console.Write("• Checking your system region... ");
             Console.ResetColor();
 
             switch (Os.RegionName)
@@ -261,12 +263,12 @@ namespace Genshin_Stella_Setup
 
             var client = new WebClient();
             client.Headers.Add("user-agent", UserAgent);
-            var json = await client.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/version/app/installer");
+            var json = await client.DownloadStringTaskAsync($"{Telemetry.ApiUrl}/version/app/setup");
             Log.Output(json);
-            var res = JsonConvert.DeserializeObject<InstallerVersion>(json);
+            var res = JsonConvert.DeserializeObject<SetupVersion>(json);
 
-            var remoteVersion = res.Installer.Version;
-            var remoteVerDate = DateTime.Parse(res.Installer.ReleaseDate, null, DateTimeStyles.RoundtripKind).ToUniversalTime().ToLocalTime();
+            var remoteVersion = res.Setup.Version;
+            var remoteVerDate = DateTime.Parse(res.Setup.ReleaseDate, null, DateTimeStyles.RoundtripKind).ToUniversalTime().ToLocalTime();
 
             if (remoteVersion != AppVersion)
             {
@@ -278,8 +280,8 @@ namespace Genshin_Stella_Setup
                 Console.WriteLine(
                     $"• This setup is outdated. Please download the latest version from:\n{AppWebsite}\n\n" +
                     $"» Your version   : v{AppVersion}\n" +
-                    $"» Latest version : v{remoteVersion} {(res.Installer.Beta ? "Beta" : "stable")} from {remoteVerDate}\n" +
-                    $"» Size           : ~{res.Installer.Size}\n");
+                    $"» Latest version : v{remoteVersion} {(res.Setup.Beta ? "Beta" : "stable")} from {remoteVerDate}\n" +
+                    $"» Size           : ~{res.Setup.Size}\n");
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("» Open the official website now to download? [Yes/no]: ");

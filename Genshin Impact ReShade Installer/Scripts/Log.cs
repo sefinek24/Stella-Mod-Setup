@@ -137,7 +137,7 @@ namespace Genshin_Stella_Setup.Scripts
                             Console.WriteLine("An invitation to the server has been opened in your default web browser.\n");
 
                             Console.ForegroundColor = ConsoleColor.Magenta;
-                            Console.WriteLine("You can close the installer window.");
+                            Console.WriteLine("You can close the setup window.");
                             break;
 
                         case "n":
@@ -147,11 +147,9 @@ namespace Genshin_Stella_Setup.Scripts
                             break;
 
                         default:
-                        {
                             Console.ForegroundColor = ConsoleColor.Magenta;
                             Console.WriteLine("Wrong answer. Close this window.");
                             break;
-                        }
                     }
 
                     while (true) Console.ReadLine();

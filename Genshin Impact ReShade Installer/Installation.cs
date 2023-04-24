@@ -24,8 +24,8 @@ namespace Genshin_Stella_Setup
 
         // Other
         public const string Folder = @"C:\Genshin-Impact-ReShade";
+        public const string VcLibsSetup = Dependencies + @"\Microsoft.VCLibs.x64.14.00.Desktop.appx";
         public static readonly string InstalledViaSetup = Program.AppData + @"\installed-via-setup.sfn";
-        public static readonly string VcLibsSetup = Dependencies + @"\Microsoft.VCLibs.x64.14.00.Desktop.appx";
 
         public static readonly string ProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 

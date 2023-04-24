@@ -11,8 +11,8 @@ namespace Genshin_Stella_Setup.Scripts
     internal abstract class Telemetry
     {
         // API
-        public const string ApiUrl = "https://api.sefinek.net/api/v4/genshin-stella-mod";
-        // public const string ApiUrl = " http://127.0.0.1:4010/api/v4/genshin-stella-mod";
+        // public const string ApiUrl = "https://api.sefinek.net/api/v4/genshin-stella-mod";
+        public const string ApiUrl = " http://127.0.0.1:4010/api/v4/genshin-stella-mod";
 
         // Token
         public static string BearerToken = "";
@@ -40,6 +40,24 @@ namespace Genshin_Stella_Setup.Scripts
             Log.Output(responseString);
         }
 
+        public static async Task Launched()
+        {
+            var obj = new NameValueCollection
+            {
+                { "identity", Os.FullIdentity },
+                { "deviceId", Os.DeviceId },
+                { "regionCode", RegionInfo.CurrentRegion.Name },
+                { "osBuild", Os.Build }
+            };
+
+            var webClient = new WebClient();
+            webClient.Headers.Add("User-Agent", Program.UserAgent);
+            webClient.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + BearerToken);
+            var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/setup/launched", obj);
+            var responseString = Encoding.UTF8.GetString(responseBytes);
+            Log.Output(responseString);
+        }
+
         public static async Task Error(Exception error)
         {
             var obj = new NameValueCollection
@@ -58,8 +76,9 @@ namespace Genshin_Stella_Setup.Scripts
             webClient.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + BearerToken);
             var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/error", obj);
             var responseString = Encoding.UTF8.GetString(responseBytes);
-            Log.Output(responseString);
+            Log.SaveErrorLog(new Exception(responseString), false);
         }
+
 
         public static async Task<bool> SendLogFiles()
         {
@@ -94,10 +113,8 @@ namespace Genshin_Stella_Setup.Scripts
                 var responseBytes = await webClient.UploadValuesTaskAsync($"{ApiUrl}/telemetry/setup/send-log-files", "PUT", obj);
                 var json = Encoding.UTF8.GetString(responseBytes);
 
-                Log.Output(json);
-
                 // Debug log
-                Log.Output("Log files was sent to developer.");
+                Log.Output($"Log files was sent to developer.\n\n{json}");
 
                 // Console
                 Console.ForegroundColor = ConsoleColor.Green;

@@ -40,22 +40,22 @@ namespace Genshin_Stella_Setup.Scripts
             catch (WebException ex)
             {
                 if (ex.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.MethodNotAllowed)
-                    using (var reader = new StreamReader(ex.Response.GetResponseStream()))
+                    using (var reader = new StreamReader(ex.Response.GetResponseStream() ?? throw new InvalidOperationException()))
                     {
                         var responseJson = await reader.ReadToEndAsync();
                         var deserializeObject = JsonConvert.DeserializeObject<SetupAccess>(responseJson);
 
-                        Log.SaveErrorLog(new Exception($"Failed to receive consent to install. Method not allowed.\n\n{responseJson}"), true);
+                        Log.SaveErrorLog(new Exception($"Failed to receive consent to install. Method not allowed.\n\n{responseJson}"), false);
                         return deserializeObject;
                     }
 
                 if (ex.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Unauthorized)
-                    using (var reader = new StreamReader(ex.Response.GetResponseStream()))
+                    using (var reader = new StreamReader(ex.Response.GetResponseStream() ?? throw new InvalidOperationException()))
                     {
                         var responseJson = await reader.ReadToEndAsync();
                         var deserializeObject = JsonConvert.DeserializeObject<SetupAccess>(responseJson);
 
-                        Log.SaveErrorLog(new Exception($"Failed to receive consent to install. Unauthorized.\n\n{responseJson}"), true);
+                        Log.SaveErrorLog(new Exception($"Failed to receive consent to install. Unauthorized.\n\n{responseJson}"), false);
                         return deserializeObject;
                     }
 

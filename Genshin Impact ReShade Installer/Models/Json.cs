@@ -1,5 +1,6 @@
 namespace Genshin_Stella_Setup.Models
 {
+    // GET /api/v4/genshin-stella-mod/access/setup
     public class SetupAccess
     {
         public bool Success { get; set; }
@@ -10,10 +11,11 @@ namespace Genshin_Stella_Setup.Models
     }
 
 
-    internal class InstallerVersion
+    // GET /api/v4/genshin-stella-mod/version/app/setup
+    internal class SetupVersion
     {
         // public string Status { get; set; }
-        public ApiData Installer { get; set; }
+        public ApiData Setup { get; set; }
     }
 
     public class ApiData
@@ -24,6 +26,8 @@ namespace Genshin_Stella_Setup.Models
         public string Size { get; set; }
     }
 
+
+    // GET /api/v2/random/animal/cat
     public class SefinekApi
     {
         public int Status { get; set; }

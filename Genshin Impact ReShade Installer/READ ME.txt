@@ -17,7 +17,7 @@
 💙 If you need help, please join to my Discord Server. 💙
 
 // How to install? 📦
-Unzip downloaded archive and open "Genshin Impact Mod Pack Setup.exe".
+Unzip downloaded archive and open "Genshin Stella Mod Setup.exe".
 
 // GitHub 🐈
 Tested game versions          : https://github.com/sefinek24/Genshin-Impact-ReShade#%EF%B8%8F--tested-game-versions
