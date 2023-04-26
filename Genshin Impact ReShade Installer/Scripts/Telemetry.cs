@@ -11,8 +11,8 @@ namespace Genshin_Stella_Setup.Scripts
     internal abstract class Telemetry
     {
         // API
-        // public const string ApiUrl = "https://api.sefinek.net/api/v4/genshin-stella-mod";
-        public const string ApiUrl = " http://127.0.0.1:4010/api/v4/genshin-stella-mod";
+        public const string ApiUrl = "https://api.sefinek.net/api/v4/genshin-stella-mod";
+        // public const string ApiUrl = " http://127.0.0.1:4010/api/v4/genshin-stella-mod";
 
         // Token
         public static string BearerToken = "";
