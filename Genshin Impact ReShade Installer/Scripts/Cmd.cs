@@ -174,7 +174,6 @@ namespace Genshin_Stella_Setup.Scripts
                     switch (result.ExitCode)
                     {
                         case 3010:
-                        {
                             try
                             {
                                 new ToastContentBuilder()
@@ -191,7 +190,6 @@ namespace Genshin_Stella_Setup.Scripts
 
                             RebootNeeded = true;
                             return;
-                        }
 
                         case 5:
                             Log.ErrorAndExit(
@@ -201,13 +199,11 @@ namespace Genshin_Stella_Setup.Scripts
                             return;
 
                         default:
-                        {
                             Log.ErrorAndExit(
                                 new Exception(
                                     $"Command execution failed because the underlying process ({app.Replace(@"Dependencies\", "").Replace(@"C:\Program Files\Git\cmd\", "")}) returned a non-zero exit code - {result.ExitCode}.\nCheck your Internet connection, antivirus program or restart PC and try again.{info}"),
                                 false, result.ExitCode != 128);
                             return;
-                        }
                     }
                 }
             }
